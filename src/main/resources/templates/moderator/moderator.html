@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/adds.css">
+</head>
+
+<body>
+
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+
+<section class="bg-light section section-lg-bottom">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2 class="section-title">Модератор меню</h2>
+            </div>
+            <div class="card" style="margin: 50px; width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Категории</h5>
+                    <div class="dropdown-divider"></div>
+                    <p class="card-text">Добавяй, позиционирай, редактирай и изтривай категориите в магазина</p>
+                    <a th:href="@{/moderator/categories}" class="btn btn-primary stretched-link">Към категориите</a>
+                </div>
+            </div>
+            <div class="card" style="margin: 50px; width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Доставчици</h5>
+                    <div class="dropdown-divider"></div>
+                    <p class="card-text">Преглед на всички доставчици, техните продукти</p>
+                    <a th:href="@{/moderator/suppliers}" class="btn btn-primary stretched-link">Към доставчиците</a>
+                </div>
+            </div>
+</section>
+
+<footer>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+
+<script src="/js/bootstrap.js"></script>
+</body>
+
+</html>

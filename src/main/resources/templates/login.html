@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.js"></script>
+</head>
+
+<body>
+
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+
+<section class="vh-100" style="background-color: #eee;">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Вход</p>
+
+                                <p th:if="${bad_credentials}" class="errors alert alert-danger">
+                                    Invalid username or password.
+                                </p>
+
+                                <form class="mx-1 mx-md-4" th:action="@{/users/login}" th:method="post">
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example2c">Потребителско име</label>
+                                            <input name="username" minlength="3" maxlength="20" type="text"
+                                                   id="form3Example2c"
+                                                   class="form-control"/>
+                                            <small class="mb-5 text-warning alert-warning"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="form3Example4c">Парола</label>
+                                            <input name="password" minlength="3" maxlength="20" type="password"
+                                                   id="form3Example4c"
+                                                   class="form-control"/>
+                                            <small class="mb-5 text-warning alert-warning"></small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-around">
+                                        <div>
+                                            <!-- Remember me -->
+                                            <div class="custom-control custom-checkbox">
+                                                <input name="remember-me" type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                                                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center mx-4 mb-lg-4 mt-3">
+                                        <button type="submit" class="btn btn-primary btn-lg">Вход</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                                <img src="https://res.cloudinary.com/foncho/image/upload/v1636049987/sales-and-tech-open-graph_tgb14f.jpg"
+                                     class="img-fluid" alt="Sample image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/adds.css">
+</head>
+
+<body>
+
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="col-md-5 col-lg-5 col-sm-5">
+        <form class="card" th:action="@{/moderator/categories/add}" th:method="post"
+              th:object="${categoryAddBindingModel}">
+            <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Добави категория</h5>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="mt-2"><span class="text-sm">Име на категорията</span></div>
+                    <input th:field="*{name}" class="form-control" type="text" placeholder="">
+                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                           class="mb-5 text-warning alert-warning"></small>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3"><span class="text-sm">Изображение(URL)</span></div>
+                    <input th:field="*{imgUrl}" class="form-control" type="text" placeholder="">
+                    <small th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}"
+                           class="mb-5 text-warning alert-warning"></small>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3"><span class="text-sm">Позиция в магазина</span></div>
+                    <input th:field="*{position}" class="form-control" type="number" placeholder="">
+                    <small  th:if="${#fields.hasErrors('position')}" th:errors="*{position}"
+                           class="mb-5 text-warning alert-warning"></small>
+                </div>
+                <button class="btn btn-block btn-bold btn-primary btn-success mt-4">Добави</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<header>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</header>
+
+<script src="/js/bootstrap.js"></script>
+</body>
+
+</html>

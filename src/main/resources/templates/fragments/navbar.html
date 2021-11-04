@@ -1,0 +1,97 @@
+<th:block>
+    <th:block sec:authorize="isAnonymous()">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/}">E-SHOP.COM</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarColor02"
+                        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/}">Начало
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/shop/categories}">Магазин</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/#}">За нас</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="true" aria-expanded="false">Профил</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" th:href="@{/users/login}">Вход</a>
+                                <a class="dropdown-item" th:href="@{/users/register}">Регистрация</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <form class="d-flex">
+                        <input class="form-control me-sm-2" type="text" placeholder="Search">
+                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+
+                </div>
+            </div>
+        </nav>
+    </th:block>
+
+    <th:block sec:authorize="isAuthenticated">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/home}">E-SHOP.COM</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+                        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarColor02">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/home}">Начало
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/shop/categories}">Магазин</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/#}">За нас</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="true" aria-expanded="false">Профил</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Информация</a>
+                                <form action="/logout?login" method="post">
+                                    <button class="dropdown-item">Изход</button>
+                                </form>
+                            </div>
+                        </li>
+
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/moderator}">Moderator</a>
+                            </li>
+                        </th:block>
+
+                    </ul>
+
+                    <form class="d-flex">
+                        <input class="form-control me-sm-2" type="text" placeholder="Search">
+                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </nav>
+    </th:block>
+</th:block>

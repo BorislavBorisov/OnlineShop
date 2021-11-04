@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="bootstrap.js"></script>
+    <style>
+        .center {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+        
+        .buttons {
+            padding: 10px;
+            background-color: #d6d4d4;
+            border-radius: 8px;
+            position: relative
+        }
+        
+        .dot {
+            height: 14px;
+            width: 14px;
+            background-color: green;
+            border-radius: 50%;
+            position: absolute;
+            left: 27%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8px;
+            color: #fff;
+            opacity: 0
+        }
+        
+        .cart-button {
+            height: 48px
+        }
+        
+        .cart-button:focus {
+            box-shadow: none
+        }
+        
+        .cart {
+            position: relative;
+            height: 48px !important;
+            width: 50px;
+            margin-right: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            padding: 11px;
+            border-radius: 5px;
+            font-size: 21px
+        }
+        
+        .cart-button.clicked span.dot {
+            animation: item 0.3s ease-in forwards
+        }
+        
+        @keyframes item {
+            0% {
+                opacity: 1;
+                top: 30%;
+                left: 30%
+            }
+            25% {
+                opacity: 1;
+                left: 26%;
+                top: 0%
+            }
+            50% {
+                opacity: 1;
+                left: 23%;
+                top: -22%
+            }
+            75% {
+                opacity: 1;
+                left: 19%;
+                top: -18%
+            }
+            100% {
+                opacity: 1;
+                left: 14%;
+                top: 28%
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+
+    <div class="container mt-5 mb-5">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-6 border-end">
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="main_image"> <img class="img-fluid" src="assets/img/portfolio/cabin.png" id="main_product_image" width="500"> </div>
+                        <div class="thumbnail_images">
+                            <ul id="thumbnail">
+                                <li><img src="assets/img/portfolio/cake.png" width="70"></li>
+                                <li><img src="https://i.imgur.com/w6kEctd.jpg" width="70"></li>
+                                <li><img src="https://i.imgur.com/L7hFD8X.jpg" width="70"></li>
+                                <li><img src="https://i.imgur.com/6ZufmNS.jpg" width="70"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 right-side">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>IIlana</h3> <span class="heart"><i class='bx bx-heart'></i></span>
+                        </div>
+                        <div class="mt-2 pr-3 content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                        </div>
+                        <h3>$430.99</h3>
+                        <div class="ratings d-flex flex-row align-items-center">
+                            <div class="d-flex flex-row"> <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bx-star'></i> </div> <span>441 reviews</span>
+                        </div>
+                        <div class="mt-5"> <span class="fw-bold">Color</span>
+                            <div class="colors">
+                                <ul id="marker">
+                                    <li id="marker-1"></li>
+                                    <li id="marker-2"></li>
+                                    <li id="marker-3"></li>
+                                    <li id="marker-4"></li>
+                                    <li id="marker-5"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-outline-dark">Buy Now</button>
+                            <div class="center">
+                                <div class="buttons d-flex flex-row">
+                                    <div class="cart"><i class="fa fa-shopping-cart"></i></div>
+                                    <button class="btn btn-success cart-button px-5"><span class="dot">1</span>Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="search-option"> <i class='bx bx-search-alt-2 first-search'></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<header>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</header>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            const cartButtons = document.querySelectorAll('.cart-button');
+            cartButtons.forEach(button => {
+
+                button.addEventListener('click', cartClick);
+
+            });
+
+            function cartClick() {
+                let button = this;
+                button.classList.add('clicked');
+            }
+
+        });
+    </script>
+</body>
+
+</html>
