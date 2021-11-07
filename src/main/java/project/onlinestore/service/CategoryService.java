@@ -19,4 +19,6 @@ public interface CategoryService {
     CategoryServiceModel editCategory(Long id, CategoryServiceModel categoryServiceModel);
 
     boolean deleteCategory(Long id);
+
+    boolean editImageCategory(CategoryServiceModel categoryServiceModel);
 }

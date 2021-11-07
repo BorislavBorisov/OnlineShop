@@ -11,8 +11,10 @@ import project.onlinestore.domain.binding.CategoryAddBindingModel;
 import project.onlinestore.domain.service.CategoryServiceModel;
 import project.onlinestore.domain.view.CategoryViewModel;
 import project.onlinestore.service.CategoryService;
+import project.onlinestore.service.CloudinaryService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/moderator")
@@ -20,10 +22,12 @@ public class CategoriesController {
 
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
+    private final CloudinaryService cloudinaryService;
 
-    public CategoriesController(CategoryService categoryService, ModelMapper modelMapper) {
+    public CategoriesController(CategoryService categoryService, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @GetMapping("/categories")
@@ -40,15 +44,17 @@ public class CategoriesController {
     }
 
     @PostMapping("/categories/add")
-    public String addCategoryConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    public String addCategoryConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoryAddBindingModel", bindingResult);
 
             return "redirect:add";
         }
-
-        this.categoryService.addCategory(this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class));
+        CategoryServiceModel categoryServiceModel = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
+        categoryServiceModel.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
+        this.categoryService.addCategory(categoryServiceModel);
         return "redirect:/moderator/categories";
     }
 
@@ -70,6 +76,22 @@ public class CategoriesController {
         }
         CategoryServiceModel map = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
         this.categoryService.editCategory(id, map);
+        return "redirect:/moderator/categories";
+    }
+
+    @GetMapping("/categories/edit/image/{id}")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    public String editImageCategory(@PathVariable Long id, Model model) {
+        model.addAttribute("category", this.modelMapper.map(this.categoryService.findCategoryById(id), CategoryViewModel.class));
+        return "/moderator/categories/edit-image-category";
+    }
+
+    @PostMapping("/categories/edit/image/{id}")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    public String editImageCategoryConfirm(@PathVariable Long id, CategoryAddBindingModel categoryAddBindingModel) throws IOException {
+        CategoryServiceModel category = this.categoryService.findCategoryById(id);
+        category.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
+        this.categoryService.editImageCategory(category);
         return "redirect:/moderator/categories";
     }
 

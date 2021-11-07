@@ -2,11 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/adds.css">
+    <th:block th:include="~{fragments/header}"></th:block>
 </head>
 
 <body>
@@ -25,10 +21,6 @@
                     <input th:value="${category.name}" class="form-control" type="text" placeholder="" readonly>
                 </div>
                 <div class="form-group">
-                    <div class="mt-3"><span class="text-sm">Изображение(URL)</span></div>
-                    <input th:value="${category.imgUrl}" class="form-control" type="text" placeholder="" readonly>
-                </div>
-                <div class="form-group">
                     <div class="mt-3"><span class="text-sm">Позиция в магазина</span></div>
                     <input th:value="${category.position}" class="form-control" type="number" placeholder="" readonly>
                 </div>
@@ -42,7 +34,6 @@
     <th:block th:include="~{fragments/footer}"></th:block>
 </header>
 
-<script src="/js/bootstrap.js"></script>
 </body>
 
 </html>

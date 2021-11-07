@@ -48,10 +48,10 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (categoryEntity == null) {
             CategoryEntity category = this.modelMapper.map(categoryServiceModel, CategoryEntity.class);
-            return this.modelMapper.map( this.categoryRepository.save(category), CategoryServiceModel.class);
+            return this.modelMapper.map(this.categoryRepository.save(category), CategoryServiceModel.class);
         }
 
-        throw new IllegalArgumentException("Category with that name already exists!");
+        throw new IllegalArgumentException("Категория със същото име вече съществува!");
 
     }
 
@@ -70,7 +70,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID!"));
 
         category.setName(categoryServiceModel.getName());
-        category.setImgUrl(categoryServiceModel.getImgUrl());
         category.setPosition(categoryServiceModel.getPosition());
         category.setModified(Instant.now());
         this.categoryRepository.save(category);
@@ -91,6 +90,22 @@ public class CategoryServiceImpl implements CategoryService {
         } catch (Exception exception) {
             exception.printStackTrace();
             return false;
+        }
+
+    }
+
+    @Override
+    public boolean editImageCategory(CategoryServiceModel categoryServiceModel) {
+        CategoryEntity category = this.categoryRepository.findById(categoryServiceModel.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID!"));
+
+        try {
+            category.setImgUrl(categoryServiceModel.getImgUrl());
+            category.setModified(Instant.now());
+            this.categoryRepository.save(category);
+            return true;
+        } catch (Exception exception) {
+            throw new IllegalArgumentException("Invalid category ID!");
         }
 
     }

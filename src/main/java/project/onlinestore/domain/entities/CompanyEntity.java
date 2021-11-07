@@ -12,7 +12,6 @@ public class CompanyEntity extends BaseEntity {
     private String email;
     private String address;
     private String phoneNumber;
-    private CityEntity city;
 
     public CompanyEntity() {
     }
@@ -67,13 +66,4 @@ public class CompanyEntity extends BaseEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    public CityEntity getCity() {
-        return city;
-    }
-
-    public void setCity(CityEntity city) {
-        this.city = city;
-    }
 }

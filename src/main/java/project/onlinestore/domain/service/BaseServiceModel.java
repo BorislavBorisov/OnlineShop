@@ -1,6 +1,6 @@
 package project.onlinestore.domain.service;
 
-public class BaseServiceModel {
+public abstract class BaseServiceModel {
 
     private Long id;
 

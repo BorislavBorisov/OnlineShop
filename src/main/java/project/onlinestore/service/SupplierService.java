@@ -10,4 +10,10 @@ public interface SupplierService {
     List<SupplierViewModel> getAllSuppliers();
 
     SupplierServiceModel addSupplier(SupplierServiceModel supplierServiceModel);
+
+    SupplierServiceModel findSupplierById(Long id);
+
+    SupplierServiceModel editSupplier(Long id, SupplierServiceModel supplierServiceModel);
+
+    boolean deleteCategory(Long id);
 }

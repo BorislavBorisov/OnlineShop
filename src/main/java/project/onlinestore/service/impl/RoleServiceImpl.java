@@ -26,7 +26,6 @@ public class RoleServiceImpl implements RoleService {
         if (this.roleRepository.count() == 0) {
             this.roleRepository.saveAndFlush(new RoleEntity("ROLE_GUEST"));
             this.roleRepository.saveAndFlush(new RoleEntity("ROLE_CLIENT"));
-            this.roleRepository.saveAndFlush(new RoleEntity("ROLE_SUPPLIER"));
             this.roleRepository.saveAndFlush(new RoleEntity("ROLE_MODERATOR"));
             this.roleRepository.saveAndFlush(new RoleEntity("ROLE_ADMIN"));
         }

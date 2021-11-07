@@ -13,7 +13,12 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String fullName;
     private String password;
     private String email;
+    private String imgUrl;
     private Set<RoleEntity> authorities;
+    private String firstAddress;
+    private String phoneNumber;
+    private String country;
+    private String city;
 
     public UserEntity() {
     }
@@ -25,8 +30,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return username;
     }
 
-    public void setUsername(String username) {
+    public UserEntity setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     @Basic
@@ -35,8 +41,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
+    public UserEntity setFullName(String fullName) {
         this.fullName = fullName;
+        return this;
     }
 
     @Override
@@ -46,8 +53,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return password;
     }
 
-    public void setPassword(String password) {
+    public UserEntity setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     @Basic
@@ -56,8 +64,20 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return email;
     }
 
-    public void setEmail(String email) {
+    public UserEntity setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    @Basic
+    @Column
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public UserEntity setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+        return this;
     }
 
     @Override
@@ -70,8 +90,53 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return authorities;
     }
 
-    public void setAuthorities(Set<RoleEntity> authorities) {
+    public UserEntity setAuthorities(Set<RoleEntity> authorities) {
         this.authorities = authorities;
+        return this;
+    }
+
+    @Basic
+    @Column(length = 100)
+    public String getFirstAddress() {
+        return firstAddress;
+    }
+
+    public UserEntity setFirstAddress(String firstAddress) {
+        this.firstAddress = firstAddress;
+        return this;
+    }
+
+    @Basic
+    @Column(length = 20)
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public UserEntity setPhoneNumber(String postCode) {
+        this.phoneNumber = postCode;
+        return this;
+    }
+
+    @Basic
+    @Column(length = 20)
+    public String getCountry() {
+        return country;
+    }
+
+    public UserEntity setCountry(String country) {
+        this.country = country;
+        return this;
+    }
+
+    @Basic
+    @Column(length = 20)
+    public String getCity() {
+        return city;
+    }
+
+    public UserEntity setCity(String city) {
+        this.city = city;
+        return this;
     }
 
     @Override

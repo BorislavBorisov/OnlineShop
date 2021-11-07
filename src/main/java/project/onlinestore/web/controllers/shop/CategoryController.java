@@ -1,6 +1,5 @@
 package project.onlinestore.web.controllers.shop;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +8,6 @@ import project.onlinestore.service.CategoryService;
 
 @Controller
 @RequestMapping("/shop")
-@PreAuthorize("permitAll()")
 public class CategoryController {
 
     private final CategoryService categoryService;

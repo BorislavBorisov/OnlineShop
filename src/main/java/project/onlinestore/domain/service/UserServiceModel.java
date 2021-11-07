@@ -9,6 +9,11 @@ public class UserServiceModel extends BaseServiceModel{
     private String password;
     private String email;
     private Set<RoleServiceModel> authorities;
+    private String imgUrl;
+    private String firstAddress;
+    private String phoneNumber;
+    private String country;
+    private String city;
 
     public UserServiceModel() {
     }
@@ -51,5 +56,45 @@ public class UserServiceModel extends BaseServiceModel{
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getFirstAddress() {
+        return firstAddress;
+    }
+
+    public void setFirstAddress(String firstAddress) {
+        this.firstAddress = firstAddress;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

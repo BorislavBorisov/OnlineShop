@@ -6,6 +6,9 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 server:
+  servlet:
+    session:
+      timeout: 30m
   port: 8080
 
 spring:
@@ -34,3 +37,9 @@ spring:
   sql:
     init:
       mode: always
+
+#Cloud
+cloudinary:
+  cloud-name: foncho
+  api-key: 538482448845728
+  api-secret: ${CLOUDINARY_API_SECRET}

@@ -2,12 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <script src="/js/bootstrap.js"></script>
+    <th:block th:include="~{fragments/header}"></th:block>
 </head>
 
 <body>
@@ -26,8 +21,8 @@
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Вход</p>
 
-                                <p th:if="${bad_credentials}" class="errors alert alert-danger">
-                                    Invalid username or password.
+                                <p th:if="${bad_credentials}" class="errors alert alert-danger text-center">
+                                    Невалидно потребителско име или парола!
                                 </p>
 
                                 <form class="mx-1 mx-md-4" th:action="@{/users/login}" th:method="post">
@@ -35,7 +30,8 @@
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="form3Example2c">Потребителско име</label>
-                                            <input name="username" minlength="3" maxlength="20" type="text"
+                                            <input th:value="${username}" name="username" minlength="3" maxlength="20"
+                                                   type="text"
                                                    id="form3Example2c"
                                                    class="form-control"/>
                                             <small class="mb-5 text-warning alert-warning"></small>
@@ -56,8 +52,10 @@
                                         <div>
                                             <!-- Remember me -->
                                             <div class="custom-control custom-checkbox">
-                                                <input name="remember-me" type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-                                                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                                                <input name="remember-me" type="checkbox" class="custom-control-input"
+                                                       id="defaultLoginFormRemember">
+                                                <label class="custom-control-label" for="defaultLoginFormRemember">Remember
+                                                    me</label>
                                             </div>
                                         </div>
                                     </div>
@@ -79,6 +77,10 @@
         </div>
     </div>
 </section>
+
+<footer>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
 </body>
 
 </html>

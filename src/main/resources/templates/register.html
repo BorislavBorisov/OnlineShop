@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <script src="/js/bootstrap.js"></script>
+    <th:block th:include="~{fragments/header}"></th:block>
 </head>
 
 <body>
@@ -25,6 +21,10 @@
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Регистрация</p>
 
+                                <p th:if="${passwordsDontMatch}" class="errors alert alert-danger text-center">
+                                    Паролите не съвпадат!
+                                </p>
+
                                 <form class="mx-1 mx-md-4" th:action="@{/users/register}" th:method="post"
                                       th:object="${userRegisterBindingModel}">
                                     <div class="d-flex flex-row align-items-center mb-4">
@@ -32,9 +32,9 @@
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="form3Example1c">Потребителско име</label>
                                             <input th:field="*{username}" type="text" id="form3Example2c"
-                                                   class="form-control"/>
+                                                   class="form-control" minlength="3" maxlength="25"/>
                                             <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
-                                                   class="mb-5 text-warning alert-warning"></small>
+                                                   class="mb-5 text-danger alert-danger"></small>
                                         </div>
                                     </div>
 
@@ -43,9 +43,9 @@
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="form3Example1c">Име и фамилия</label>
                                             <input th:field="*{fullName}" type="text" id="form3Example1c"
-                                                   class="form-control"/>
+                                                   class="form-control" minlength="3" maxlength="25"/>
                                             <small th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"
-                                                   class="mb-5 text-warning alert-warning"></small>
+                                                   class="mb-5 text-danger alert-danger"></small>
                                         </div>
                                     </div>
 
@@ -54,9 +54,9 @@
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="form3Example3c">Email</label>
                                             <input th:field="*{email}" type="email" id="form3Example3c"
-                                                   class="form-control"/>
+                                                   class="form-control" minlength="3" maxlength="25"/>
                                             <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                                                   class="mb-5 text-warning alert-warning"></small>
+                                                   class="mb-5 text-danger alert-danger"></small>
                                         </div>
                                     </div>
 
@@ -65,9 +65,9 @@
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="form3Example4c">Парола</label>
                                             <input th:field="*{password}" type="password" id="form3Example4c"
-                                                   class="form-control"/>
+                                                   class="form-control" minlength="3" maxlength="25"/>
                                             <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                                                   class="mb-5 text-warning alert-warning"></small>
+                                                   class="mb-5 text-danger alert-danger"></small>
                                         </div>
                                     </div>
 
@@ -76,10 +76,10 @@
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="form3Example4cd">Повтори паролата</label>
                                             <input th:field="*{confirmPassword}" type="password"
-                                                   id="form3Example4cd" class="form-control"/>
+                                                   id="form3Example4cd" class="form-control" minlength="3" maxlength="25"/>
                                             <small th:if="${#fields.hasErrors('confirmPassword')}"
                                                    th:errors="*{confirmPassword}"
-                                                   class="mb-5 text-warning alert-warning"></small>
+                                                   class="mb-5 text-danger alert-danger"></small>
                                         </div>
                                     </div>
 
@@ -101,6 +101,10 @@
         </div>
     </div>
 </section>
+
+<footer>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
 
 </body>
 

@@ -1,5 +1,6 @@
 package project.onlinestore.domain.binding;
 
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -8,7 +9,7 @@ import javax.validation.constraints.Size;
 public class CategoryAddBindingModel {
 
     private String name;
-    private String imgUrl;
+    private MultipartFile image;
     private Integer position;
 
     public CategoryAddBindingModel() {
@@ -24,12 +25,12 @@ public class CategoryAddBindingModel {
         this.name = name;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public MultipartFile getImage() {
+        return image;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 
     @NotNull(message = "Полето е задължително!")

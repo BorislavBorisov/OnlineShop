@@ -46,7 +46,7 @@ public class SupplierAddBindingModel {
     }
 
     @NotNull(message = "Полето е задължително!")
-    @Size(min = 10, max = 10, message = "Невалиден телефонен номер!")
+    @Size(max = 11, message = "Невалиден телефонен номер!")
     public String getPhoneNumber() {
         return phoneNumber;
     }

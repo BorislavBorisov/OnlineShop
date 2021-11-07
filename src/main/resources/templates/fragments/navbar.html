@@ -51,7 +51,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarColor02">
+                <div class="collapse navbar-collapse navbar-expand-lg" id="navbarColor02">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link active" th:href="@{/home}">Начало
@@ -69,16 +69,21 @@
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                                aria-haspopup="true" aria-expanded="false">Профил</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Информация</a>
+                                <a class="dropdown-item" th:href="@{/users/profile}">Информация</a>
                                 <form action="/logout?login" method="post">
                                     <button class="dropdown-item">Изход</button>
                                 </form>
                             </div>
                         </li>
 
-                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/moderator}">Moderator</a>
+                        <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Moderator</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/categories}">Категории</a>
+                                    <a class="dropdown-item" th:href="@{/moderator/suppliers}">Доставчици</a>
+                                </div>
                             </li>
                         </th:block>
 

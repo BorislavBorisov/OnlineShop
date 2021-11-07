@@ -8,6 +8,7 @@ import project.onlinestore.domain.view.SupplierViewModel;
 import project.onlinestore.repository.SupplierRepository;
 import project.onlinestore.service.SupplierService;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,5 +44,44 @@ public class SupplierServiceImpl implements SupplierService {
         }
 
         throw new IllegalArgumentException("Supplier with that name already exists!");
+    }
+
+    @Override
+    public SupplierServiceModel findSupplierById(Long id) {
+        SupplierEntity supplier = this.supplierRepository
+                .findById(id).orElse(null);
+
+        return this.modelMapper.map(supplier, SupplierServiceModel.class);
+    }
+
+    @Override
+    public SupplierServiceModel editSupplier(Long id, SupplierServiceModel supplierServiceModel) {
+        SupplierEntity supplier = this.supplierRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID!"));
+
+        supplier.setName(supplierServiceModel.getName())
+                .setPerson(supplierServiceModel.getPerson())
+                .setPhoneNumber(supplierServiceModel.getPhoneNumber())
+                .setEmail(supplierServiceModel.getEmail())
+                .setAddress(supplierServiceModel.getAddress())
+                .setModified(Instant.now());
+
+        return this.modelMapper.map(this.supplierRepository.save(supplier), SupplierServiceModel.class);
+    }
+
+    @Override
+    public boolean deleteCategory(Long id) {
+        SupplierEntity supplier =
+                this.supplierRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid supplier ID!"));
+
+        try {
+            this.supplierRepository.delete(supplier);
+            return true;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return false;
+        }
     }
 }
