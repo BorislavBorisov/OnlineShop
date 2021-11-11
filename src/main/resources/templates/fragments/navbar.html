@@ -45,7 +45,7 @@
     <th:block sec:authorize="isAuthenticated">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" th:href="@{/home}">E-SHOP.COM</a>
+                <a class="navbar-brand" th:href="@{/}">E-SHOP.COM</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
                         aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -54,7 +54,7 @@
                 <div class="collapse navbar-collapse navbar-expand-lg" id="navbarColor02">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/home}">Начало
+                            <a class="nav-link active" th:href="@{/}">Начало
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
@@ -62,8 +62,18 @@
                             <a class="nav-link" th:href="@{/shop/categories}">Магазин</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/#}">За нас</a>
+                            <a class="nav-link" th:href="@{/}">За нас</a>
                         </li>
+
+                        <th:block sec:authorize="hasRole('ROLE_CLIENT')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Поръчки</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/users}">Поръчки</a>
+                                </div>
+                            </li>
+                        </th:block>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
@@ -76,13 +86,52 @@
                             </div>
                         </li>
 
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Admin</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/users}">Adminski raboti</a>
+                                </div>
+                            </li>
+                        </th:block>
+
                         <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Admin</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/users}">Adminski raboti</a>
+                                </div>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                                    aria-haspopup="true" aria-expanded="false">Moderator</a>
                                 <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/users}">Потребители</a>
                                     <a class="dropdown-item" th:href="@{/moderator/categories}">Категории</a>
                                     <a class="dropdown-item" th:href="@{/moderator/suppliers}">Доставчици</a>
+                                    <a class="dropdown-item" th:href="@{/moderator/products}">Продукти</a>
+                                </div>
+                            </li>
+                        </th:block>
+
+                        <th:block sec:authorize="hasRole('ROLE_ROOT')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Admin</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/users}">Adminski raboti</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Moderator</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/users}">Потребители</a>
+                                    <a class="dropdown-item" th:href="@{/moderator/categories}">Категории</a>
+                                    <a class="dropdown-item" th:href="@{/moderator/suppliers}">Доставчици</a>
+                                    <a class="dropdown-item" th:href="@{/moderator/products}">Продукти</a>
                                 </div>
                             </li>
                         </th:block>

@@ -11,12 +11,88 @@
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
 
+<div class="d-flex justify-content-center mt-5">
+    <div class="col-md-5 col-lg-5 col-sm-5">
+        <form class="card" th:action="@{/moderator/products/add}" th:method="post"
+              enctype="multipart/form-data" th:object="${productAddBindingModel}">
+            <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Добави категория</h5>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="mt-2"><span class="text-sm">Код</span></div>
+                    <input th:field="*{productCode}" class="form-control" type="text" placeholder="">
+                    <small th:if="${#fields.hasErrors('productCode')}" th:errors="*{productCode}"
+                           class="mb-5 text-danger alert-danger"></small>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3"><span class="text-sm">Наименование</span></div>
+                    <input th:field="*{productName}" class="form-control" type="text" placeholder="">
+                    <small th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
+                           class="mb-5 text-danger alert-danger"></small>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3"><span class="text-sm">Баркод</span></div>
+                    <input th:field="*{barcode}" class="form-control" type="text" placeholder="">
+                    <small th:if="${#fields.hasErrors('barcode')}" th:errors="*{barcode}"
+                           class="mb-5 text-danger alert-danger"></small>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3"><span class="text-sm">Цена</span></div>
+                    <input th:field="*{productPrice}" class="form-control" type="number" min="0.00" max="10000000.00"
+                           step=".01" placeholder="">
+                    <small th:if="${#fields.hasErrors('sellPrice')}" th:errors="*{productPrice}"
+                           class="mb-5 text-danger alert-danger"></small>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3">
+                        <label class="font-weight-bold" for="add-product-categories">Категория</label>
+                        <select class="form-select form-select-sm mb-3" id="add-product-categories" name="category">
+                            <option selected="">--- Избери Категория ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3">
+                        <label class="font-weight-bold">Доставчик</label>
+                        <select class="form-select form-select-sm mb-3" id="add-product-suppliers" name="supplier">
+                            <option selected="">--- Избери Доставчик ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3"><span class="text-sm">Изображение</span></div>
+                    <input th:field="*{image}" class="form-control" type="file">
+                </div>
+                <button class="btn btn-block btn-bold btn-primary btn-success mt-4">Добави</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-
-<header>
+<footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">
     <th:block th:include="~{fragments/footer}"></th:block>
-</header>
+</footer>
 
+<script>
+    fetch('/moderator/categories/fetch')
+        .then((response) => response.json())
+        .then((json) => {
+            json
+                .forEach((category) =>
+                    $('#add-product-categories')
+                        .append(`<option value="${category.id}">${category.name}</option>`));
+        })
+        .catch((err) => console.log(err));
+
+    fetch('/moderator/suppliers/fetch')
+        .then((response) => response.json())
+        .then((json) => {
+            json
+                .forEach((supplier) =>
+                    $('#add-product-suppliers')
+                        .append(`<option value="${supplier.id}">${supplier.name}</option>`));
+        })
+        .catch((err) => console.log(err));
+</script>
 </body>
 
 </html>
