@@ -1,19 +1,28 @@
-package project.onlinestore.domain.service;
+package project.onlinestore.domain.view;
 
 import java.math.BigDecimal;
 
-public class ProductServiceModel extends BaseServiceModel {
+public class ProductViewModel {
 
+    private Long id;
     private String productCode;
     private String productName;
     private String barcode;
     private String imgUrl;
     private Integer inStock;
     private BigDecimal productPrice;
-    private SupplierServiceModel supplier;
-    private CategoryServiceModel category;
+    private SupplierViewModel supplier;
+    private CategoryViewModel category;
 
-    public ProductServiceModel() {
+    public ProductViewModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getProductCode() {
@@ -64,19 +73,19 @@ public class ProductServiceModel extends BaseServiceModel {
         this.productPrice = productPrice;
     }
 
-    public SupplierServiceModel getSupplier() {
+    public SupplierViewModel getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(SupplierServiceModel supplier) {
+    public void setSupplier(SupplierViewModel supplier) {
         this.supplier = supplier;
     }
 
-    public CategoryServiceModel getCategory() {
+    public CategoryViewModel getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryServiceModel category) {
+    public void setCategory(CategoryViewModel category) {
         this.category = category;
     }
 }

@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import project.onlinestore.domain.entities.RoleEntity;
 import project.onlinestore.domain.service.RoleServiceModel;
+import project.onlinestore.domain.service.UserServiceModel;
 import project.onlinestore.repository.RoleRepository;
 import project.onlinestore.service.RoleService;
 
@@ -28,6 +29,20 @@ public class RoleServiceImpl implements RoleService {
             this.roleRepository.saveAndFlush(new RoleEntity("ROLE_CLIENT"));
             this.roleRepository.saveAndFlush(new RoleEntity("ROLE_MODERATOR"));
             this.roleRepository.saveAndFlush(new RoleEntity("ROLE_ADMIN"));
+            this.roleRepository.saveAndFlush(new RoleEntity("ROLE_ROOT"));
+        }
+    }
+
+    @Override
+    public void assignUserRoles(UserServiceModel userServiceModel, long numberOfUsers) {
+        if (numberOfUsers == 0) {
+            userServiceModel
+                    .setAuthorities(
+                            this.roleRepository
+                                    .findAll()
+                                    .stream()
+                                    .map(r -> this.modelMapper.map(r, RoleServiceModel.class))
+                                    .collect(Collectors.toSet()));
         }
     }
 

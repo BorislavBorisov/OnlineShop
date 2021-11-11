@@ -13,6 +13,8 @@ import project.onlinestore.service.UserService;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,13 +53,15 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userRepository.count() == 0) {
-            userServiceModel.setAuthorities(this.roleService.findAllRoles());
+            userServiceModel.setAuthorities(new LinkedHashSet<>());
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ROOT"));
         } else {
             userServiceModel.setAuthorities(new LinkedHashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_CLIENT"));
         }
 
         UserEntity user = this.modelMapper.map(userServiceModel, UserEntity.class);
+        user.setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1636206196/avataaars_dztnrw.svg");
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
         return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
@@ -73,14 +77,11 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel editUserProfile(UserServiceModel userServiceModel) {
         UserEntity user = this.userRepository.findByUsername(userServiceModel.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
-        user.setUsername(userServiceModel.getUsername())
-                .setFullName(userServiceModel.getFullName())
-                .setEmail(userServiceModel.getEmail())
-                .setFirstAddress(userServiceModel.getFirstAddress())
+
+        user.setFirstAddress(userServiceModel.getFirstAddress())
                 .setPhoneNumber(userServiceModel.getPhoneNumber())
                 .setCountry(userServiceModel.getCountry())
                 .setCity(userServiceModel.getCity())
-                .setImgUrl(userServiceModel.getImgUrl())
                 .setModified(Instant.now());
 
         return this.modelMapper.map(this.userRepository.save(user), UserServiceModel.class);
@@ -93,8 +94,42 @@ public class UserServiceImpl implements UserService {
 
         user.setImgUrl(userServiceModel.getImgUrl())
                 .setModified(Instant.now());
+
         this.userRepository.save(user);
-        return false;
+        return true;
     }
+
+    @Override
+    public List<UserServiceModel> getAllUsers() {
+        return this.userRepository.findAll()
+                .stream()
+                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void setUserRole(Long id, String role) {
+        UserEntity user = this.userRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Incorrect id!"));
+
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        userServiceModel.getAuthorities().clear();
+
+        switch (role) {
+            case "client":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_CLIENT"));
+                break;
+            case "moderator":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
+                break;
+            case "admin":
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
+                break;
+        }
+
+        this.userRepository.save(this.modelMapper.map(userServiceModel, UserEntity.class));
+    }
+
 
 }

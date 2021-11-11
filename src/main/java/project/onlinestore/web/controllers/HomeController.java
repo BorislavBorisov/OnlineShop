@@ -10,13 +10,6 @@ public class HomeController {
     @GetMapping("/")
     @PreAuthorize("isAnonymous()")
     public String index() {
-
         return "index";
-    }
-
-    @GetMapping("/home")
-    @PreAuthorize("isAuthenticated()")
-    public String home() {
-        return "home";
     }
 }

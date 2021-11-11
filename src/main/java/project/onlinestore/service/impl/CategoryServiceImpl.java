@@ -88,7 +88,6 @@ public class CategoryServiceImpl implements CategoryService {
             this.categoryRepository.delete(category);
             return true;
         } catch (Exception exception) {
-            exception.printStackTrace();
             return false;
         }
 

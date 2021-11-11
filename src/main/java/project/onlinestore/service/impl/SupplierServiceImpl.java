@@ -58,7 +58,7 @@ public class SupplierServiceImpl implements SupplierService {
     public SupplierServiceModel editSupplier(Long id, SupplierServiceModel supplierServiceModel) {
         SupplierEntity supplier = this.supplierRepository
                 .findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID!"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid supplier ID!"));
 
         supplier.setName(supplierServiceModel.getName())
                 .setPerson(supplierServiceModel.getPerson())
@@ -80,7 +80,6 @@ public class SupplierServiceImpl implements SupplierService {
             this.supplierRepository.delete(supplier);
             return true;
         } catch (Exception exception) {
-            exception.printStackTrace();
             return false;
         }
     }

@@ -9,6 +9,9 @@ public class ProductEntity extends BaseEntity {
 
     private String productCode;
     private String productName;
+    private String barcode;
+    private String imgUrl;
+    private Integer inStock;
     private BigDecimal productPrice;
     private SupplierEntity supplier;
     private CategoryEntity category;
@@ -22,8 +25,9 @@ public class ProductEntity extends BaseEntity {
         return productCode;
     }
 
-    public void setProductCode(String productCode) {
+    public ProductEntity setProductCode(String productCode) {
         this.productCode = productCode;
+        return this;
     }
 
     @Basic
@@ -32,8 +36,42 @@ public class ProductEntity extends BaseEntity {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public ProductEntity setProductName(String productName) {
         this.productName = productName;
+        return this;
+    }
+
+    @Basic
+    @Column(name = "product_barcode", length = 121)
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public ProductEntity setBarcode(String barcode) {
+        this.barcode = barcode;
+        return this;
+    }
+
+    @Basic
+    @Column(name = "product_image", nullable = false)
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public ProductEntity setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+        return this;
+    }
+
+    @Basic
+    @Column(name = "in_stock")
+    public Integer getInStock() {
+        return inStock;
+    }
+
+    public ProductEntity setInStock(Integer inStock) {
+        this.inStock = inStock;
+        return this;
     }
 
     @Basic
@@ -42,8 +80,9 @@ public class ProductEntity extends BaseEntity {
         return productPrice;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
+    public ProductEntity setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
+        return this;
     }
 
     @ManyToOne
@@ -52,8 +91,9 @@ public class ProductEntity extends BaseEntity {
         return supplier;
     }
 
-    public void setSupplier(SupplierEntity supplier) {
+    public ProductEntity setSupplier(SupplierEntity supplier) {
         this.supplier = supplier;
+        return this;
     }
 
     @ManyToOne
@@ -62,7 +102,8 @@ public class ProductEntity extends BaseEntity {
         return category;
     }
 
-    public void setCategory(CategoryEntity category) {
+    public ProductEntity setCategory(CategoryEntity category) {
         this.category = category;
+        return this;
     }
 }

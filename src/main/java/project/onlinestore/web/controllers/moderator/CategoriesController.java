@@ -12,9 +12,11 @@ import project.onlinestore.domain.service.CategoryServiceModel;
 import project.onlinestore.domain.view.CategoryViewModel;
 import project.onlinestore.service.CategoryService;
 import project.onlinestore.service.CloudinaryService;
+import project.onlinestore.web.exception.ObjectNotFoundException;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/moderator")
@@ -31,20 +33,20 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String allCategories(Model model) {
         model.addAttribute("allCategories", this.categoryService.getAllCategories());
         return "/moderator/categories/all-categories";
     }
 
     @GetMapping("/categories/add")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String addCategory() {
         return "/moderator/categories/add-category";
     }
 
     @PostMapping("/categories/add")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String addCategoryConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
@@ -59,14 +61,19 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String editCategory(@PathVariable Long id, Model model) {
-        model.addAttribute("category", this.modelMapper.map(this.categoryService.findCategoryById(id), CategoryViewModel.class));
+        CategoryServiceModel category = this.categoryService.findCategoryById(id);
+        if (category == null) {
+            throw new ObjectNotFoundException();
+        }
+
+        model.addAttribute("category", this.modelMapper.map(category, CategoryViewModel.class));
         return "/moderator/categories/edit-category";
     }
 
     @PostMapping("/categories/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String editCategoryConfirm(@PathVariable Long id, @Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
@@ -80,14 +87,14 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories/edit/image/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String editImageCategory(@PathVariable Long id, Model model) {
         model.addAttribute("category", this.modelMapper.map(this.categoryService.findCategoryById(id), CategoryViewModel.class));
         return "/moderator/categories/edit-image-category";
     }
 
     @PostMapping("/categories/edit/image/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String editImageCategoryConfirm(@PathVariable Long id, CategoryAddBindingModel categoryAddBindingModel) throws IOException {
         CategoryServiceModel category = this.categoryService.findCategoryById(id);
         category.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
@@ -96,19 +103,25 @@ public class CategoriesController {
     }
 
     @GetMapping("categories/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String deleteCategory(@PathVariable Long id, Model model) {
         model.addAttribute("category", this.modelMapper.map(this.categoryService.findCategoryById(id), CategoryViewModel.class));
         return "/moderator/categories/delete-category";
     }
 
     @PostMapping("categories/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String deleteCategoryConfirm(@PathVariable Long id) {
         this.categoryService.deleteCategory(id);
         return "redirect:/moderator/categories";
     }
 
+    @GetMapping("/categories/fetch")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @ResponseBody
+    public List<CategoryViewModel> fetchCategories() {
+        return this.categoryService.getAllCategories();
+    }
 
     @ModelAttribute
     public CategoryViewModel categoryViewModel() {

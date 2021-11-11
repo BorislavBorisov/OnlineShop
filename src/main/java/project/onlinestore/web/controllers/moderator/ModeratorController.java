@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ModeratorController {
 
     @GetMapping("/moderator")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String moderator() {
         return "/moderator/moderator";
     }

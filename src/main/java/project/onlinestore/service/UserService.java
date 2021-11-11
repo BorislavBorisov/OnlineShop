@@ -2,6 +2,9 @@ package project.onlinestore.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import project.onlinestore.domain.service.UserServiceModel;
+import project.onlinestore.domain.view.UserViewModel;
+
+import java.util.List;
 
 public interface UserService extends UserDetailsService {
 
@@ -12,4 +15,8 @@ public interface UserService extends UserDetailsService {
     UserServiceModel editUserProfile(UserServiceModel userServiceModel);
 
     boolean changeProfilePicture(UserServiceModel userServiceModel);
+
+    List<UserServiceModel> getAllUsers();
+
+    void setUserRole(Long id, String role);
 }

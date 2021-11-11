@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.onlinestore.domain.binding.ImageBindingModel;
 import project.onlinestore.domain.binding.UserEditBindingModel;
 import project.onlinestore.domain.binding.UserRegisterBindingModel;
 import project.onlinestore.domain.service.UserServiceModel;
@@ -89,8 +90,8 @@ public class UserController {
 
     @PostMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    public String profileUpdateConfirm(@Valid UserEditBindingModel userEditBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) throws IOException {
-        UserServiceModel user = this.userService.findUserByUsername(principal.getName());
+    public String profileUpdateConfirm(@Valid UserEditBindingModel userEditBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
+        UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userEditBindingModel", userEditBindingModel);
@@ -99,10 +100,23 @@ public class UserController {
             return "redirect:profile";
         }
 
-        user.setImgUrl(this.cloudinaryService.uploadImage(userEditBindingModel.getImage()));
-        this.userService.editUserProfile(user);
+        this.userService.editUserProfile(userServiceModel);
 
-        return "redirect:/home";
+        return "redirect:/shop/categories";
+    }
+
+    @PostMapping("/profile/edit-picture")
+    @PreAuthorize("isAuthenticated()")
+    public String profilePictureUpdateConfirm(Principal principal, ImageBindingModel imageBindingModel) throws IOException {
+        if (!imageBindingModel.getImage().isEmpty()) {
+            UserServiceModel user = this.userService.findUserByUsername(principal.getName());
+            System.out.println();
+            user.setImgUrl(this.cloudinaryService.uploadImage(imageBindingModel.getImage()));
+            this.userService.changeProfilePicture(user);
+
+            return "redirect:/users/profile";
+        }
+        return "redirect:/shop/categories";
     }
 
 
