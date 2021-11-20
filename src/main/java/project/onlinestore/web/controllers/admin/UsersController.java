@@ -1,4 +1,4 @@
-package project.onlinestore.web.controllers.moderator;
+package project.onlinestore.web.controllers.admin;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/moderator")
+@RequestMapping("/admin")
 public class UsersController {
 
     private final UserService userService;
@@ -28,7 +28,7 @@ public class UsersController {
     }
 
     @GetMapping("/users")
-        @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String allUsers(Model model) {
         List<UserViewModel> users = this.userService.getAllUsers()
                 .stream()
@@ -43,27 +43,27 @@ public class UsersController {
                 .collect(Collectors.toList());
 
         model.addAttribute("allUsers", users);
-        return "/moderator/users/all-users";
+        return "/admin/users/all-users";
     }
 
     @PostMapping("/users/set-admin/{id}")
-        @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String setAdmin(@PathVariable Long id) {
         this.userService.setUserRole(id, "admin");
-        return "redirect:/moderator/users";
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/users/set-moderator/{id}")
-        @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String setModerator(@PathVariable Long id) {
         this.userService.setUserRole(id, "moderator");
-        return "redirect:/moderator/users";
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/users/set-client/{id}")
-        @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String setClient(@PathVariable Long id) {
         this.userService.setUserRole(id, "client");
-        return "redirect:/moderator/users";
+        return "redirect:/admin/users";
     }
 }

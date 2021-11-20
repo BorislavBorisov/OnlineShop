@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
         UserEntity user = this.modelMapper.map(userServiceModel, UserEntity.class);
         user.setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1636206196/avataaars_dztnrw.svg");
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
+        user.setRegistered(Instant.now());
         return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
 

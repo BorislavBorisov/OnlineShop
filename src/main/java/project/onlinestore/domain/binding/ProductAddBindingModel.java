@@ -15,6 +15,7 @@ public class ProductAddBindingModel {
     private String barcode;
     private MultipartFile image;
     private BigDecimal productPrice;
+    private String description;
     private String supplier;
     private String category;
 
@@ -23,7 +24,7 @@ public class ProductAddBindingModel {
 
     @NotNull
     @NotBlank
-    @Size(min = 1, max = 35, message = "Кодът на продукта не може да бъде по-малък от 1 и по-голям от 35 символа!")
+    @Size(min = 1, max = 55, message = "Кодът на продукта не може да бъде по-малък от 1 и по-голям от 35 символа!")
     public String getProductCode() {
         return productCode;
     }
@@ -34,7 +35,7 @@ public class ProductAddBindingModel {
 
     @NotNull
     @NotBlank
-    @Size(min = 5, max = 155, message = "Името на продукта не може да бъде по-малко от 5 и по-голямо от 155 символа!")
+    @Size(min = 1, max = 499, message = "Името на продукта не може да бъде по-малко от 1 и по-голямо от 499 символа!")
     public String getProductName() {
         return productName;
     }
@@ -67,6 +68,15 @@ public class ProductAddBindingModel {
 
     public void setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
+    }
+
+    @Size(max = 550)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getSupplier() {

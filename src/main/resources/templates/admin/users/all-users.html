@@ -41,26 +41,26 @@
                 <td th:text="${#strings.listJoin(u.authorities, ', ')}"></td>
                 <td>
                     <th:block th:if="${#lists.contains(u.authorities, 'ROLE_CLIENT')}">
-                        <form th:action="@{/moderator/users/set-admin/{id}(id=${u.id})}" th:method="post">
+                        <form th:action="@{/admin/users/set-admin/{id}(id=${u.id})}" th:method="post">
                             <button type="submit" class="btn btn-block btn-bold btn-primary mt-1">ADMIN</button>
                         </form>
-                        <form th:action="@{/moderator/users/set-moderator/{id}(id=${u.id})}" method="post">
+                        <form th:action="@{/admin/users/set-moderator/{id}(id=${u.id})}" method="post">
                             <button type="submit" class="btn btn-block btn-bold btn-primary mt-1">MODERATOR</button>
                         </form>
                     </th:block>
                     <th:block th:if="${#lists.contains(u.authorities, 'ROLE_ADMIN')}">
-                        <form th:action="@{/moderator/users/set-client/{id}(id=${u.id})}" method="post">
+                        <form th:action="@{/admin/users/set-client/{id}(id=${u.id})}" method="post">
                             <button type="submit" class="btn btn-block btn-bold btn-primary mt-1">CLIENT</button>
                         </form>
-                        <form th:action="@{/moderator/users/set-moderator/{id}(id=${u.id})}" method="post">
+                        <form th:action="@{/admin/users/set-moderator/{id}(id=${u.id})}" method="post">
                             <button type="submit" class="btn btn-block btn-bold btn-primary mt-1">MODERATOR</button>
                         </form>
                     </th:block>
                     <th:block th:if="${#lists.contains(u.authorities, 'ROLE_MODERATOR')}">
-                        <form th:action="@{/moderator/users/set-client/{id}(id=${u.id})}" method="post">
+                        <form th:action="@{/admin/users/set-client/{id}(id=${u.id})}" method="post">
                             <button type="submit" class="btn btn-block btn-bold btn-primary mt-1">CLIENT</button>
                         </form>
-                        <form th:action="@{/moderator/users/set-admin/{id}(id=${u.id})}" method="post">
+                        <form th:action="@{/admin/users/set-admin/{id}(id=${u.id})}" method="post">
                             <button type="submit" class="btn btn-block btn-bold btn-primary mt-1">ADMIN</button>
                         </form>
                     </th:block>

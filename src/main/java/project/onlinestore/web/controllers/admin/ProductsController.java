@@ -1,4 +1,4 @@
-package project.onlinestore.web.controllers.moderator;
+package project.onlinestore.web.controllers.admin;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/moderator")
+@RequestMapping("/admin")
 public class ProductsController {
 
     private final ProductService productService;
@@ -38,21 +38,21 @@ public class ProductsController {
     }
 
     @GetMapping("/products")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String allProducts(Model model) {
         List<ProductViewModel> allProducts = this.productService.findAllProducts();
         model.addAttribute("allProducts", allProducts);
-        return "/moderator/products/all-products";
+        return "/admin/products/all-products";
     }
 
     @GetMapping("/products/add")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String addProduct() {
-        return "/moderator/products/add-product";
+        return "/admin/products/add-product";
     }
 
     @PostMapping("/products/add")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String addProductConfirm(@Valid ProductAddBindingModel productAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
@@ -67,22 +67,22 @@ public class ProductsController {
         productServiceModel.setSupplier(this.supplierService.findSupplierById(Long.parseLong(productAddBindingModel.getSupplier())));
 
         this.productService.addProduct(productServiceModel);
-        return "redirect:/moderator/products";
+        return "redirect:/admin/products";
     }
 
 
     @GetMapping("/products/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editProduct(@PathVariable Long id, Model model) {
         model.addAttribute("product", this.modelMapper
                 .map(this.productService.findProductById(id), ProductViewModel.class));
 
-        return "/moderator/products/edit-product";
+        return "/admin/products/edit-product";
     }
 
 
     @PostMapping("/products/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editProductConfirm(@PathVariable Long id, @Valid ProductAddBindingModel productAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
@@ -92,38 +92,38 @@ public class ProductsController {
         }
         ProductServiceModel map = this.modelMapper.map(productAddBindingModel, ProductServiceModel.class);
         this.productService.editProduct(id, map);
-        return "redirect:/moderator/products";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("products/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String deleteProduct(@PathVariable Long id, Model model) {
         model.addAttribute("product", this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class));
-        return "/moderator/products/delete-product";
+        return "/admin/products/delete-product";
     }
 
     @PostMapping("products/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String deleteProductConfirm(@PathVariable Long id) {
         this.productService.deleteProduct(id);
-        return "redirect:/moderator/products";
+        return "redirect:/admin/products";
     }
 
 
     @GetMapping("products/edit/image/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editProductImage(@PathVariable Long id, Model model) {
         model.addAttribute("product", this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class));
-        return "/moderator/products/edit-image-product";
+        return "/admin/products/edit-image-product";
     }
 
     @PostMapping("products/edit/image/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editProductImageConfirm(@PathVariable Long id, ProductAddBindingModel productAddBindingModel) throws IOException {
         ProductServiceModel product = this.productService.findProductById(id);
         product.setImgUrl(this.cloudinaryService.uploadImage(productAddBindingModel.getImage()));
         this.productService.editImageCategory(product);
-        return "redirect:/moderator/products";
+        return "redirect:/admin/products";
     }
 
 

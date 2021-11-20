@@ -6,6 +6,7 @@ import project.onlinestore.domain.entities.ProductEntity;
 import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.repository.ProductRepository;
+import project.onlinestore.service.CategoryService;
 import project.onlinestore.service.ProductService;
 
 import java.time.Instant;
@@ -16,10 +17,12 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, ModelMapper modelMapper) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
@@ -42,7 +45,6 @@ public class ProductServiceImpl implements ProductService {
 
         if (byName == null && byCode == null) {
             ProductEntity product = this.modelMapper.map(productServiceModel, ProductEntity.class);
-
             return this.modelMapper.map(this.productRepository.save(product), ProductServiceModel.class);
         }
 
@@ -66,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
                 .setProductCode(productServiceModel.getProductCode())
                 .setBarcode(productServiceModel.getBarcode())
                 .setProductPrice(productServiceModel.getProductPrice())
+                .setDescription(productServiceModel.getDescription())
                 .setModified(Instant.now());
 
         return this.modelMapper.map(this.productRepository.save(product), ProductServiceModel.class);

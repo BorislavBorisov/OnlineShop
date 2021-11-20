@@ -1,9 +1,14 @@
 package project.onlinestore.domain.view;
 
+import project.onlinestore.domain.service.ProductServiceModel;
+
+import java.util.List;
+
 public class CategoryViewModel {
 
     private Long id;
     private String name;
+    private String nameLatin;
     private String imgUrl;
     private Integer position;
 
@@ -26,6 +31,14 @@ public class CategoryViewModel {
         this.name = name;
     }
 
+    public String getNameLatin() {
+        return nameLatin;
+    }
+
+    public void setNameLatin(String nameLatin) {
+        this.nameLatin = nameLatin;
+    }
+
     public String getImgUrl() {
         return imgUrl;
     }
@@ -41,4 +54,5 @@ public class CategoryViewModel {
     public void setPosition(Integer position) {
         this.position = position;
     }
+
 }

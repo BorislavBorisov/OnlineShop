@@ -13,7 +13,7 @@
 
 <div class="d-flex justify-content-center mt-5">
     <div class="col-md-5 col-lg-5 col-sm-5">
-        <form class="card" th:action="@{/moderator/products/edit/{id}(id=${product.id})}" th:method="post"
+        <form class="card" th:action="@{/admin/products/edit/{id}(id=${product.id})}" th:method="post"
               th:object="${productAddBindingModel}">
             <input type="hidden" name="_csrf" th:field="${product.id}">
             <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Редактирай категория</h5>
@@ -46,6 +46,13 @@
                     <small th:if="${#fields.hasErrors('productPrice')}" th:errors="*{productPrice}"
                            class="mb-5 text-danger alert-danger"></small>
                 </div>
+                <div class="form-group">
+                    <div class="mt-2"><span class="text-sm">Описание</span></div>
+                    <input th:value="${product.description}" th:name="description" class="form-control"
+                              placeholder="">
+                    <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                           class="mb-5 text-danger alert-danger"></small>
+                </div>
                 <button class="btn btn-block btn-bold btn-primary warning mt-4">Обнови</button>
             </div>
         </form>
@@ -57,7 +64,7 @@
 </footer>
 
 <script>
-    fetch('/moderator/categories/fetch')
+    fetch('/admin/categories/fetch')
         .then((response) => response.json())
         .then((json) => {
             json
@@ -67,7 +74,7 @@
         })
         .catch((err) => console.log(err));
 
-    fetch('/moderator/suppliers/fetch')
+    fetch('/admin/suppliers/fetch')
         .then((response) => response.json())
         .then((json) => {
             json

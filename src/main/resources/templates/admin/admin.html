@@ -15,14 +15,14 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-12 text-center mb-5">
-                <h2 class="section-title">Модератор меню</h2>
+                <h2 class="section-title">Админ меню</h2>
             </div>
             <div class="card" style="margin: 50px; width: 20rem;">
                 <div class="card-body text-center">
                     <h5 class="card-title">Категории</h5>
                     <div class="dropdown-divider"></div>
                     <p class="card-text">Добавяй, позиционирай, редактирай и изтривай категориите в магазина</p>
-                    <a th:href="@{/moderator/categories}" class="btn btn-primary stretched-link">Към категориите</a>
+                    <a th:href="@{/templates/admin/categories}" class="btn btn-primary stretched-link">Към категориите</a>
                 </div>
             </div>
             <div class="card" style="margin: 50px; width: 20rem;">
@@ -30,25 +30,26 @@
                     <h5 class="card-title">Доставчици</h5>
                     <div class="dropdown-divider"></div>
                     <p class="card-text">Преглед на всички доставчици, техните продукти</p>
-                    <a th:href="@{/moderator/suppliers}" class="btn btn-primary stretched-link">Към доставчиците</a>
+                    <a th:href="@{/templates/admin/suppliers}" class="btn btn-primary stretched-link">Към доставчиците</a>
                 </div>
             </div>
             <div class="card" style="margin: 50px; width: 20rem;">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Доставчици</h5>
+                    <h5 class="card-title">Продукти</h5>
                     <div class="dropdown-divider"></div>
-                    <p class="card-text">Преглед на всички доставчици, техните продукти</p>
-                    <a th:href="@{/moderator/suppliers}" class="btn btn-primary stretched-link">Към доставчиците</a>
+                    <p class="card-text">Преглед на всички продукти</p>
+                    <a th:href="@{/templates/admin/products}" class="btn btn-primary stretched-link">Към доставчиците</a>
                 </div>
             </div>
             <div class="card" style="margin: 50px; width: 20rem;">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Доставчици</h5>
+                    <h5 class="card-title">Потребители</h5>
                     <div class="dropdown-divider"></div>
                     <p class="card-text">Преглед на всички доставчици, техните продукти</p>
-                    <a th:href="@{/moderator/suppliers}" class="btn btn-primary stretched-link">Към доставчиците</a>
+                    <a th:href="@{/templates/admin/users}" class="btn btn-primary stretched-link">Към доставчиците</a>
                 </div>
             </div>
+        </div>
 </section>
 
 <footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">

@@ -13,27 +13,23 @@
 
 <div class="d-flex justify-content-center mt-5">
     <div class="col-md-5 col-lg-5 col-sm-5">
-        <form class="card" th:action="@{/moderator/categories/add}" th:method="post"
-              th:object="${categoryAddBindingModel}" enctype="multipart/form-data">
-            <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Добави категория</h5>
+        <form class="card" th:action="@{/admin/categories/edit/{id}(id=${category.id})}" th:method="post" th:object="${categoryAddBindingModel}">
+            <input type="hidden" name="_csrf" th:field="${category.id}">
+            <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Редактирай категория</h5>
             <div class="card-body">
                 <div class="form-group">
                     <div class="mt-2"><span class="text-sm">Име на категорията</span></div>
-                    <input th:field="*{name}" class="form-control" type="text" placeholder="">
+                    <input th:value="${category.name}" th:name="name" class="form-control" type="text" placeholder="">
                     <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
                            class="mb-5 text-danger alert-danger"></small>
                 </div>
                 <div class="form-group">
                     <div class="mt-3"><span class="text-sm">Позиция в магазина</span></div>
-                    <input th:field="*{position}" class="form-control" type="number" placeholder="">
-                    <small  th:if="${#fields.hasErrors('position')}" th:errors="*{position}"
+                    <input th:value="${category.position}" th:name="position" class="form-control" type="number" placeholder="">
+                    <small th:if="${#fields.hasErrors('position')}" th:errors="*{position}"
                            class="mb-5 text-danger alert-danger"></small>
                 </div>
-                <div class="form-group">
-                    <div class="mt-3"><span class="text-sm">Изображение</span></div>
-                    <input th:field="*{image}" class="form-control" type="file">
-                </div>
-                <button class="btn btn-block btn-bold btn-primary btn-success mt-4">Добави</button>
+                <button class="btn btn-block btn-bold btn-primary warning mt-4">Обнови</button>
             </div>
         </form>
     </div>

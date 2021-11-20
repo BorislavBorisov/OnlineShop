@@ -18,4 +18,5 @@ public interface ProductService {
     boolean deleteProduct(Long id);
 
     boolean editImageCategory(ProductServiceModel productServiceModel);
+
 }

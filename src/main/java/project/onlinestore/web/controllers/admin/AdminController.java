@@ -1,16 +1,16 @@
-package project.onlinestore.web.controllers.moderator;
+package project.onlinestore.web.controllers.admin;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ModeratorController {
+public class AdminController {
 
-    @GetMapping("/moderator")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String moderator() {
-        return "/moderator/moderator";
+        return "admin/admin";
     }
 
 }

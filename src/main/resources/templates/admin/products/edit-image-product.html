@@ -13,8 +13,8 @@
 
 <div class="d-flex justify-content-center mt-5">
     <div class="col-md-5 col-lg-5 col-sm-5">
-        <form class="card" th:action="@{/moderator/categories/edit/image/{id}(id=${category.id})}" th:method="post"
-              th:object="${categoryAddBindingModel}" enctype="multipart/form-data">
+        <form class="card" th:action="@{/admin/products/edit/image/{id}(id=${product.id})}" th:method="post"
+              th:object="${productAddBindingModel}" enctype="multipart/form-data">
             <div class="form-group mt-3">
                 <div class="col-lg-8">
                     <h6 class="mt-3 mb-4">Смени снимка...</h6>
@@ -24,7 +24,7 @@
             <div class="row gutters">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="text-right mt-4">
-                        <a th:href="@{/moderator/categories}" class="btn btn-secondary">Назад</a>
+                        <a th:href="@{/admin/products}" class="btn btn-secondary">Назад</a>
                         <button type="submit" class="btn btn-primary">Запази промените</button>
                     </div>
                 </div>
@@ -32,6 +32,7 @@
         </form>
     </div>
 </div>
+
 
 <footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">
     <th:block th:include="~{fragments/footer}"></th:block>

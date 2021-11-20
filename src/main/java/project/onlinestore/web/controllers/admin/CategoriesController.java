@@ -1,4 +1,4 @@
-package project.onlinestore.web.controllers.moderator;
+package project.onlinestore.web.controllers.admin;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/moderator")
+@RequestMapping("/admin")
 public class CategoriesController {
 
     private final CategoryService categoryService;
@@ -36,17 +36,17 @@ public class CategoriesController {
     @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
     public String allCategories(Model model) {
         model.addAttribute("allCategories", this.categoryService.getAllCategories());
-        return "/moderator/categories/all-categories";
+        return "/admin/categories/all-categories";
     }
 
     @GetMapping("/categories/add")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String addCategory() {
-        return "/moderator/categories/add-category";
+        return "/admin/categories/add-category";
     }
 
     @PostMapping("/categories/add")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String addCategoryConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
@@ -57,11 +57,11 @@ public class CategoriesController {
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
         categoryServiceModel.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
         this.categoryService.addCategory(categoryServiceModel);
-        return "redirect:/moderator/categories";
+        return "redirect:/admin/categories";
     }
 
     @GetMapping("/categories/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editCategory(@PathVariable Long id, Model model) {
         CategoryServiceModel category = this.categoryService.findCategoryById(id);
         if (category == null) {
@@ -69,11 +69,11 @@ public class CategoriesController {
         }
 
         model.addAttribute("category", this.modelMapper.map(category, CategoryViewModel.class));
-        return "/moderator/categories/edit-category";
+        return "/admin/categories/edit-category";
     }
 
     @PostMapping("/categories/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editCategoryConfirm(@PathVariable Long id, @Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
@@ -83,41 +83,41 @@ public class CategoriesController {
         }
         CategoryServiceModel map = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
         this.categoryService.editCategory(id, map);
-        return "redirect:/moderator/categories";
+        return "redirect:/admin/categories";
     }
 
     @GetMapping("/categories/edit/image/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editImageCategory(@PathVariable Long id, Model model) {
         model.addAttribute("category", this.modelMapper.map(this.categoryService.findCategoryById(id), CategoryViewModel.class));
-        return "/moderator/categories/edit-image-category";
+        return "/admin/categories/edit-image-category";
     }
 
     @PostMapping("/categories/edit/image/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editImageCategoryConfirm(@PathVariable Long id, CategoryAddBindingModel categoryAddBindingModel) throws IOException {
         CategoryServiceModel category = this.categoryService.findCategoryById(id);
         category.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
         this.categoryService.editImageCategory(category);
-        return "redirect:/moderator/categories";
+        return "redirect:/admin/categories";
     }
 
     @GetMapping("categories/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String deleteCategory(@PathVariable Long id, Model model) {
         model.addAttribute("category", this.modelMapper.map(this.categoryService.findCategoryById(id), CategoryViewModel.class));
-        return "/moderator/categories/delete-category";
+        return "/admin/categories/delete-category";
     }
 
     @PostMapping("categories/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String deleteCategoryConfirm(@PathVariable Long id) {
         this.categoryService.deleteCategory(id);
-        return "redirect:/moderator/categories";
+        return "redirect:/admin/categories";
     }
 
     @GetMapping("/categories/fetch")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseBody
     public List<CategoryViewModel> fetchCategories() {
         return this.categoryService.getAllCategories();

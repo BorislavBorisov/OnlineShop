@@ -10,6 +10,7 @@ public class ProductServiceModel extends BaseServiceModel {
     private String imgUrl;
     private Integer inStock;
     private BigDecimal productPrice;
+    private String description;
     private SupplierServiceModel supplier;
     private CategoryServiceModel category;
 
@@ -62,6 +63,14 @@ public class ProductServiceModel extends BaseServiceModel {
 
     public void setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public SupplierServiceModel getSupplier() {

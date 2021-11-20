@@ -25,7 +25,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
 
 
     @Bean
-    public PersistentTokenRepository persistentTokenRepository(){
+    public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
         return tokenRepository;
@@ -43,11 +43,9 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/", "/users/register", "/users/login").permitAll()
-                .antMatchers("/shop/categories").permitAll()
-                .antMatchers("/moderator/**").hasRole("MODERATOR")
-                .antMatchers("/moderator/**").hasRole("ROOT")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/admin/**").hasRole("ROOT")
+                .antMatchers("/shop/categories/**").permitAll()
+                .antMatchers("/moderator/**").hasAnyRole("MODERATOR", "ROOT")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
                 .anyRequest().authenticated()
                 .and()
                 .rememberMe().rememberMeParameter("remember-me")

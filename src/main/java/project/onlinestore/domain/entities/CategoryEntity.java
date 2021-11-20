@@ -8,6 +8,7 @@ import java.util.List;
 public class CategoryEntity extends BaseEntity {
 
     private String name;
+    private String nameLatin;
     private String imgUrl;
     private Integer position;
     private List<ProductEntity> products;
@@ -23,6 +24,16 @@ public class CategoryEntity extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column
+    public String getNameLatin() {
+        return nameLatin;
+    }
+
+    public void setNameLatin(String nameLatin) {
+        this.nameLatin = nameLatin;
     }
 
     @Basic
@@ -45,7 +56,7 @@ public class CategoryEntity extends BaseEntity {
         this.position = position;
     }
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     public List<ProductEntity> getProducts() {
         return products;
     }

@@ -11,6 +11,7 @@ public class ProductViewModel {
     private String imgUrl;
     private Integer inStock;
     private BigDecimal productPrice;
+    private String description;
     private SupplierViewModel supplier;
     private CategoryViewModel category;
 
@@ -71,6 +72,14 @@ public class ProductViewModel {
 
     public void setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public SupplierViewModel getSupplier() {

@@ -13,6 +13,7 @@ public class ProductEntity extends BaseEntity {
     private String imgUrl;
     private Integer inStock;
     private BigDecimal productPrice;
+    private String description;
     private SupplierEntity supplier;
     private CategoryEntity category;
 
@@ -31,7 +32,7 @@ public class ProductEntity extends BaseEntity {
     }
 
     @Basic
-    @Column(name = "product_name", nullable = false, unique = true, length = 121)
+    @Column(name = "product_name", nullable = false, unique = true, columnDefinition = "TEXT", length = 500)
     public String getProductName() {
         return productName;
     }
@@ -82,6 +83,17 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
+        return this;
+    }
+
+    @Basic
+    @Column(columnDefinition = "TEXT")
+    public String getDescription() {
+        return description;
+    }
+
+    public ProductEntity setDescription(String description) {
+        this.description = description;
         return this;
     }
 

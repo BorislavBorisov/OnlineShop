@@ -13,7 +13,7 @@
 
 <div class="d-flex justify-content-center mt-5">
     <div class="col-md-5 col-lg-5 col-sm-5">
-        <form class="card" th:action="@{/moderator/products/add}" th:method="post"
+        <form class="card" th:action="@{/admin/products/add}" th:method="post"
               enctype="multipart/form-data" th:object="${productAddBindingModel}">
             <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Добави категория</h5>
             <div class="card-body">
@@ -39,7 +39,13 @@
                     <div class="mt-3"><span class="text-sm">Цена</span></div>
                     <input th:field="*{productPrice}" class="form-control" type="number" min="0.00" max="10000000.00"
                            step=".01" placeholder="">
-                    <small th:if="${#fields.hasErrors('sellPrice')}" th:errors="*{productPrice}"
+                    <small th:if="${#fields.hasErrors('productPrice')}" th:errors="*{productPrice}"
+                           class="mb-5 text-danger alert-danger"></small>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3"><span class="text-sm">Описание</span></div>
+                    <textarea th:field="*{description}" class="form-control" type="text" placeholder=""></textarea>
+                    <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
                            class="mb-5 text-danger alert-danger"></small>
                 </div>
                 <div class="form-group">
@@ -73,7 +79,7 @@
 </footer>
 
 <script>
-    fetch('/moderator/categories/fetch')
+    fetch('/admin/categories/fetch')
         .then((response) => response.json())
         .then((json) => {
             json
@@ -83,7 +89,7 @@
         })
         .catch((err) => console.log(err));
 
-    fetch('/moderator/suppliers/fetch')
+    fetch('/admin/suppliers/fetch')
         .then((response) => response.json())
         .then((json) => {
             json

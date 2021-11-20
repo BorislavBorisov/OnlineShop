@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:ath="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <th:block th:include="~{fragments/header}"></th:block>
@@ -16,7 +16,7 @@
 <div class="container mt-5">
     <th:block th:if="${#lists.isEmpty(allProducts)}">
         <h1>Няма продукти</h1>
-        <a th:href="@{/moderator/products/add}" class="btn btn-success">Добави продукт</a>
+        <a th:href="@{/admin/products/add}" class="btn btn-success">Добави продукт</a>
     </th:block>
 
 
@@ -43,18 +43,18 @@
                 <td th:text="${iter.index + 1}"></td>
                 <td th:text="*{productCode}"></td>
                 <td>
-                    <a th:href="@{/moderator/products/edit/image/{id}(id=${p.id})}"><img th:src="*{imgUrl}"
-                                                                                         width="100"
-                                                                                         height="100"></a></td>
+                    <a th:href="@{/admin/products/edit/image/{id}(id=${p.id})}"><img th:src="*{imgUrl}"
+                                                                                               width="100"
+                                                                                               height="100"></a></td>
                 <td th:text="*{productName}"></td>
                 <td th:text="*{productPrice}"></td>
                 <td th:text="*{inStock}"></td>
                 <td th:text="*{category.name}"></td>
                 <td th:text="*{supplier.name}"></td>
                 <td th:text="*{barcode}"></td>
-                <td><a th:href="@{/moderator/products/edit/{id}(id=${p.id})}"
+                <td><a th:href="@{/admin/products/edit/{id}(id=${p.id})}"
                        class="btn btn-block btn-bold btn-primary">Редактирай</a></td>
-                <td><a th:href="@{/moderator/products/delete/{id}(id=${p.id})}" class="btn btn-danger">Изтрий</a>
+                <td><a th:href="@{/admin/products/delete/{id}(id=${p.id})}" class="btn btn-danger">Изтрий</a>
                 </td>
             </tr>
             </tbody>
@@ -74,7 +74,7 @@
             </tr>
             </tfoot>
         </table>
-        <a th:href="@{/moderator/products/add}" class="btn btn-success mt-3">Добави продукт</a>
+        <a th:href="@{/admin/products/add}" class="btn btn-success mt-3">Добави продукт</a>
     </th:block>
 </div>
 

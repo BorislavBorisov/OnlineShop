@@ -14,8 +14,10 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-22 mt-5" th:each="c : ${categories}" th:object="${c}">
-            <h1 class="text-center text-dark" th:text="*{name}">Computers</h1>
-            <a href="/"><img th:src="*{imgUrl}" class="img-thumbnail" width="400" height="400" ></a>
+            <h1 class="text-center text-dark" th:text="*{name}"></h1>
+            <a th:href="@{/shop/{nameLatin}(nameLatin=${c.nameLatin})}">
+                <img th:src="*{imgUrl}" class="img-thumbnail" width="400"
+                     height="400"></a>
         </div>
     </div>
 </div>
