@@ -7,7 +7,7 @@ public class ProductViewModel {
     private Long id;
     private String productCode;
     private String productName;
-    private String barcode;
+    private String productNameLatin;
     private String imgUrl;
     private Integer inStock;
     private BigDecimal productPrice;
@@ -38,16 +38,16 @@ public class ProductViewModel {
         return productName;
     }
 
+    public String getProductNameLatin() {
+        return productNameLatin;
+    }
+
+    public void setProductNameLatin(String productNameLatin) {
+        this.productNameLatin = productNameLatin;
+    }
+
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
     }
 
     public String getImgUrl() {

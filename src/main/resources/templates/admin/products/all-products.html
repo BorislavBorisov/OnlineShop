@@ -33,7 +33,6 @@
                 <th>Наличност</th>
                 <th>Категория</th>
                 <th>Доставчик</th>
-                <th>Баркод</th>
                 <th>Редактирай</th>
                 <th>Изтрий</th>
             </tr>
@@ -44,14 +43,13 @@
                 <td th:text="*{productCode}"></td>
                 <td>
                     <a th:href="@{/admin/products/edit/image/{id}(id=${p.id})}"><img th:src="*{imgUrl}"
-                                                                                               width="100"
-                                                                                               height="100"></a></td>
+                                                                                     width="100"
+                                                                                     height="100"></a></td>
                 <td th:text="*{productName}"></td>
                 <td th:text="*{productPrice}"></td>
                 <td th:text="*{inStock}"></td>
                 <td th:text="*{category.name}"></td>
                 <td th:text="*{supplier.name}"></td>
-                <td th:text="*{barcode}"></td>
                 <td><a th:href="@{/admin/products/edit/{id}(id=${p.id})}"
                        class="btn btn-block btn-bold btn-primary">Редактирай</a></td>
                 <td><a th:href="@{/admin/products/delete/{id}(id=${p.id})}" class="btn btn-danger">Изтрий</a>
@@ -68,7 +66,6 @@
                 <th>Наличност</th>
                 <th>Категория</th>
                 <th>Доставчик</th>
-                <th>Баркод</th>
                 <th>Редактирай</th>
                 <th>Изтрий</th>
             </tr>

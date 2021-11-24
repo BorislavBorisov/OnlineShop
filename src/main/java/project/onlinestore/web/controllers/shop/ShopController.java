@@ -10,12 +10,12 @@ import project.onlinestore.service.ProductService;
 
 @Controller
 @RequestMapping("/shop")
-public class CategoryController {
+public class ShopController {
 
     private final CategoryService categoryService;
     private final ProductService productService;
 
-    public CategoryController(CategoryService categoryService, ProductService productService) {
+    public ShopController(CategoryService categoryService, ProductService productService) {
         this.categoryService = categoryService;
         this.productService = productService;
     }
@@ -30,5 +30,11 @@ public class CategoryController {
     public String currentCategory(@PathVariable String nameLatin, Model model) {
         model.addAttribute("products",  this.categoryService.getAllProductsByCategoryName(nameLatin));
         return "/shop/all-products";
+    }
+
+    @GetMapping("/article/{nameLatin}")
+    public String currentProduct(@PathVariable String nameLatin, Model model) {
+        model.addAttribute("product",  this.productService.getProductByNameLatin(nameLatin));
+        return "/shop/details";
     }
 }

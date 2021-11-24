@@ -18,7 +18,7 @@
             <!--            old class is card-->
             <div class="row justify-content-between px-4">
                 <div class="text-center">
-                    <a class="text-center" th:href="@{/}">
+                    <a class="text-center" th:value="*{id}" th:href="@{/shop/article/{nameLatin}(nameLatin=${p.productNameLatin})}">
                         <img th:src="*{imgUrl}" width="250"> </a>
                 </div>
 
@@ -30,6 +30,7 @@
         </div>
     </div>
 </div>
+
 <footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">
     <th:block th:include="~{fragments/footer}"></th:block>
 </footer>

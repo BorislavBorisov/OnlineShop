@@ -12,7 +12,6 @@ public class ProductAddBindingModel {
 
     private String productCode;
     private String productName;
-    private String barcode;
     private MultipartFile image;
     private BigDecimal productPrice;
     private String description;
@@ -44,15 +43,6 @@ public class ProductAddBindingModel {
         this.productName = productName;
     }
 
-    @Size(max = 50, message = "Баркода на продукта не може да бъде по-голям от 50 символа!")
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
-
     public MultipartFile getImage() {
         return image;
     }
@@ -70,7 +60,7 @@ public class ProductAddBindingModel {
         this.productPrice = productPrice;
     }
 
-    @Size(max = 550)
+    @Size(max = 1500)
     public String getDescription() {
         return description;
     }

@@ -2,6 +2,8 @@ package project.onlinestore.domain.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "products")
@@ -9,7 +11,7 @@ public class ProductEntity extends BaseEntity {
 
     private String productCode;
     private String productName;
-    private String barcode;
+    private String productNameLatin;
     private String imgUrl;
     private Integer inStock;
     private BigDecimal productPrice;
@@ -43,13 +45,13 @@ public class ProductEntity extends BaseEntity {
     }
 
     @Basic
-    @Column(name = "product_barcode", length = 121)
-    public String getBarcode() {
-        return barcode;
+    @Column
+    public String getProductNameLatin() {
+        return productNameLatin;
     }
 
-    public ProductEntity setBarcode(String barcode) {
-        this.barcode = barcode;
+    public ProductEntity setProductNameLatin(String productLatin) {
+        this.productNameLatin = productLatin;
         return this;
     }
 
@@ -109,7 +111,7 @@ public class ProductEntity extends BaseEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "categoty_id")
+    @JoinColumn(name = "category_id")
     public CategoryEntity getCategory() {
         return category;
     }
@@ -118,4 +120,5 @@ public class ProductEntity extends BaseEntity {
         this.category = category;
         return this;
     }
+
 }

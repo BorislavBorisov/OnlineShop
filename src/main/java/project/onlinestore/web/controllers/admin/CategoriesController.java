@@ -12,7 +12,6 @@ import project.onlinestore.domain.service.CategoryServiceModel;
 import project.onlinestore.domain.view.CategoryViewModel;
 import project.onlinestore.service.CategoryService;
 import project.onlinestore.service.CloudinaryService;
-import project.onlinestore.web.exception.ObjectNotFoundException;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -60,18 +59,6 @@ public class CategoriesController {
         return "redirect:/admin/categories";
     }
 
-    @GetMapping("/categories/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
-    public String editCategory(@PathVariable Long id, Model model) {
-        CategoryServiceModel category = this.categoryService.findCategoryById(id);
-        if (category == null) {
-            throw new ObjectNotFoundException();
-        }
-
-        model.addAttribute("category", this.modelMapper.map(category, CategoryViewModel.class));
-        return "/admin/categories/edit-category";
-    }
-
     @PostMapping("/categories/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editCategoryConfirm(@PathVariable Long id, @Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
@@ -117,7 +104,7 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories/fetch")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     @ResponseBody
     public List<CategoryViewModel> fetchCategories() {
         return this.categoryService.getAllCategories();

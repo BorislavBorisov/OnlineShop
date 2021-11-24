@@ -29,7 +29,9 @@ public class ProductsController {
     private final SupplierService supplierService;
     private final CategoryService categoryService;
 
-    public ProductsController(ProductService productService, ModelMapper modelMapper, CloudinaryService cloudinaryService, SupplierService supplierService, CategoryService categoryService) {
+    public ProductsController(ProductService productService, ModelMapper modelMapper,
+                              CloudinaryService cloudinaryService, SupplierService supplierService,
+                              CategoryService categoryService) {
         this.productService = productService;
         this.modelMapper = modelMapper;
         this.cloudinaryService = cloudinaryService;
@@ -95,14 +97,14 @@ public class ProductsController {
         return "redirect:/admin/products";
     }
 
-    @GetMapping("products/delete/{id}")
+    @GetMapping("/products/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String deleteProduct(@PathVariable Long id, Model model) {
         model.addAttribute("product", this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class));
         return "/admin/products/delete-product";
     }
 
-    @PostMapping("products/delete/{id}")
+    @PostMapping("/products/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String deleteProductConfirm(@PathVariable Long id) {
         this.productService.deleteProduct(id);
@@ -110,14 +112,14 @@ public class ProductsController {
     }
 
 
-    @GetMapping("products/edit/image/{id}")
+    @GetMapping("/products/edit/image/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editProductImage(@PathVariable Long id, Model model) {
         model.addAttribute("product", this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class));
         return "/admin/products/edit-image-product";
     }
 
-    @PostMapping("products/edit/image/{id}")
+    @PostMapping("/products/edit/image/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editProductImageConfirm(@PathVariable Long id, ProductAddBindingModel productAddBindingModel) throws IOException {
         ProductServiceModel product = this.productService.findProductById(id);

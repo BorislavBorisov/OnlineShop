@@ -23,7 +23,5 @@ public interface CategoryService {
 
     boolean editImageCategory(CategoryServiceModel categoryServiceModel);
 
-    String translate(String message);
-
     List<ProductViewModel> getAllProductsByCategoryName(String nameLatin);
 }

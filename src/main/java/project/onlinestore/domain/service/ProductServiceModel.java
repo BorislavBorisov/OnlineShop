@@ -6,7 +6,7 @@ public class ProductServiceModel extends BaseServiceModel {
 
     private String productCode;
     private String productName;
-    private String barcode;
+    private String productNameLatin;
     private String imgUrl;
     private Integer inStock;
     private BigDecimal productPrice;
@@ -33,12 +33,12 @@ public class ProductServiceModel extends BaseServiceModel {
         this.productName = productName;
     }
 
-    public String getBarcode() {
-        return barcode;
+    public String getProductNameLatin() {
+        return productNameLatin;
     }
 
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
+    public void setProductNameLatin(String productNameLatin) {
+        this.productNameLatin = productNameLatin;
     }
 
     public String getImgUrl() {

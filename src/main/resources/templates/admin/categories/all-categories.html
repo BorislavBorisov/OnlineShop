@@ -13,6 +13,7 @@
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
 <div class="container mt-5">
+
     <th:block th:if="${#lists.isEmpty(allCategories)}">
         <h1>Няма катергоии</h1>
         <a th:href="@{/admin/categories/add}" class="btn btn-success">Добави категория</a>

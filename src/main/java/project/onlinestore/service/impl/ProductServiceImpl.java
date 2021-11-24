@@ -6,7 +6,7 @@ import project.onlinestore.domain.entities.ProductEntity;
 import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.repository.ProductRepository;
-import project.onlinestore.service.CategoryService;
+import project.onlinestore.service.BaseService;
 import project.onlinestore.service.ProductService;
 
 import java.time.Instant;
@@ -14,15 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends BaseService implements ProductService {
 
     private final ProductRepository productRepository;
-    private final CategoryService categoryService;
     private final ModelMapper modelMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
-        this.categoryService = categoryService;
         this.modelMapper = modelMapper;
     }
 
@@ -45,6 +43,8 @@ public class ProductServiceImpl implements ProductService {
 
         if (byName == null && byCode == null) {
             ProductEntity product = this.modelMapper.map(productServiceModel, ProductEntity.class);
+            product.setProductNameLatin(translate(productServiceModel.getProductName()));
+            product.setInStock(0);
             return this.modelMapper.map(this.productRepository.save(product), ProductServiceModel.class);
         }
 
@@ -66,9 +66,9 @@ public class ProductServiceImpl implements ProductService {
 
         product.setProductName(productServiceModel.getProductName())
                 .setProductCode(productServiceModel.getProductCode())
-                .setBarcode(productServiceModel.getBarcode())
                 .setProductPrice(productServiceModel.getProductPrice())
                 .setDescription(productServiceModel.getDescription())
+                .setProductNameLatin(translate(productServiceModel.getProductName()))
                 .setModified(Instant.now());
 
         return this.modelMapper.map(this.productRepository.save(product), ProductServiceModel.class);
@@ -102,4 +102,13 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("Invalid product ID!");
         }
     }
+
+    @Override
+    public ProductViewModel getProductByNameLatin(String nameLatin) {
+        return this.modelMapper.map(
+                this.productRepository.findByProductNameLatin(nameLatin).orElseThrow(() ->
+                        new IllegalArgumentException("Invalid product")), ProductViewModel.class
+        );
+    }
+
 }
