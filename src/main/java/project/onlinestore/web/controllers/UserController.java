@@ -90,7 +90,7 @@ public class UserController {
 
     @PostMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    public String profileUpdateConfirm(@Valid UserEditBindingModel userEditBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
+    public String profileUpdateConfirm(@Valid UserEditBindingModel userEditBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
 
         if (bindingResult.hasErrors()) {
@@ -114,11 +114,16 @@ public class UserController {
             user.setImgUrl(this.cloudinaryService.uploadImage(imageBindingModel.getImage()));
             this.userService.changeProfilePicture(user);
 
-            return "redirect:/users/profile";
+            return "redirect:profile";
         }
         return "redirect:/shop/categories";
     }
 
+    @GetMapping("/cart")
+    @PreAuthorize("isAuthenticated()")
+    public String usersCart() {
+        return "shop/cart";
+    }
 
     @ModelAttribute
     public UserRegisterBindingModel userRegisterBindingModel() {

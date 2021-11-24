@@ -104,10 +104,10 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     }
 
     @Override
-    public ProductViewModel getProductByNameLatin(String nameLatin) {
+    public ProductServiceModel findProductByNameLatin(String nameLatin) {
         return this.modelMapper.map(
                 this.productRepository.findByProductNameLatin(nameLatin).orElseThrow(() ->
-                        new IllegalArgumentException("Invalid product")), ProductViewModel.class
+                        new IllegalArgumentException("Invalid product")), ProductServiceModel.class
         );
     }
 }

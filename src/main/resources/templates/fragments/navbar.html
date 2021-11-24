@@ -66,12 +66,8 @@
                         </li>
 
                         <th:block sec:authorize="hasRole('ROLE_CLIENT')">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Поръчки</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" th:href="@{/client/users}">Поръчки</a>
-                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/users/cart}">Количка</a>
                             </li>
                         </th:block>
 
@@ -80,6 +76,7 @@
                                aria-haspopup="true" aria-expanded="false">Профил</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" th:href="@{/users/profile}">Информация</a>
+                                <a class="dropdown-item" th:href="@{/users/orders}">Поръчки</a>
                                 <form action="/logout?login" method="post">
                                     <button class="dropdown-item">Изход</button>
                                 </form>
