@@ -24,4 +24,7 @@ public interface CategoryService {
     boolean editImageCategory(CategoryServiceModel categoryServiceModel);
 
     List<ProductViewModel> getAllProductsByCategoryName(String nameLatin);
+
+
+    List<ProductViewModel> getSimilarProducts(String categoryNameLatin, String nameLatin);
 }

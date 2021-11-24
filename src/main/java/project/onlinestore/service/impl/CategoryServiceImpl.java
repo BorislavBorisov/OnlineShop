@@ -113,7 +113,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
 
     }
 
-
     @Override
     public List<ProductViewModel> getAllProductsByCategoryName(String nameLatin) {
         CategoryEntity category = this.categoryRepository.findByNameLatin(nameLatin)
@@ -121,6 +120,19 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
 
         return category.getProducts()
                 .stream()
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductViewModel> getSimilarProducts(String categoryNameLatin, String nameLatin) {
+        CategoryEntity category = this.categoryRepository.findByNameLatin(categoryNameLatin)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category"));
+
+        return category.getProducts()
+                .stream()
+                .limit(4)
+                .filter(p -> !p.getProductNameLatin().equals(nameLatin))
                 .map(p -> this.modelMapper.map(p, ProductViewModel.class))
                 .collect(Collectors.toList());
     }

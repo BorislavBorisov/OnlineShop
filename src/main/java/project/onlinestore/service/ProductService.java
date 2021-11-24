@@ -20,4 +20,5 @@ public interface ProductService {
     boolean editImageCategory(ProductServiceModel productServiceModel);
 
     ProductViewModel getProductByNameLatin(String nameLatin);
+
 }

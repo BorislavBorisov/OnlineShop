@@ -110,5 +110,4 @@ public class ProductServiceImpl extends BaseService implements ProductService {
                         new IllegalArgumentException("Invalid product")), ProductViewModel.class
         );
     }
-
 }

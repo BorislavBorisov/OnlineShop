@@ -11,38 +11,44 @@
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-<div class="container">
-    <div class="card">
-        <div class="card-body" th:object="${product}">
-            <h3 class="card-title mb-3" th:text="*{productName}"></h3>
-            <div class="row">
-                <div class="col-lg-5 col-md-5 col-sm-6">
-                    <div class="white-box text-center">
-                        <img th:src="*{imgUrl}" class="img-responsive"></div>
-                </div>
-                <div class="col-lg-7 col-md-7 col-sm-6">
-                    <h2 class="mt-5">Продуктов код: <span th:text="*{productCode}"></span></h2>
-                    <h2 class="mt-5">Баркод: <span th:text="*{barcode}"></span></h2>
-                    <th:block th:if="*{inStock==0}">
-                        <h2 class="mt-5">Налчичност: <span th:text="*{inStock}"></span></h2>
-                    </th:block>
-                    <th:block th:unless="*{inStock==0}">
-                        <h2 class="mt-5">Налчичност: <span>Неналичен</span></h2>
-                    </th:block>
-                    <h2 class="mt-5">Цена: <span th:text="*{productPrice}"></span></h2>
-                    <button class="btn btn-primary btn-rounded">Buy Now</button>
-                </div>
-                <div class="col-lg-7 col-md-7 col-sm-6">
-                    <h4 class="box-title mt-5">Описание</h4>
+<!--Main layout-->
+<main class="mt-5 pt-4">
+    <div class="container dark-grey-text">
+        <div class="row wow fadeIn" th:object="${product}">
+            <h1 th:text="*{productName}"></h1>
+            <div class="col-md-6 mb-4">
+                <img th:src="*{imgUrl}" class="img-fluid"
+                     alt="">
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="p-4">
+                    <h2 th:text="|*{productPrice} лв.|"></h2>
+                    <p class="lead font-weight-bold">Кратко описание</p>
                     <p th:text="*{description}"></p>
-
+                    <form class="d-flex justify-content-left">
+                        <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+                        <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+                            <i class="fas fa-shopping-cart ml-1"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
+        <hr>
+        <div class="row d-flex justify-content-center wow fadeIn">
+            <div class="col-md-6 text-center">
+                <h4 class="my-4 h4">Подобни Продукти</h4>
+            </div>
+        </div>
+        <div class="row wow fadeIn">
+            <div class="col-lg-4 col-md-12 mb-4" th:each="p : ${similarProducts}">
+                <h4 class="text-center" th:text="${p.getProductName()}"></h4>
+                <a th:href="@{/shop/article/{nameLatin}(nameLatin=${p.productNameLatin})}">
+                    <img th:src="${p.imgUrl}" class="img-fluid" alt=""></a>
+            </div>
+        </div>
     </div>
-</div>
+</main>
 
 <footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">
     <th:block th:include="~{fragments/footer}"></th:block>
