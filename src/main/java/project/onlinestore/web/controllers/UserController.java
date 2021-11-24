@@ -15,6 +15,7 @@ import project.onlinestore.domain.binding.ImageBindingModel;
 import project.onlinestore.domain.binding.UserEditBindingModel;
 import project.onlinestore.domain.binding.UserRegisterBindingModel;
 import project.onlinestore.domain.service.UserServiceModel;
+import project.onlinestore.service.CartService;
 import project.onlinestore.service.CloudinaryService;
 import project.onlinestore.service.UserService;
 
@@ -28,11 +29,13 @@ public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final CartService cartService;
     private final CloudinaryService cloudinaryService;
 
-    public UserController(UserService userService, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
+    public UserController(UserService userService, ModelMapper modelMapper, CartService cartService, CloudinaryService cloudinaryService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.cartService = cartService;
         this.cloudinaryService = cloudinaryService;
     }
 
@@ -121,7 +124,8 @@ public class UserController {
 
     @GetMapping("/cart")
     @PreAuthorize("isAuthenticated()")
-    public String usersCart() {
+    public String usersCart(Model model, Principal principal) {
+        model.addAttribute("cart", this.cartService.getCartByUserName(principal.getName()));
         return "shop/cart";
     }
 

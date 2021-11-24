@@ -1,16 +1,18 @@
-package project.onlinestore.domain.service;
+package project.onlinestore.domain.view;
+
+import project.onlinestore.domain.service.ProductServiceModel;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public class CartServiceModel {
+public class CartViewModel {
 
     private Long id;
     private List<ProductServiceModel> products;
     private Integer count;
     private BigDecimal totalPrice;
 
-    public CartServiceModel() {
+    public CartViewModel() {
     }
 
     public Long getId() {

@@ -13,12 +13,13 @@ public class CartEntity extends BaseEntity {
     private Integer count;
     private BigDecimal totalPrice;
     private UserEntity user;
+    private Boolean isActive;
 
     public CartEntity() {
         this.products = new ArrayList<>();
     }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     public List<ProductEntity> getProducts() {
         return products;
     }
@@ -47,12 +48,22 @@ public class CartEntity extends BaseEntity {
         this.totalPrice = totalPrice;
     }
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.EAGER)
     public UserEntity getUser() {
         return user;
     }
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    @Basic
+    @Column
+    public Boolean getDone() {
+        return isActive;
+    }
+
+    public void setDone(Boolean done) {
+        isActive = done;
     }
 }

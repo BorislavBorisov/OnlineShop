@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import project.onlinestore.domain.entities.CartEntity;
 import project.onlinestore.domain.entities.ProductEntity;
 import project.onlinestore.domain.entities.UserEntity;
+import project.onlinestore.domain.service.CartServiceModel;
 import project.onlinestore.domain.service.ProductServiceModel;
+import project.onlinestore.domain.view.CartViewModel;
 import project.onlinestore.repository.CartRepository;
 import project.onlinestore.service.CartService;
 import project.onlinestore.service.ProductService;
@@ -27,13 +29,26 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addProductToCart(String productNameLatin, String name) {
+    public CartServiceModel addProductToCart(String productNameLatin, String name) {
         ProductServiceModel product = this.productService.findProductByNameLatin(productNameLatin);
+        CartEntity isExist = this.cartRepository.findCartEntityByUser(this.modelMapper.map(
+                this.userService.findUserByUsername(name), UserEntity.class)
+        );
 
+        if (isExist == null) {
+            CartEntity cartEntity = new CartEntity();
+            cartEntity.getProducts().add(this.modelMapper.map(product, ProductEntity.class));
+            cartEntity.setUser(this.modelMapper.map(this.userService.findUserByUsername(name), UserEntity.class));
+            return this.modelMapper.map(this.cartRepository.save(cartEntity), CartServiceModel.class);
+        }
 
-        CartEntity cartEntity = new CartEntity();
-        cartEntity.getProducts().add(this.modelMapper.map(product, ProductEntity.class));
-        cartEntity.setUser(this.modelMapper.map(this.userService.findUserByUsername(name), UserEntity.class));
-        this.cartRepository.save(cartEntity);
+        isExist.getProducts().add(this.modelMapper.map(product, ProductEntity.class));
+        return this.modelMapper.map(this.cartRepository.save(isExist), CartServiceModel.class);
+    }
+
+    @Override
+    public CartViewModel getCartByUserName(String name) {
+        return this.modelMapper.map(
+                this.cartRepository.findCartByUserUsername(name), CartViewModel.class);
     }
 }

@@ -18,9 +18,7 @@ public class CartController {
 
     @PostMapping("users/cart/add/{productNameLatin}")
     public String addProductToCart(@PathVariable String productNameLatin, Principal principal) {
-        System.out.println();
         this.cartService.addProductToCart(productNameLatin, principal.getName());
-        System.out.println();
         return "redirect:/users/cart";
     }
 }
