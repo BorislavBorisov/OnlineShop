@@ -1,14 +1,12 @@
 package project.onlinestore.domain.view;
 
-import project.onlinestore.domain.service.ProductServiceModel;
-
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Map;
 
 public class CartViewModel {
 
     private Long id;
-    private List<ProductServiceModel> products;
+    private Map<String, Integer> products;
     private Integer count;
     private BigDecimal totalPrice;
 
@@ -23,11 +21,11 @@ public class CartViewModel {
         this.id = id;
     }
 
-    public List<ProductServiceModel> getProducts() {
+    public Map<String, Integer> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductServiceModel> products) {
+    public void setProducts(Map<String, Integer> products) {
         this.products = products;
     }
 

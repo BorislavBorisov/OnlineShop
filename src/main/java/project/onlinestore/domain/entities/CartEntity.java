@@ -2,29 +2,29 @@ package project.onlinestore.domain.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Entity
 @Table(name = "cart")
 public class CartEntity extends BaseEntity {
 
-    private List<ProductEntity> products;
+    private Map<String, Integer> products;
     private Integer count;
     private BigDecimal totalPrice;
     private UserEntity user;
     private Boolean isActive;
 
     public CartEntity() {
-        this.products = new ArrayList<>();
+        this.products = new TreeMap<>();
     }
 
-    @OneToMany(fetch = FetchType.EAGER)
-    public List<ProductEntity> getProducts() {
+    @ElementCollection
+    public Map<String, Integer> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductEntity> products) {
+    public void setProducts(Map<String, Integer> products) {
         this.products = products;
     }
 
@@ -65,5 +65,15 @@ public class CartEntity extends BaseEntity {
 
     public void setDone(Boolean done) {
         isActive = done;
+    }
+
+    @Basic
+    @Column
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

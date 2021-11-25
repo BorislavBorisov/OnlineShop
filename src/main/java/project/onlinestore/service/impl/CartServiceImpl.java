@@ -13,6 +13,9 @@ import project.onlinestore.service.CartService;
 import project.onlinestore.service.ProductService;
 import project.onlinestore.service.UserService;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -29,20 +32,33 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartServiceModel addProductToCart(String productNameLatin, String name) {
+    public CartServiceModel addProductToCart(String productNameLatin, Integer qty, String username) {
         ProductServiceModel product = this.productService.findProductByNameLatin(productNameLatin);
         CartEntity isExist = this.cartRepository.findCartEntityByUser(this.modelMapper.map(
-                this.userService.findUserByUsername(name), UserEntity.class)
+                this.userService.findUserByUsername(username), UserEntity.class)
         );
 
         if (isExist == null) {
             CartEntity cartEntity = new CartEntity();
-            cartEntity.getProducts().add(this.modelMapper.map(product, ProductEntity.class));
-            cartEntity.setUser(this.modelMapper.map(this.userService.findUserByUsername(name), UserEntity.class));
+            cartEntity.getProducts().put(productNameLatin, qty);
+            cartEntity.setUser(this.modelMapper.map(this.userService.findUserByUsername(username), UserEntity.class));
+            cartEntity.setRegistered(Instant.now());
+            cartEntity.setActive(true);
+            cartEntity.setCount(cartEntity.getProducts()
+                    .values()
+                    .stream()
+                    .reduce(0, Integer::sum));
+
+//            BigDecimal sum = new BigDecimal(0);
+//            for (String p : cartEntity.getProducts().keySet()) {
+//                ProductServiceModel productByNameLatin = this.productService.findProductByNameLatin(p);
+//                sum.add(productByNameLatin.getProductPrice());
+//            }
+
             return this.modelMapper.map(this.cartRepository.save(cartEntity), CartServiceModel.class);
         }
 
-        isExist.getProducts().add(this.modelMapper.map(product, ProductEntity.class));
+//        isExist.getProducts().add(this.modelMapper.map(product, ProductEntity.class));
         return this.modelMapper.map(this.cartRepository.save(isExist), CartServiceModel.class);
     }
 

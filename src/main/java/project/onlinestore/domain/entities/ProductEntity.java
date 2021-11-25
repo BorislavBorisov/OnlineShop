@@ -2,8 +2,6 @@ package project.onlinestore.domain.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity
 @Table(name = "products")

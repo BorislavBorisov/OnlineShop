@@ -138,4 +138,5 @@ public class UserController {
     public UserEditBindingModel userEditBindingModel() {
         return new UserEditBindingModel();
     }
+
 }

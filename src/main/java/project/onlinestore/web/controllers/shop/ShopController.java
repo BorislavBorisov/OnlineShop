@@ -4,8 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import project.onlinestore.domain.binding.ProductAddToCartCountBindingModel;
 import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.service.CategoryService;
@@ -43,5 +45,10 @@ public class ShopController {
         model.addAttribute("product", this.modelMapper.map(product, ProductViewModel.class));
         model.addAttribute("similarProducts", this.categoryService.getSimilarProducts(product.getCategory().getNameLatin(), nameLatin));
         return "/shop/details";
+    }
+
+    @ModelAttribute
+    public ProductAddToCartCountBindingModel productAddToCartBindingModel() {
+        return new ProductAddToCartCountBindingModel();
     }
 }
