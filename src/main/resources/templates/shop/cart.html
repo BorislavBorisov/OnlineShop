@@ -23,6 +23,7 @@
     </main>
 </th:block>
 
+
 <th:block th:unless="${cart == null}">
     <div class="container px-3 my-5 clearfix">
         <div class="card">
@@ -44,22 +45,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="p : ${cart.getProducts()}" th:object="${p}">
+                        <tr th:each="p : ${cart}" th:object="${p.product}">
                             <td class="p-4">
                                 <div class="media align-items-center">
                                     <img th:src="*{imgUrl}" class="d-block ui-w-40 ui-bordered mr-4"
                                          width="100" height="100" alt="">
                                     <div class="media-body">
-                                        <a th:href="@{/shop/article/{nameLatin}(nameLatin=${p.productNameLatin})}"
-                                           class="d-block text-dark" th:text="*{productCode}">Product 1</a>
+                                        <a th:href="@{/shop/article/{nameLatin}(nameLatin=*{productNameLatin})}"
+                                           class="d-block text-dark" th:text="*{productName}">Product 1</a>
                                     </div>
                                 </div>
-                                <div th:text="*{productName}"></div>
+                                <div></div>
                             </td>
 
                             <td class="text-right font-weight-semibold align-middle p-4" th:text="*{productPrice}"></td>
-                            <td class="align-middle p-4" th:text="*{productPrice}"></td>
-                            <td class="text-right font-weight-semibold align-middle p-4">$115.1</td>
+                            <td class="align-middle p-4" th:text="${p.qty}"></td>
+                            <td class="text-right font-weight-semibold align-middle p-4" th:text="${p.qty}">$115.1
+                            </td>
                             <td class="text-center align-middle px-0">
                                 <a href="#" class="shop-tooltip close float-none text-danger" title=""
                                    data-original-title="Remove">×</a>
@@ -77,15 +79,16 @@
 
                         <div class="text-right mt-4">
                             <label class="text-muted font-weight-normal m-0">Total price</label>
-                            <div class="text-large"><strong>$1164.65</strong></div>
+                            <div class="text-large" th:text="${totalSum}"><strong>$1164.65</strong></div>
                         </div>
                     </div>
                 </div>
 
             </div>
-        </div>
-    </div>
 </th:block>
+</div>
+</div>
+
 
 <footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">
     <th:block th:include="~{fragments/footer}"></th:block>

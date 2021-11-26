@@ -19,7 +19,6 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String phoneNumber;
     private String country;
     private String city;
-    private CartEntity cart;
 
     public UserEntity() {
     }
@@ -140,14 +139,6 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return this;
     }
 
-    @OneToOne
-    public CartEntity getCart() {
-        return cart;
-    }
-
-    public void setCart(CartEntity cart) {
-        this.cart = cart;
-    }
 
     @Override
     @Transient

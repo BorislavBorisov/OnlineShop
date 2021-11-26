@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import project.onlinestore.domain.binding.ProductAddToCartCountBindingModel;
 import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.service.CategoryService;
@@ -47,8 +46,4 @@ public class ShopController {
         return "/shop/details";
     }
 
-    @ModelAttribute
-    public ProductAddToCartCountBindingModel productAddToCartBindingModel() {
-        return new ProductAddToCartCountBindingModel();
-    }
 }

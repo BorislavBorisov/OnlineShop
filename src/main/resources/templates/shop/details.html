@@ -26,15 +26,10 @@
                     <h2 th:text="|${product.productPrice} лв.|"></h2>
                     <p class="lead font-weight-bold">Кратко описание</p>
                     <p th:text="${product.description}"></p>
-                    <form class="d-flex justify-content-left"
-                          th:action="@{/users/cart/add/{nameLatin}(nameLatin=${product.productNameLatin})}"
-                          th:method="post">
-                        <input th:field="${productAddToCartCountBindingModel.qty}" type="number" value="1"
-                               aria-label="Search" class="form-control" style="width: 100px">
-                        <button class="btn btn-primary btn-md my-0 p" type="submit">Добави
-                            <i class="fas fa-shopping-cart ml-1"></i>
-                        </button>
-                    </form>
+                    <a th:href="@{/buy/{id}(id=${product.id})}"
+                       class="btn btn-primary btn-md my-0 p" type="submit">Добави към количката
+                        <i class="fas fa-shopping-cart ml-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
