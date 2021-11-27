@@ -132,5 +132,10 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(this.modelMapper.map(userServiceModel, UserEntity.class));
     }
 
+    @Override
+    public void saveUser(UserEntity user) {
+        this.userRepository.save(user);
+    }
+
 
 }

@@ -1,13 +1,15 @@
 package project.onlinestore.service;
 
+import project.onlinestore.domain.entities.ProductEntity;
 import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
 
-   List<ProductViewModel> findAllProducts();
+    List<ProductViewModel> findAllProducts();
 
     ProductServiceModel addProduct(ProductServiceModel productServiceModel);
 
@@ -20,5 +22,6 @@ public interface ProductService {
     boolean editImageCategory(ProductServiceModel productServiceModel);
 
     ProductServiceModel findProductByNameLatin(String nameLatin);
+
 
 }

@@ -6,11 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import project.onlinestore.domain.service.Item;
+import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
+import project.onlinestore.service.CartService;
 import project.onlinestore.service.ProductService;
 
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,30 +22,30 @@ public class CartController {
     private List<Item> cart;
 
     private final ProductService productService;
+    private final CartService cartService;
     private final ModelMapper modelMapper;
 
-    public CartController(ProductService productService, ModelMapper modelMapper) {
+    public CartController(ProductService productService, CartService cartService, ModelMapper modelMapper) {
         this.productService = productService;
+        this.cartService = cartService;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping("/cart")
-    public String getCart(Model model) {
-        if (this.cart != null) {
-            model.addAttribute("cart", this.cart);
-
-            BigDecimal sum = new BigDecimal(0);
-            for (Item item : cart) {
-                sum = sum.add(item.getTotalSum());
-            }
-            model.addAttribute("totalSum", sum);
+    public String getCart(Model model, Principal principal) {
+        List<Item> cartByUsername = this.cartService.findCartByUsername(principal.getName());
+        model.addAttribute("cart", cartByUsername);
+        BigDecimal totalSum = new BigDecimal(0);
+        for (Item item : cartByUsername) {
+            totalSum = totalSum.add(item.getProduct().getProductPrice().multiply(BigDecimal.valueOf(item.getQty())));
         }
+        model.addAttribute("totalSum", totalSum);
 
         return "/shop/cart";
     }
 
     @GetMapping("/buy/{id}")
-    public String buy(@PathVariable Long id) {
+    public String buy(@PathVariable Long id, Principal principal) {
         if (this.cart == null) {
             this.cart = new ArrayList<>();
             cart.add(new Item(this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class), 1));
@@ -56,14 +58,17 @@ public class CartController {
                 this.cart.get(index).setQty(newQty);
             }
         }
+        this.cartService.update(this.cart, principal.getName());
         return "redirect:/cart";
     }
 
     @GetMapping("/remove/{id}")
-    public String remove(@PathVariable Long id) {
-        this.cart.remove(exists(id, this.cart));
-        return"redirect:/cart";
-}
+    public String remove(@PathVariable Long id, Principal principal) {
+        ProductViewModel map = this.modelMapper.map(this.productService.findProductById(id), ProductViewModel.class);
+//        this.cart.remove(exists(id, this.cart));
+        this.cartService.remove(map, principal.getName());
+        return "redirect:/cart";
+    }
 
 
     private int exists(Long id, List<Item> cart) {

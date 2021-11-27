@@ -19,6 +19,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String phoneNumber;
     private String country;
     private String city;
+    private CartEntity cartEntity;
 
     public UserEntity() {
     }
@@ -139,6 +140,14 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return this;
     }
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    public CartEntity getCartEntity() {
+        return cartEntity;
+    }
+
+    public void setCartEntity(CartEntity cartEntity) {
+        this.cartEntity = cartEntity;
+    }
 
     @Override
     @Transient

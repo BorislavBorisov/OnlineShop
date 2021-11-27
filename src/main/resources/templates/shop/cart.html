@@ -48,7 +48,7 @@
                         <tr th:each="p : ${cart}" th:object="${p.product}">
                             <td class="p-4">
                                 <div class="media align-items-center">
-                                    <img th:src="*{imgUrl}" class="d-block ui-w-40 ui-bordered mr-4"
+                                    <img th:src="${p.product.imgUrl}" class="d-block ui-w-40 ui-bordered mr-4"
                                          width="100" height="100" alt="">
                                     <div class="media-body">
                                         <a th:href="@{/shop/article/{nameLatin}(nameLatin=*{productNameLatin})}"
@@ -64,7 +64,8 @@
                             >$115.1
                             </td>
                             <td class="text-center align-middle px-0">
-                                <a th:href="@{/remove/{id}(id=*{id})}" class="shop-tooltip close float-none text-danger" title=""
+                                <a th:href="@{/remove/{id}(id=${p.product.id})}"
+                                   class="shop-tooltip close float-none text-danger" title=""
                                    data-original-title="Remove">X</a>
                             </td>
                         </tr>

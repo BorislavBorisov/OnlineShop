@@ -1,5 +1,7 @@
 package project.onlinestore.domain.service;
 
+import project.onlinestore.domain.entities.CartEntity;
+
 import java.util.Set;
 
 public class UserServiceModel extends BaseServiceModel{
@@ -14,6 +16,7 @@ public class UserServiceModel extends BaseServiceModel{
     private String phoneNumber;
     private String country;
     private String city;
+    private CartEntity cartEntity;
 
     public UserServiceModel() {
     }
@@ -96,5 +99,13 @@ public class UserServiceModel extends BaseServiceModel{
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public CartEntity getCartEntity() {
+        return cartEntity;
+    }
+
+    public void setCartEntity(CartEntity cartEntity) {
+        this.cartEntity = cartEntity;
     }
 }
