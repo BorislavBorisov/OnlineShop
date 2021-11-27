@@ -48,7 +48,7 @@ public class CartServiceImpl implements CartService {
                 } else {
                     for (Map.Entry<String, Integer> p : cartEntity.getCart().entrySet()) {
                         if (item.getProduct().getProductName().equals(p.getKey())) {
-                            p.setValue(p.getValue() + item.getQty());
+                            p.setValue(item.getQty());
                         }
                     }
                 }
@@ -70,7 +70,7 @@ public class CartServiceImpl implements CartService {
                 } else {
                     for (Map.Entry<String, Integer> p : cartEntity.getCart().entrySet()) {
                         if (item.getProduct().getProductName().equals(p.getKey())) {
-                            p.setValue(p.getValue() + item.getQty());
+                            p.setValue(item.getQty());
                         }
                     }
                 }
@@ -100,7 +100,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public void remove(ProductViewModel productViewModel, String username) {
         UserEntity user = this.modelMapper.map(this.userService.findUserByUsername(username), UserEntity.class);
-        CartEntity cartEntity = user.getCartEntity();
-
+        Map<String, Integer> cart = user.getCartEntity().getCart();
+        cart.remove(productViewModel.getProductName());
+this.cartRepository.save(user.getCartEntity());
     }
 }
