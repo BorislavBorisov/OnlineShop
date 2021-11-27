@@ -60,11 +60,12 @@
 
                             <td class="text-right font-weight-semibold align-middle p-4" th:text="*{productPrice}"></td>
                             <td class="align-middle p-4" th:text="${p.qty}"></td>
-                            <td class="text-right font-weight-semibold align-middle p-4" th:text="${p.qty}">$115.1
+                            <td class="text-right font-weight-semibold align-middle p-4"
+                            >$115.1
                             </td>
                             <td class="text-center align-middle px-0">
-                                <a href="#" class="shop-tooltip close float-none text-danger" title=""
-                                   data-original-title="Remove">×</a>
+                                <a th:href="@{/remove/{id}(id=*{id})}" class="shop-tooltip close float-none text-danger" title=""
+                                   data-original-title="Remove">X</a>
                             </td>
                         </tr>
                         </tbody>
@@ -85,9 +86,9 @@
                 </div>
 
             </div>
+        </div>
+    </div>
 </th:block>
-</div>
-</div>
 
 
 <footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">

@@ -59,6 +59,13 @@ public class CartController {
         return "redirect:/cart";
     }
 
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable Long id) {
+        this.cart.remove(exists(id, this.cart));
+        return"redirect:/cart";
+}
+
+
     private int exists(Long id, List<Item> cart) {
         for (int i = 0; i < cart.size(); i++) {
             if (cart.get(i).getProduct().getId().equals(id)) {
