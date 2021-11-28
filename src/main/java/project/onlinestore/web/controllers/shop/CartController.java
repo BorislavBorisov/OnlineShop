@@ -40,6 +40,7 @@ public class CartController {
     public String getCart(Model model, Principal principal) {
         List<Item> cartByUsername = this.cartService.findCartByUsername(principal.getName());
         model.addAttribute("cart", cartByUsername);
+        model.addAttribute("user", principal.getName());
         if (cartByUsername.size() == 0) {
             return "/shop/cart";
         }

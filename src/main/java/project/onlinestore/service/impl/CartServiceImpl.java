@@ -82,9 +82,10 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Item> findCartByUsername(String name) {
-        UserServiceModel userByUsername = this.userService.findUserByUsername(name);
+        UserServiceModel userByUsername1 = this.userService.findUserByUsername(name);
+        UserEntity userByUsername = this.modelMapper.map(userByUsername1, UserEntity.class);
         List<Item> out = new ArrayList<>();
-        if (userByUsername.getCartEntity() == null) {
+        if (userByUsername.getCartEntity() == null || userByUsername.getCartEntity().getCart().size() == 0) {
             return out;
         }
         Map<String, Integer> cart = userByUsername.getCartEntity().getCart();
@@ -107,5 +108,16 @@ public class CartServiceImpl implements CartService {
         cart.remove(productViewModel.getProductName());
 
         this.cartRepository.save(user.getCartEntity());
+    }
+
+
+    @Override
+    public CartEntity findCartEntityByUsername(String user) {
+        return this.cartRepository.findCartEntityByUsername(user);
+    }
+
+    @Override
+    public void saveCart(CartEntity cartEntityByUsername) {
+        this.cartRepository.save(cartEntityByUsername);
     }
 }

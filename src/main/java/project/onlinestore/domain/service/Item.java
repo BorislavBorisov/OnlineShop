@@ -8,7 +8,7 @@ public class Item {
 
     private ProductViewModel product;
     private int qty;
-    private BigDecimal totalSum;
+    private BigDecimal currentSumOfProduct;
 
     public Item() {
     }
@@ -34,12 +34,12 @@ public class Item {
         this.qty = qty;
     }
 
-    public BigDecimal getTotalSum() {
+    public BigDecimal getCurrentSumOfProduct() {
         return product.getProductPrice().multiply(BigDecimal.valueOf(qty));
     }
 
-    public void setTotalSum(BigDecimal totalSum) {
-        this.totalSum = totalSum;
+    public void setCurrentSumOfProduct(BigDecimal currentSumOfProduct) {
+        this.currentSumOfProduct = currentSumOfProduct;
     }
 
 }

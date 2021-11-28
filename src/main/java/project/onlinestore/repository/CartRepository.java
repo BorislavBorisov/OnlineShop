@@ -6,4 +6,5 @@ import project.onlinestore.domain.entities.CartEntity;
 
 @Repository
 public interface CartRepository extends JpaRepository<CartEntity, Long> {
+    CartEntity findCartEntityByUsername(String user);
 }

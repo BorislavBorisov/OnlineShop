@@ -1,5 +1,6 @@
 package project.onlinestore.service;
 
+import project.onlinestore.domain.entities.CartEntity;
 import project.onlinestore.domain.service.Item;
 import project.onlinestore.domain.view.ProductViewModel;
 
@@ -11,4 +12,9 @@ public interface CartService {
     List<Item> findCartByUsername(String name);
 
     void remove(ProductViewModel productViewModel, String username);
+
+
+    CartEntity findCartEntityByUsername(String user);
+
+    void saveCart(CartEntity cartEntityByUsername);
 }
