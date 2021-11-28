@@ -24,4 +24,5 @@ public interface ProductService {
     ProductServiceModel findProductByNameLatin(String nameLatin);
 
 
+    ProductEntity findProductByName(String key);
 }

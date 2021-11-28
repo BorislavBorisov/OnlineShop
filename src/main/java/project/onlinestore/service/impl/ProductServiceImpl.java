@@ -112,4 +112,9 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         );
     }
 
+    @Override
+    public ProductEntity findProductByName(String key) {
+        return this.productRepository.findByProductName(key).orElse(null);
+    }
+
 }

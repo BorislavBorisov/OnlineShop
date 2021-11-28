@@ -11,7 +11,7 @@
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
 
-<th:block th:if="${cart == null}">
+<th:block th:if="${cart.size()==0}">
     <!--Main layout-->
     <main class="mt-5 pt-4">
         <div class="container dark-grey-text">
@@ -24,7 +24,7 @@
 </th:block>
 
 
-<th:block th:unless="${cart == null}">
+<th:block th:unless="${cart.size()==0}">
     <div class="container px-3 my-5 clearfix">
         <div class="card">
             <div class="card-header">
