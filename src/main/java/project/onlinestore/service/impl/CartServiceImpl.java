@@ -28,7 +28,8 @@ public class CartServiceImpl implements CartService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
 
-    public CartServiceImpl(UserService userService, CartRepository cartRepository, ProductService productService, ProductRepository productRepository, ModelMapper modelMapper) {
+    public CartServiceImpl(UserService userService, CartRepository cartRepository,
+                           ProductService productService, ProductRepository productRepository, ModelMapper modelMapper) {
         this.userService = userService;
         this.cartRepository = cartRepository;
         this.productService = productService;
@@ -88,8 +89,12 @@ public class CartServiceImpl implements CartService {
         if (userByUsername.getCartEntity() == null || userByUsername.getCartEntity().getCart().size() == 0) {
             return out;
         }
-        Map<String, Integer> cart = userByUsername.getCartEntity().getCart();
 
+        if (!userByUsername.getCartEntity().getActive()) {
+            return out;
+        }
+
+        Map<String, Integer> cart = userByUsername.getCartEntity().getCart();
 
         for (Map.Entry<String, Integer> s : cart.entrySet()) {
             String key = s.getKey();
@@ -119,5 +124,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void saveCart(CartEntity cartEntityByUsername) {
         this.cartRepository.save(cartEntityByUsername);
+    }
+
+    @Override
+    public CartEntity findById(Long id) {
+        return this.cartRepository.findById(id).orElse(null);
     }
 }

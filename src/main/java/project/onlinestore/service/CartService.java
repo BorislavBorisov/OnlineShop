@@ -13,8 +13,9 @@ public interface CartService {
 
     void remove(ProductViewModel productViewModel, String username);
 
-
     CartEntity findCartEntityByUsername(String user);
 
     void saveCart(CartEntity cartEntityByUsername);
+
+    CartEntity findById(Long id);
 }
