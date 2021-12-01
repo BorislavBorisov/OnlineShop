@@ -28,7 +28,7 @@ public class UsersController {
     }
 
     @GetMapping("/users")
-        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
     public String allUsers(Model model) {
         List<UserViewModel> users = this.userService.getAllUsers()
                 .stream()
@@ -47,21 +47,21 @@ public class UsersController {
     }
 
     @PostMapping("/users/set-admin/{id}")
-        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String setAdmin(@PathVariable Long id) {
         this.userService.setUserRole(id, "admin");
         return "redirect:/admin/users";
     }
 
     @PostMapping("/users/set-moderator/{id}")
-        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String setModerator(@PathVariable Long id) {
         this.userService.setUserRole(id, "moderator");
         return "redirect:/admin/users";
     }
 
     @PostMapping("/users/set-client/{id}")
-        @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String setClient(@PathVariable Long id) {
         this.userService.setUserRole(id, "client");
         return "redirect:/admin/users";

@@ -1,7 +1,5 @@
 package project.onlinestore.domain.service;
 
-import java.util.List;
-
 public class CategoryServiceModel extends BaseServiceModel{
 
     private String name;

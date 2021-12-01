@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.onlinestore.domain.binding.CategoryAddBindingModel;
 import project.onlinestore.domain.service.CategoryServiceModel;
@@ -47,14 +48,20 @@ public class CategoriesController {
     @PostMapping("/categories/add")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String addCategoryConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+        CategoryServiceModel categoryServiceModel = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
+        if (categoryAddBindingModel.getImage() == null) {
+            categoryServiceModel.setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1638364042/empty_kk164n.jpg");
+        } else {
+            categoryServiceModel.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
+        }
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoryAddBindingModel", bindingResult);
 
-            return "redirect:add";
+            return "redirect:/category/add";
         }
-        CategoryServiceModel categoryServiceModel = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
-        categoryServiceModel.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
+
         this.categoryService.addCategory(categoryServiceModel);
         return "redirect:/admin/categories";
     }

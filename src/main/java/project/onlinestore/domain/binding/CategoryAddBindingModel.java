@@ -21,16 +21,18 @@ public class CategoryAddBindingModel {
         return name;
     }
 
-    public void setName(String name) {
+    public CategoryAddBindingModel setName(String name) {
         this.name = name;
+        return this;
     }
 
     public MultipartFile getImage() {
         return image;
     }
 
-    public void setImage(MultipartFile image) {
+    public CategoryAddBindingModel setImage(MultipartFile image) {
         this.image = image;
+        return this;
     }
 
     @NotNull(message = "Полето е задължително!")
@@ -39,7 +41,8 @@ public class CategoryAddBindingModel {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    public CategoryAddBindingModel setPosition(Integer position) {
         this.position = position;
+        return this;
     }
 }
