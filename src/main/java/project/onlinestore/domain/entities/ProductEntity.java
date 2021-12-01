@@ -31,8 +31,8 @@ public class ProductEntity extends BaseEntity {
         return this;
     }
 
-    @Basic
-    @Column(name = "product_name", nullable = false, unique = true, columnDefinition = "TEXT", length = 500)
+    @Lob
+//    @Column(name = "product_name", nullable = false, unique = true)
     public String getProductName() {
         return productName;
     }
@@ -86,8 +86,7 @@ public class ProductEntity extends BaseEntity {
         return this;
     }
 
-    @Basic
-    @Column(columnDefinition = "TEXT")
+    @Lob
     public String getDescription() {
         return description;
     }

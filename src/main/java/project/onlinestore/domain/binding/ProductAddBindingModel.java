@@ -22,7 +22,7 @@ public class ProductAddBindingModel {
     }
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "Трябва да има някаква стойност")
     @Size(min = 1, max = 55, message = "Кодът на продукта не може да бъде по-малък от 1 и по-голям от 35 символа!")
     public String getProductCode() {
         return productCode;
@@ -33,7 +33,7 @@ public class ProductAddBindingModel {
     }
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "Трябва да има някаква стойност")
     @Size(min = 1, max = 499, message = "Името на продукта не може да бъде по-малко от 1 и по-голямо от 499 символа!")
     public String getProductName() {
         return productName;

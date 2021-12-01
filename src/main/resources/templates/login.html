@@ -21,9 +21,9 @@
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Вход</p>
 
-                                <p th:if="${bad_credentials}" class="errors alert alert-danger text-center">
-                                    Невалидно потребителско име или парола!
-                                </p>
+                                <!--                                <p th:if="${bad}" class="errors alert alert-danger text-center">-->
+                                <!--                                    Невалидно потребителско име или парола!-->
+                                <!--                                </p>-->
 
                                 <form class="mx-1 mx-md-4" th:action="@{/users/login}" th:method="post">
                                     <div class="d-flex flex-row align-items-center mb-4">
@@ -31,10 +31,9 @@
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="form3Example2c">Потребителско име</label>
                                             <input th:value="${username}" name="username" minlength="3" maxlength="20"
-                                                   type="text"
-                                                   id="form3Example2c"
-                                                   class="form-control"/>
-                                            <small class="mb-5 text-warning alert-warning"></small>
+                                                   type="text" id="form3Example2c" class="form-control"/>
+                                            <small
+                                                    class="mb-5 text-warning alert-warning"></small>
                                         </div>
                                     </div>
 
@@ -43,8 +42,8 @@
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="form3Example4c">Парола</label>
                                             <input name="password" minlength="3" maxlength="20" type="password"
-                                                   id="form3Example4c"
-                                                   class="form-control"/>
+                                                   id="form3Example4c" class="form-control"/> <small
+                                                class="mb-5 text-warning alert-warning"></small>
                                             <small class="mb-5 text-warning alert-warning"></small>
                                         </div>
                                     </div>

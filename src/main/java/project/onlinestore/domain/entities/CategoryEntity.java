@@ -36,8 +36,7 @@ public class CategoryEntity extends BaseEntity {
         this.nameLatin = nameLatin;
     }
 
-    @Basic
-    @Column(name = "img_url", columnDefinition = "TEXT")
+    @Lob
     public String getImgUrl() {
         return imgUrl;
     }

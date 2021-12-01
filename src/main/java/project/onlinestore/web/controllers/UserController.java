@@ -6,7 +6,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.onlinestore.domain.binding.ImageBindingModel;
 import project.onlinestore.domain.binding.UserEditBindingModel;
@@ -39,24 +42,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerConfirm(@Valid UserRegisterBindingModel userRegisterBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String registerConfirm(@Valid UserRegisterBindingModel userRegisterBindingModel,
+                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())) {
             redirectAttributes.addFlashAttribute("passwordsDontMatch", true);
-            return "redirect:register";
+            return "redirect:/users/register";
         }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
 
-            return "redirect:register";
+            return "redirect:/users/register";
         }
 
-
         this.userService.registerUser(this.modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
-
-        return "redirect:/login";
+        return "redirect:/users/login";
     }
 
     @GetMapping("/login")
@@ -69,7 +71,6 @@ public class UserController {
                                       String userName, RedirectAttributes attributes) {
 
         attributes.addFlashAttribute("bad_credentials", true);
-
         return "redirect:/users/login";
     }
 
@@ -84,7 +85,8 @@ public class UserController {
 
     @PostMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    public String profileUpdateConfirm(@Valid UserEditBindingModel userEditBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String profileUpdateConfirm(@Valid UserEditBindingModel userEditBindingModel, BindingResult
+            bindingResult, RedirectAttributes redirectAttributes) {
         UserServiceModel userServiceModel = this.modelMapper.map(userEditBindingModel, UserServiceModel.class);
 
         if (bindingResult.hasErrors()) {
@@ -101,7 +103,8 @@ public class UserController {
 
     @PostMapping("/profile/edit-picture")
     @PreAuthorize("isAuthenticated()")
-    public String profilePictureUpdateConfirm(Principal principal, ImageBindingModel imageBindingModel) throws IOException {
+    public String profilePictureUpdateConfirm(Principal principal, ImageBindingModel imageBindingModel) throws
+            IOException {
         if (!imageBindingModel.getImage().isEmpty()) {
             UserServiceModel user = this.userService.findUserByUsername(principal.getName());
             System.out.println();
