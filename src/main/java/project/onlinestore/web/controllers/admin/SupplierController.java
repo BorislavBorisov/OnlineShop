@@ -47,7 +47,7 @@ public class SupplierController {
             redirectAttributes.addFlashAttribute("supplierAddBindingModel", supplierAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.supplierAddBindingModel", bindingResult);
 
-            return "redirect:add";
+            return "redirect:/suppliers/add";
         }
 
         this.supplierService
@@ -69,7 +69,7 @@ public class SupplierController {
             redirectAttributes.addFlashAttribute("supplierAddBindingModel", supplierAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.supplierAddBindingModel", bindingResult);
 
-            return "redirect:" + id;
+            return "redirect:/admin/suppliers/edit/" + id;
         }
         SupplierServiceModel map = this.modelMapper.map(supplierAddBindingModel, SupplierServiceModel.class);
         this.supplierService.editSupplier(id, map);

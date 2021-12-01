@@ -122,7 +122,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void addCategoryEditCategoryInvalidInput() throws Exception {
+    public void getCategoryEditCategoryInvalidInput() throws Exception {
         CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
 
         CategoryAddBindingModel categoryAddBindingModel = new CategoryAddBindingModel();
@@ -141,7 +141,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void addCategoryEditCategory() throws Exception {
+    public void categoryEditCategory() throws Exception {
         CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
         CategoryAddBindingModel categoryAddBindingModel = new CategoryAddBindingModel();
         categoryAddBindingModel.setName("qwert")
