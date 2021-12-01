@@ -34,13 +34,11 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    @PreAuthorize("isAnonymous()")
     public String register() {
         return "register";
     }
 
     @PostMapping("/register")
-    @PreAuthorize("isAnonymous()")
     public String registerConfirm(@Valid UserRegisterBindingModel userRegisterBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getConfirmPassword())) {
@@ -62,7 +60,6 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    @PreAuthorize("isAnonymous()")
     public String login() {
         return "login";
     }

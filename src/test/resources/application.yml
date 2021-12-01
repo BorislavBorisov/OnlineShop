@@ -1,0 +1,13 @@
+spring:
+  sql:
+    init:
+      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+#Cloud
+cloudinary:
+  cloud-name: foncho
+  api-key: 538482448845728
+  api-secret: zXS7CBCvwkoyFojt0u1R6iZLOcw

@@ -59,6 +59,13 @@ public class CategoriesController {
         return "redirect:/admin/categories";
     }
 
+    @GetMapping("/categories/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
+    public String editCategory(@PathVariable Long id, Model model) {
+        model.addAttribute("category", this.modelMapper.map(this.categoryService.findCategoryById(id), CategoryViewModel.class));
+        return "/admin/categories/edit-category";
+    }
+
     @PostMapping("/categories/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editCategoryConfirm(@PathVariable Long id, @Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
