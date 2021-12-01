@@ -1,7 +1,5 @@
 package project.onlinestore.domain.binding;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -9,7 +7,6 @@ import javax.validation.constraints.Size;
 public class CategoryAddBindingModel {
 
     private String name;
-    private MultipartFile image;
     private Integer position;
 
     public CategoryAddBindingModel() {
@@ -23,15 +20,6 @@ public class CategoryAddBindingModel {
 
     public CategoryAddBindingModel setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public MultipartFile getImage() {
-        return image;
-    }
-
-    public CategoryAddBindingModel setImage(MultipartFile image) {
-        this.image = image;
         return this;
     }
 

@@ -9,8 +9,8 @@ public class AdminController {
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
-    public String moderator() {
-        return "admin/admin";
+    public String admin() {
+        return "/admin/admin";
     }
 
 }

@@ -58,6 +58,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/shop/categories", true)
+                .failureForwardUrl("/users/login-error")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/users/login")

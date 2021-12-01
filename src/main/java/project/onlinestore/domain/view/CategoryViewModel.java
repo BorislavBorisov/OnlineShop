@@ -1,9 +1,5 @@
 package project.onlinestore.domain.view;
 
-import project.onlinestore.domain.service.ProductServiceModel;
-
-import java.util.List;
-
 public class CategoryViewModel {
 
     private Long id;

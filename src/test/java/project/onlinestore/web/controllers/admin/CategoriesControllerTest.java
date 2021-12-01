@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import project.onlinestore.domain.binding.CategoryAddBindingModel;
@@ -31,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser(username = "test", authorities = {"ROLE_ADMIN"})
+@WithMockUser(username = "test", roles = {"ADMIN", "ROOT"})
 class CategoriesControllerTest {
 
     @Autowired
@@ -62,7 +60,8 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void getCategoryPage() throws Exception {
+//    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
+    public void getCategoryPageReturnsOk() throws Exception {
         mockMvc.perform(get("/admin/categories"))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("allCategories"))
@@ -112,6 +111,81 @@ class CategoriesControllerTest {
         Assertions.assertEquals(2, categoryRepository.count());
     }
 
+    @Test
+    public void getEditCategoryPage() throws Exception {
+        CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
+
+        mockMvc.perform(get("/admin/categories/edit/" + testCategory.getId()))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("editCategory"))
+                .andExpect(view().name("/admin/categories/edit-category"));
+    }
+
+    @Test
+    public void addCategoryEditCategoryInvalidInput() throws Exception {
+        CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
+
+        CategoryAddBindingModel categoryAddBindingModel = new CategoryAddBindingModel();
+        categoryAddBindingModel.setName("q")
+                .setPosition(-1);
+
+        mockMvc.perform(post("/admin/categories/edit/" + testCategory.getId())
+                        .sessionAttr("category", testCategory)
+                        .param("name", categoryAddBindingModel.getName())
+                        .param("position", "-1")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("editCategoryConfirm"))
+                .andExpect(flash().attributeExists("categoryAddBindingModel"))
+                .andExpect(redirectedUrl("/admin/categories/edit/" + testCategory.getId()));
+    }
+
+    @Test
+    public void addCategoryEditCategory() throws Exception {
+        CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
+        CategoryAddBindingModel categoryAddBindingModel = new CategoryAddBindingModel();
+        categoryAddBindingModel.setName("qwert")
+                .setPosition(10);
+
+        mockMvc.perform(post("/admin/categories/edit/" + testCategory.getId())
+                        .sessionAttr("category", testCategory)
+                        .param("name", categoryAddBindingModel.getName())
+                        .param("position", "10")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("editCategoryConfirm"))
+                .andExpect(redirectedUrl("/admin/categories"));
+    }
+
+    @Test
+    public void getEditCategoryImagePage() throws Exception {
+        CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
+
+        mockMvc.perform(get("/admin/categories/edit/image/" + testCategory.getId()))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("editImageCategory"))
+                .andExpect(view().name("/admin/categories/edit-image-category"));
+    }
+
+    @Test
+    public void getDeleteCategoryPage() throws Exception {
+        CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
+
+        mockMvc.perform(get("/admin/categories/delete/" + testCategory.getId()))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("deleteCategory"))
+                .andExpect(view().name("/admin/categories/delete-category"));
+    }
+
+    @Test
+    public void getDeleteCategoryConfirm() throws Exception {
+        CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
+
+        mockMvc.perform(post("/admin/categories/delete/" + testCategory.getId()))
+                .andExpect(handler().methodName("deleteCategoryConfirm"))
+                .andExpect(redirectedUrl("/admin/categories"));
+    }
+
     private CategoryEntity initCategory() {
         CategoryEntity category = new CategoryEntity();
         category.setName("TestCategory");
@@ -134,5 +208,7 @@ class CategoriesControllerTest {
                 .setRegistered(Instant.now());
         return userEntity;
     }
+
+
 
 }

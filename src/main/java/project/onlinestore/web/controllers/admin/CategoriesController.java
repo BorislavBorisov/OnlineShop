@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.onlinestore.domain.binding.CategoryAddBindingModel;
+import project.onlinestore.domain.binding.ImageBindingModel;
 import project.onlinestore.domain.service.CategoryServiceModel;
 import project.onlinestore.domain.view.CategoryViewModel;
 import project.onlinestore.service.CategoryService;
@@ -47,18 +47,12 @@ public class CategoriesController {
 
     @PostMapping("/categories/add")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
-    public String addCategoryConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+    public String addCategoryConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         CategoryServiceModel categoryServiceModel = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
-        if (categoryAddBindingModel.getImage() == null) {
-            categoryServiceModel.setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1638364042/empty_kk164n.jpg");
-        } else {
-            categoryServiceModel.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
-        }
-
+        categoryServiceModel.setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1638364042/empty_kk164n.jpg");
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoryAddBindingModel", bindingResult);
-
             return "redirect:/category/add";
         }
 
@@ -80,7 +74,7 @@ public class CategoriesController {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoryAddBindingModel", bindingResult);
 
-            return "redirect:" + id;
+            return "redirect:/admin/categories/edit/" + id;
         }
         CategoryServiceModel map = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
         this.categoryService.editCategory(id, map);
@@ -96,9 +90,9 @@ public class CategoriesController {
 
     @PostMapping("/categories/edit/image/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
-    public String editImageCategoryConfirm(@PathVariable Long id, CategoryAddBindingModel categoryAddBindingModel) throws IOException {
+    public String editImageCategoryConfirm(@PathVariable Long id, ImageBindingModel imageBindingModel) throws IOException {
         CategoryServiceModel category = this.categoryService.findCategoryById(id);
-        category.setImgUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImage()));
+        category.setImgUrl(this.cloudinaryService.uploadImage(imageBindingModel.getImage()));
         this.categoryService.editImageCategory(category);
         return "redirect:/admin/categories";
     }
@@ -111,7 +105,7 @@ public class CategoriesController {
     }
 
     @PostMapping("categories/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRóole('ROLE_ROOT')")
     public String deleteCategoryConfirm(@PathVariable Long id) {
         this.categoryService.deleteCategory(id);
         return "redirect:/admin/categories";
@@ -122,6 +116,11 @@ public class CategoriesController {
     @ResponseBody
     public List<CategoryViewModel> fetchCategories() {
         return this.categoryService.getAllCategories();
+    }
+
+    @ModelAttribute
+    public ImageBindingModel imageBindingModel() {
+        return new ImageBindingModel();
     }
 
     @ModelAttribute
