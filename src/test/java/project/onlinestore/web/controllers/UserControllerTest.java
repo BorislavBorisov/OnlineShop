@@ -2,20 +2,17 @@ package project.onlinestore.web.controllers;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import project.onlinestore.domain.entities.RoleEntity;
 import project.onlinestore.domain.entities.UserEntity;
 import project.onlinestore.repository.RoleRepository;
 import project.onlinestore.repository.UserRepository;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerTest {
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -88,7 +86,7 @@ class UserControllerTest {
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
-                        .andExpect(redirectedUrl("/users/login"));
+                .andExpect(redirectedUrl("/users/login"));
 
         Assertions.assertEquals(1, userRepository.count());
 
@@ -121,5 +119,4 @@ class UserControllerTest {
 //                .andExpect(status().isOk())
 //                .andExpect(view().name("profile"));
 //    }
-
 }

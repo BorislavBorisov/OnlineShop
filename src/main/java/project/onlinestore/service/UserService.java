@@ -17,7 +17,7 @@ public interface UserService extends UserDetailsService {
 
     boolean changeProfilePicture(UserServiceModel userServiceModel);
 
-    List<UserServiceModel> getAllUsers();
+    List<UserViewModel> getAllUsers();
 
     void setUserRole(Long id, String role);
 

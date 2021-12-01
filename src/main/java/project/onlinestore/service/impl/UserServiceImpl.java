@@ -6,7 +6,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.onlinestore.domain.entities.UserEntity;
+import project.onlinestore.domain.service.RoleServiceModel;
 import project.onlinestore.domain.service.UserServiceModel;
+import project.onlinestore.domain.view.UserViewModel;
 import project.onlinestore.repository.UserRepository;
 import project.onlinestore.service.RoleService;
 import project.onlinestore.service.UserService;
@@ -99,10 +101,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserServiceModel> getAllUsers() {
-        return this.userRepository.findAll()
+    public List<UserViewModel> getAllUsers() {
+        List<UserServiceModel> collect = this.userRepository.findAll()
                 .stream()
                 .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
+
+        return collect
+                .stream()
+                .map(u -> {
+                    UserViewModel user = this.modelMapper.map(u, UserViewModel.class);
+                    user.setAuthorities(u.getAuthorities()
+                            .stream()
+                            .map(RoleServiceModel::getAuthority)
+                            .collect(Collectors.toSet()));
+                    return user;
+                })
                 .collect(Collectors.toList());
     }
 
