@@ -22,8 +22,9 @@ public class CategoryEntity extends BaseEntity {
         return name;
     }
 
-    public void setName(String name) {
+    public CategoryEntity setName(String name) {
         this.name = name;
+        return this;
     }
 
     @Basic
@@ -32,8 +33,9 @@ public class CategoryEntity extends BaseEntity {
         return nameLatin;
     }
 
-    public void setNameLatin(String nameLatin) {
+    public CategoryEntity setNameLatin(String nameLatin) {
         this.nameLatin = nameLatin;
+        return this;
     }
 
     @Lob
@@ -41,8 +43,9 @@ public class CategoryEntity extends BaseEntity {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
+    public CategoryEntity setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+        return this;
     }
 
     @Basic
@@ -51,8 +54,9 @@ public class CategoryEntity extends BaseEntity {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    public CategoryEntity setPosition(Integer position) {
         this.position = position;
+        return this;
     }
 
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
@@ -60,7 +64,8 @@ public class CategoryEntity extends BaseEntity {
         return products;
     }
 
-    public void setProducts(List<ProductEntity> products) {
+    public CategoryEntity setProducts(List<ProductEntity> products) {
         this.products = products;
+        return this;
     }
 }

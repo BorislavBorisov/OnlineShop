@@ -27,4 +27,6 @@ public interface CategoryService {
 
 
     List<ProductViewModel> getSimilarProducts(String categoryNameLatin, String nameLatin);
+
+    void seedCategories();
 }

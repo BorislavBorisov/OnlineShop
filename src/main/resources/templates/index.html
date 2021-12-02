@@ -18,11 +18,7 @@
             <div>
                 <h1>Изключително богат избор на лаптопи, компютри, смартфони на топ цени в<span class="text-warning"> E-Shop.com </span>
                 </h1>
-                <p class="lead my-4">
-                    Направете си регистрация, избере продукт, поръчвайте и имате шанс да спечелите ваучер равен на
-                    стойноста на първата поръчка.
-                </p>
-                <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#enroll">
+                <button class="btn btn-primary btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#enroll">
                     Изпратете запитване
                 </button>
             </div>
@@ -183,84 +179,6 @@
     </div>
 </section>
 
-<section id="instructors" class="p-5 bg-primary">
-    <div class="container">
-        <h2 class="text-center text-white">Our Instructors</h2>
-        <p class="lead text-center text-white mb-5">
-            Our instructors all have 5+ years working as a web developer in the industry
-        </p>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="card bg-light">
-                    <div class="card-body text-center">
-                        <img src="https://randomuser.me/api/portraits/men/11.jpg" class="rounded-circle mb-3" alt=""/>
-                        <h3 class="card-title mb-3">John Doe</h3>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda accusamus nobis sed
-                            cupiditate iusto? Quibusdam.
-                        </p>
-                        <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="card bg-light">
-                    <div class="card-body text-center">
-                        <img src="https://randomuser.me/api/portraits/women/11.jpg" class="rounded-circle mb-3" alt=""/>
-                        <h3 class="card-title mb-3">Jane Doe</h3>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda accusamus nobis sed
-                            cupiditate iusto? Quibusdam.
-                        </p>
-                        <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="card bg-light">
-                    <div class="card-body text-center">
-                        <img src="https://randomuser.me/api/portraits/men/12.jpg" class="rounded-circle mb-3" alt=""/>
-                        <h3 class="card-title mb-3">Steve Smith</h3>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda accusamus nobis sed
-                            cupiditate iusto? Quibusdam.
-                        </p>
-                        <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="card bg-light">
-                    <div class="card-body text-center">
-                        <img src="https://randomuser.me/api/portraits/women/12.jpg" class="rounded-circle mb-3" alt=""/>
-                        <h3 class="card-title mb-3">Sara Smith</h3>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda accusamus nobis sed
-                            cupiditate iusto? Quibusdam.
-                        </p>
-                        <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
-                        <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Contact & Map -->
 <section class="p-5">
     <div class="container">
@@ -301,34 +219,29 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="lead">Попълнете данните и ние ще се свържем с Вас!</p>
-                <form>
-                    <div class="mb-3">
-                        <label for="first-name" class="col-form-label">
-                            Име:
-                        </label>
-                        <input type="text" class="form-control" id="first-name"/>
-                    </div>
-                    <div class="mb-3">
-                        <label for="last-name" class="col-form-label">Фамилия:</label>
-                        <input type="text" class="form-control" id="last-name"/>
-                    </div>
+                <p class="lead">Изпратете запитване и ние ще се свържем с Вас!</p>
+                <form th:action="@{/question}" th:method="post" th:object="${questionBindingModel}">
                     <div class="mb-3">
                         <label for="email" class="col-form-label">Email:</label>
-                        <input type="email" class="form-control" id="email"/>
+                        <input th:field="*{email}" type="email" class="form-control" id="email"/>
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="col-form-label">Мобилен номер:</label>
-                        <input type="tel" class="form-control" id="phone"/>
+                        <input th:field="*{phoneNumber}" type="tel" class="form-control" id="phone"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="question" class="col-form-label">Запиване:</label>
+                        <input th:field="*{question}" type="text" class="form-control" id="question"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">Изпрати</button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary">Изпрати</button>
-            </div>
+
         </div>
     </div>
 </div>

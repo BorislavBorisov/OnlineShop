@@ -21,8 +21,9 @@ public abstract class BaseEntity {
         return id;
     }
 
-    public void setId(Long id) {
+    public BaseEntity setId(Long id) {
         this.id = id;
+        return this;
     }
 
     @Column(name = "registered")
@@ -30,8 +31,9 @@ public abstract class BaseEntity {
         return registered;
     }
 
-    public void setRegistered(Instant registered) {
+    public BaseEntity setRegistered(Instant registered) {
         this.registered = registered;
+        return this;
     }
 
     @Column(name = "modified")
@@ -39,8 +41,9 @@ public abstract class BaseEntity {
         return modified;
     }
 
-    public void setModified(Instant modified) {
+    public BaseEntity setModified(Instant modified) {
         this.modified = modified;
+        return this;
     }
 
     @PrePersist

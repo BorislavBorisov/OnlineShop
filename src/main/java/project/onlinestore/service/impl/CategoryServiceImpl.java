@@ -135,4 +135,55 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
                 .map(p -> this.modelMapper.map(p, ProductViewModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void seedCategories() {
+        if (this.categoryRepository.count() == 0) {
+            CategoryEntity categoryEntity = new CategoryEntity()
+                    .setName("Компютри");
+            categoryEntity.setNameLatin(translate(categoryEntity.getName()))
+                    .setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1637345647/myyqzjq54fapoaxiq0a8.png")
+                    .setPosition(1)
+                    .setRegistered(Instant.now());
+
+            CategoryEntity categoryEntity1 = new CategoryEntity()
+                    .setName("Лаптопи");
+            categoryEntity1.setNameLatin(translate(categoryEntity1.getName()))
+                    .setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1637347030/uqn1y3zewdokxe6ht6h5.png")
+                    .setPosition(2)
+                    .setRegistered(Instant.now());
+
+            CategoryEntity categoryEntity2 = new CategoryEntity()
+                    .setName("Телефони");
+            categoryEntity2.setNameLatin(translate(categoryEntity2.getName()))
+                    .setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1637425061/bgz1sadmgfjovg6erjov.png")
+                    .setPosition(3)
+                    .setRegistered(Instant.now());
+
+            CategoryEntity categoryEntity3 = new CategoryEntity()
+                    .setName("Мишки");
+            categoryEntity3.setNameLatin(translate(categoryEntity3.getName()))
+                    .setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1638465290/mouse_he4rra.png")
+                    .setPosition(4)
+                    .setRegistered(Instant.now());
+
+            CategoryEntity categoryEntity4 = new CategoryEntity()
+                    .setName("Клавиатури");
+            categoryEntity4.setNameLatin(translate(categoryEntity4.getName()))
+                    .setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1637349593/abwrd71uxhqs9ryuhbil.png")
+                    .setPosition(5)
+                    .setRegistered(Instant.now());
+
+            CategoryEntity categoryEntity5 = new CategoryEntity();
+            categoryEntity5.setName("Слушалки");
+            categoryEntity5.setNameLatin(translate(categoryEntity5.getName()))
+                    .setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1637348578/tufwwqpkiz8psi08upkt.png")
+                    .setPosition(6)
+                    .setRegistered(Instant.now());
+
+            this.categoryRepository.saveAll(
+                    List.of(categoryEntity, categoryEntity1, categoryEntity2, categoryEntity3, categoryEntity4, categoryEntity5)
+            );
+        }
+    }
 }

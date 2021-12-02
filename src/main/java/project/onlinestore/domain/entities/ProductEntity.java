@@ -11,7 +11,6 @@ public class ProductEntity extends BaseEntity {
     private String productName;
     private String productNameLatin;
     private String imgUrl;
-    private Integer count;
     private BigDecimal productPrice;
     private String description;
     private SupplierEntity supplier;
@@ -61,17 +60,6 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
-        return this;
-    }
-
-    @Basic
-    @Column(name = "in_stock")
-    public Integer getCount() {
-        return count;
-    }
-
-    public ProductEntity setCount(Integer count) {
-        this.count = count;
         return this;
     }
 

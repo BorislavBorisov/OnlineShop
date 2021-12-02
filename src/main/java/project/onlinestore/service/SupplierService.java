@@ -16,4 +16,6 @@ public interface SupplierService {
     SupplierServiceModel editSupplier(Long id, SupplierServiceModel supplierServiceModel);
 
     boolean deleteCategory(Long id);
+
+    void seedSuppliers();
 }

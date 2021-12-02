@@ -5,7 +5,6 @@ import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProductService {
 
@@ -23,6 +22,7 @@ public interface ProductService {
 
     ProductServiceModel findProductByNameLatin(String nameLatin);
 
-
     ProductEntity findProductByName(String key);
+
+    void seedProducts();
 }
