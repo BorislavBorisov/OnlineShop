@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import project.onlinestore.domain.entities.CartEntity;
 import project.onlinestore.domain.entities.UserEntity;
 import project.onlinestore.domain.service.RoleServiceModel;
 import project.onlinestore.domain.service.UserServiceModel;
@@ -17,7 +16,6 @@ import project.onlinestore.service.UserService;
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -152,12 +150,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(user);
     }
 
-    @Override
-    public Long findCartByUsername(String username) {
-        UserEntity user = this.userRepository.findByUsername(username)
-                .orElse(null);
-        return user == null ? null : user.getCartEntity().getId();
-    }
 
 
 }

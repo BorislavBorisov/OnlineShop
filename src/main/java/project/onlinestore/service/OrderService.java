@@ -1,9 +1,17 @@
 package project.onlinestore.service;
 
-import project.onlinestore.domain.entities.CartEntity;
+import javassist.tools.rmi.ObjectNotFoundException;
+import project.onlinestore.domain.entities.OrderEntity;
+import project.onlinestore.domain.view.OrderViewModel;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
 public interface OrderService {
 
+    Long createOrder(String username) throws ObjectNotFoundException;
+
+    Optional<OrderViewModel> findById(Long id);
+
+    List<OrderViewModel> findAllOrdersByUser(String username);
 }

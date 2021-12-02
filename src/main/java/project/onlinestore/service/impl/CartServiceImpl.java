@@ -3,75 +3,84 @@ package project.onlinestore.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import project.onlinestore.domain.entities.CartEntity;
+import project.onlinestore.domain.entities.CartItemEntity;
 import project.onlinestore.domain.entities.ProductEntity;
 import project.onlinestore.domain.entities.UserEntity;
-import project.onlinestore.repository.CartRepository;
+import project.onlinestore.domain.view.CartViewModel;
+import project.onlinestore.repository.CartItemRepository;
 import project.onlinestore.repository.ProductRepository;
+import project.onlinestore.repository.UserRepository;
 import project.onlinestore.service.CartService;
-import project.onlinestore.service.ProductService;
-import project.onlinestore.service.UserService;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
 
-    private final UserService userService;
-    private final CartRepository cartRepository;
-    private final ProductService productService;
+    private final CartItemRepository cartItemRepository;
+    private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
 
-    public CartServiceImpl(UserService userService, CartRepository cartRepository,
-                           ProductService productService, ProductRepository productRepository, ModelMapper modelMapper) {
-        this.userService = userService;
-        this.cartRepository = cartRepository;
-        this.productService = productService;
+    public CartServiceImpl(CartItemRepository cartItemRepository, UserRepository userRepository, ProductRepository productRepository, ModelMapper modelMapper) {
+        this.cartItemRepository = cartItemRepository;
+        this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public void addProductToCart(Long id, UserDetails principal, Long cartId) {
-        UserEntity user = this.modelMapper.map(
-                this.userService.findUserByUsername(principal.getUsername()), UserEntity.class);
+    public void addProductToCart(Long id, String username) {
+        Optional<CartItemEntity> cartItemEntity = cartItemRepository
+                .findByProductIdAndUserUsername(id, username);
 
-        if (cartId == null) {
-            CartEntity cartEntity = new CartEntity();
-            cartEntity.setUser(user);
-            cartEntity.setRegistered(Instant.now());
-
-            ProductEntity product = this.modelMapper.map(
-                    this.productService.findProductById(id), ProductEntity.class
-            );
-            product.setCount(1);
-            cartEntity.getProducts().add(product);
-
-            this.cartRepository.save(cartEntity);
-            user.setCartEntity(cartEntity);
-            this.userService.saveUser(user);
+        if (cartItemEntity.isPresent()) {
+            CartItemEntity cartItem = cartItemEntity.get();
+            cartItem.setQty(cartItem.getQty() + 1);
+            this.cartItemRepository.save(cartItem);
         } else {
-            CartEntity cartEntity = this.cartRepository.findById(cartId)
-                    .orElse(null);
+            ProductEntity product = productRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("IAE"));
 
-            ProductEntity product = this.modelMapper.map(
-                    this.productService.findProductById(id), ProductEntity.class
-            );
+            UserEntity user = this.userRepository.findByUsername(username)
+                    .orElseThrow(() -> new IllegalArgumentException("IAE"));
 
-            if (cartEntity != null) {
-                for (ProductEntity productEntity : cartEntity.getProducts()) {
-                    if (productEntity.getId().equals(product.getId())) {
-                        productEntity.setCount(productEntity.getCount() + 1);
-                    }
-                }
-            } else {
-                throw new IllegalArgumentException("Нещо стана!");
-            }
-
-
+            CartItemEntity cartItem = new CartItemEntity();
+            cartItem.setProduct(product);
+            cartItem.setQty(1);
+            cartItem.setUser(user);
+            cartItem.setRegistered(Instant.now());
+            cartItem.setModified(Instant.now());
+            this.cartItemRepository.save(cartItem);
         }
+
+    }
+
+    @Override
+    public List<CartViewModel> getCartItemsByUserUsername(String username) {
+        return this.cartItemRepository
+                .findAllByUserUsername(username).stream()
+                .map(cartItemEntity -> modelMapper
+                        .map(cartItemEntity, CartViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteProductToCart(Long id, String username) {
+        CartItemEntity cartItemEntity = cartItemRepository
+                .findByProductIdAndUserUsername(id, username)
+                .orElseThrow(() -> new IllegalArgumentException("IAE"));
+
+        this.cartItemRepository.deleteById(cartItemEntity.getId());
+    }
+
+    @Override
+    public void deleteOrderedProducts(String username) {
+        cartItemRepository
+                .deleteAllByUserUsername(username);
     }
 
 

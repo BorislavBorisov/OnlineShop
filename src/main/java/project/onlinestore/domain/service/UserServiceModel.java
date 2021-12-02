@@ -1,7 +1,5 @@
 package project.onlinestore.domain.service;
 
-import project.onlinestore.domain.entities.CartEntity;
-
 import java.util.Set;
 
 public class UserServiceModel extends BaseServiceModel{

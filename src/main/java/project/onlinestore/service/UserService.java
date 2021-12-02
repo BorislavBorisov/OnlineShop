@@ -23,5 +23,4 @@ public interface UserService extends UserDetailsService {
 
     void saveUser(UserEntity user);
 
-    Long findCartByUsername(String username);
 }
