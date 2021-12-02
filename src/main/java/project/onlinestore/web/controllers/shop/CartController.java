@@ -8,19 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import project.onlinestore.domain.view.CartViewModel;
 import project.onlinestore.service.CartService;
-import project.onlinestore.service.UserService;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
 public class CartController {
 
-    private final UserService userService;
     private final CartService cartService;
 
-    public CartController(UserService userService, CartService cartService) {
-        this.userService = userService;
+    public CartController(CartService cartService) {
         this.cartService = cartService;
     }
 

@@ -106,7 +106,7 @@ public class CategoriesController {
     }
 
     @PostMapping("categories/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRóole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String deleteCategoryConfirm(@PathVariable Long id) {
         this.categoryService.deleteCategory(id);
         return "redirect:/admin/categories";

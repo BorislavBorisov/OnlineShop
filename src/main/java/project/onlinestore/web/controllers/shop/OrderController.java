@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import project.onlinestore.domain.view.OrderViewModel;
-import project.onlinestore.service.CartService;
 import project.onlinestore.service.OrderService;
 
 import java.util.List;
@@ -17,11 +16,9 @@ import java.util.Optional;
 @Controller
 public class OrderController {
 
-    private final CartService cartService;
     private final OrderService orderService;
 
-    public OrderController(CartService cartService, OrderService orderService) {
-        this.cartService = cartService;
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
