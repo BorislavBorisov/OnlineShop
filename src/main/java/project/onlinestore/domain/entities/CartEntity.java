@@ -1,45 +1,45 @@
 package project.onlinestore.domain.entities;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "cart")
 public class CartEntity extends BaseEntity {
 
-    private String username;
-    private Map<String, Integer> cart;
-    private Boolean isActive;
+    private List<ProductEntity> products;
+    private UserEntity user;
+    private BigDecimal totalSum;
 
     public CartEntity() {
-        this.cart = new HashMap<>();
+        this.products = new ArrayList<>();
     }
 
-    @Basic
-    @Column
-    public String getUsername() {
-        return username;
+    @OneToMany(fetch = FetchType.EAGER)
+    public List<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    public Map<String, Integer> getCart() {
-        return cart;
+    @OneToOne(optional = false)
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setCart(Map<String, Integer> cart) {
-        this.cart = cart;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
-    public Boolean getActive() {
-        return isActive;
+    public BigDecimal getTotalSum() {
+        return totalSum;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setTotalSum(BigDecimal totalSum) {
+        this.totalSum = totalSum;
     }
 }

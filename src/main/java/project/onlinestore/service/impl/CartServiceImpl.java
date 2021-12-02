@@ -1,13 +1,11 @@
 package project.onlinestore.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import project.onlinestore.domain.entities.CartEntity;
 import project.onlinestore.domain.entities.ProductEntity;
 import project.onlinestore.domain.entities.UserEntity;
-import project.onlinestore.domain.service.Item;
-import project.onlinestore.domain.service.UserServiceModel;
-import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.repository.CartRepository;
 import project.onlinestore.repository.ProductRepository;
 import project.onlinestore.service.CartService;
@@ -15,9 +13,7 @@ import project.onlinestore.service.ProductService;
 import project.onlinestore.service.UserService;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -38,96 +34,45 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void update(List<Item> cart, String username) {
-        UserEntity user = this.modelMapper.map(this.userService.findUserByUsername(username), UserEntity.class);
-        if (user.getCartEntity() == null) {
-            CartEntity cartEntity = new CartEntity();
-            for (Item item : cart) {
-                if (!cartEntity.getCart().containsKey(item.getProduct().getProductName())) {
-                    cartEntity.getCart().put(item.getProduct().getProductName(), item.getQty());
+    public void addProductToCart(Long id, UserDetails principal, Long cartId) {
+        UserEntity user = this.modelMapper.map(
+                this.userService.findUserByUsername(principal.getUsername()), UserEntity.class);
 
-                } else {
-                    for (Map.Entry<String, Integer> p : cartEntity.getCart().entrySet()) {
-                        if (item.getProduct().getProductName().equals(p.getKey())) {
-                            p.setValue(item.getQty());
-                        }
-                    }
-                }
-            }
-            cartEntity.setActive(true);
-            cartEntity.setUsername(user.getUsername());
+        if (cartId == null) {
+            CartEntity cartEntity = new CartEntity();
+            cartEntity.setUser(user);
             cartEntity.setRegistered(Instant.now());
-            cartEntity.setModified(Instant.now());
+
+            ProductEntity product = this.modelMapper.map(
+                    this.productService.findProductById(id), ProductEntity.class
+            );
+            product.setCount(1);
+            cartEntity.getProducts().add(product);
+
             this.cartRepository.save(cartEntity);
             user.setCartEntity(cartEntity);
             this.userService.saveUser(user);
-
         } else {
-            CartEntity cartEntity = user.getCartEntity();
-            for (Item item : cart) {
-                if (!cartEntity.getCart().containsKey(item.getProduct().getProductName())) {
-                    cartEntity.getCart().put(item.getProduct().getProductName(), item.getQty());
-
-                } else {
-                    for (Map.Entry<String, Integer> p : cartEntity.getCart().entrySet()) {
-                        if (item.getProduct().getProductName().equals(p.getKey())) {
-                            p.setValue(item.getQty());
-                        }
-                    }
-                }
-                this.cartRepository.save(cartEntity);
-            }
-        }
-
-    }
-
-    @Override
-    public List<Item> findCartByUsername(String name) {
-        UserServiceModel userByUsername1 = this.userService.findUserByUsername(name);
-        UserEntity userByUsername = this.modelMapper.map(userByUsername1, UserEntity.class);
-        List<Item> out = new ArrayList<>();
-        if (userByUsername.getCartEntity() == null || userByUsername.getCartEntity().getCart().size() == 0) {
-            return out;
-        }
-
-        if (!userByUsername.getCartEntity().getActive()) {
-            return out;
-        }
-
-        Map<String, Integer> cart = userByUsername.getCartEntity().getCart();
-
-        for (Map.Entry<String, Integer> s : cart.entrySet()) {
-            String key = s.getKey();
-            ProductEntity productEntity = this.productRepository.findByProductName(key)
+            CartEntity cartEntity = this.cartRepository.findById(cartId)
                     .orElse(null);
 
-            out.add(new Item(this.modelMapper.map(productEntity, ProductViewModel.class), s.getValue()));
+            ProductEntity product = this.modelMapper.map(
+                    this.productService.findProductById(id), ProductEntity.class
+            );
+
+            if (cartEntity != null) {
+                for (ProductEntity productEntity : cartEntity.getProducts()) {
+                    if (productEntity.getId().equals(product.getId())) {
+                        productEntity.setCount(productEntity.getCount() + 1);
+                    }
+                }
+            } else {
+                throw new IllegalArgumentException("Нещо стана!");
+            }
+
+
         }
-        return out;
-    }
-
-    @Override
-    public void remove(ProductViewModel productViewModel, String username) {
-        UserEntity user = this.modelMapper.map(this.userService.findUserByUsername(username), UserEntity.class);
-        Map<String, Integer> cart = user.getCartEntity().getCart();
-        cart.remove(productViewModel.getProductName());
-
-        this.cartRepository.save(user.getCartEntity());
     }
 
 
-    @Override
-    public CartEntity findCartEntityByUsername(String user) {
-        return this.cartRepository.findCartEntityByUsername(user);
-    }
-
-    @Override
-    public void saveCart(CartEntity cartEntityByUsername) {
-        this.cartRepository.save(cartEntityByUsername);
-    }
-
-    @Override
-    public CartEntity findById(Long id) {
-        return this.cartRepository.findById(id).orElse(null);
-    }
 }

@@ -67,6 +67,7 @@ public class CategoriesController {
         return "/admin/categories/edit-category";
     }
 
+
     @PostMapping("/categories/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editCategoryConfirm(@PathVariable Long id, @Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {

@@ -22,4 +22,6 @@ public interface UserService extends UserDetailsService {
     void setUserRole(Long id, String role);
 
     void saveUser(UserEntity user);
+
+    Long findCartByUsername(String username);
 }

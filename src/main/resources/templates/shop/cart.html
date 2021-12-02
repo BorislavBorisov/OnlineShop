@@ -11,20 +11,20 @@
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
 
-<th:block th:if="${cart.size()==0}">
-    <!--Main layout-->
-    <main class="mt-5 pt-4">
-        <div class="container dark-grey-text">
-            <div class="row wow fadeIn">
-                <h1>Няма продукти в количката</h1>
-            </div>
-            <hr>
-        </div>
-    </main>
-</th:block>
+<!--<th:block th:if="${cart.size()==0}">-->
+<!--    &lt;!&ndash;Main layout&ndash;&gt;-->
+<!--    <main class="mt-5 pt-4">-->
+<!--        <div class="container dark-grey-text">-->
+<!--            <div class="row wow fadeIn">-->
+<!--                <h1>Няма продукти в количката</h1>-->
+<!--            </div>-->
+<!--            <hr>-->
+<!--        </div>-->
+<!--    </main>-->
+<!--</th:block>-->
 
 
-<th:block th:unless="${cart.size()==0}">
+<th:block>
     <div class="container px-3 my-5 clearfix">
         <div class="card">
             <div class="card-header">
@@ -45,25 +45,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="p : ${cart}" th:object="${p.product}">
+                        <tr>
                             <td class="p-4">
                                 <div class="media align-items-center">
-                                    <img th:src="${p.product.imgUrl}" class="d-block ui-w-40 ui-bordered mr-4"
+                                    <img class="d-block ui-w-40 ui-bordered mr-4"
                                          width="100" height="100" alt="">
                                     <div class="media-body">
-                                        <a th:href="@{/shop/article/{nameLatin}(nameLatin=*{productNameLatin})}"
-                                           class="d-block text-dark" th:text="*{productName}">Product 1</a>
+                                        <a class="d-block text-dark">Product 1</a>
                                     </div>
                                 </div>
                                 <div></div>
                             </td>
-
-                            <td class="text-right font-weight-semibold align-middle p-4" th:text="*{productPrice}"></td>
-                            <td class="align-middle p-4" th:text="${p.qty}"></td>
-                            <td class="text-right font-weight-semibold align-middle p-4" th:text="${p.currentSumOfProduct}">$115.1</td>
+                            <td class="text-right font-weight-semibold align-middle p-4"></td>
+                            <td class="align-middle p-4"></td>
+                            <td class="text-right font-weight-semibold align-middle p-4">$115.1</td>
                             <td class="text-center align-middle px-0">
-                                <a th:href="@{/remove/{id}(id=${p.product.id})}"
-                                   class="shop-tooltip close float-none text-danger" title=""
+                                <a class="shop-tooltip close float-none text-danger" title=""
                                    data-original-title="Remove">X</a>
                             </td>
                         </tr>
@@ -72,14 +69,12 @@
                 </div>
                 <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
                     <div class="mt-4">
-                        <a th:href="@{/order/{user}(user=${user})}" type="button" class="btn btn-success">Поръчай
-                        </a>
+                        <a type="button" class="btn btn-success">Поръчай </a>
                     </div>
                     <div class="d-flex float-end">
-
                         <div class="text-right mt-4">
                             <label class="text-muted font-weight-normal m-0">Обща цена</label>
-                            <div class="text-large" th:text="${totalSum}"><strong>$1164.65</strong></div>
+                            <div class="text-large"><strong>$1164.65</strong></div>
                         </div>
                     </div>
                 </div>

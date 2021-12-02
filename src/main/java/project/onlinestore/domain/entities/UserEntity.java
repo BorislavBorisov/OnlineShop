@@ -140,7 +140,8 @@ public class UserEntity extends BaseEntity implements UserDetails {
         return this;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    //    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     public CartEntity getCartEntity() {
         return cartEntity;
     }

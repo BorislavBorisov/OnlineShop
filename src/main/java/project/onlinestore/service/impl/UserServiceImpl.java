@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import project.onlinestore.domain.entities.CartEntity;
 import project.onlinestore.domain.entities.UserEntity;
 import project.onlinestore.domain.service.RoleServiceModel;
 import project.onlinestore.domain.service.UserServiceModel;
@@ -16,6 +17,7 @@ import project.onlinestore.service.UserService;
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,19 +40,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel registerUser(UserServiceModel userServiceModel) {
-        UserEntity username = this.userRepository.findByUsername(userServiceModel.getUsername())
-                .orElse(null);
-
-        if (username != null) {
-            throw new IllegalArgumentException("Потребителско име е заето!");
-        }
-
-        UserEntity userEmail = this.userRepository.findByEmail(userServiceModel.getEmail())
-                .orElse(null);
-
-        if (userEmail != null) {
-            throw new IllegalArgumentException("Вече съществува протебител със същият имейл адрес!");
-        }
+//        UserEntity username = this.userRepository.findByUsername(userServiceModel.getUsername())
+//                .orElse(null);
+//
+//        if (username != null) {
+//            throw new IllegalArgumentException("Потребителско име е заето!");
+//        }
+//
+//        UserEntity userEmail = this.userRepository.findByEmail(userServiceModel.getEmail())
+//                .orElse(null);
+//
+//        if (userEmail != null) {
+//            throw new IllegalArgumentException("Вече съществува протебител със същият имейл адрес!");
+//        }
 
         if (userRepository.count() == 0) {
             userServiceModel.setAuthorities(new LinkedHashSet<>());
@@ -64,14 +66,15 @@ public class UserServiceImpl implements UserService {
         user.setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1636206196/avataaars_dztnrw.svg");
         user.setPassword(new BCryptPasswordEncoder().encode(userServiceModel.getPassword()));
         user.setRegistered(Instant.now());
-        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        return this.modelMapper.map(this.userRepository.save(user), UserServiceModel.class);
     }
 
     @Override
     public UserServiceModel findUserByUsername(String username) {
-        return this.userRepository.findByUsername(username)
-                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+        UserEntity userEntity = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+        return this.modelMapper.map(userEntity, UserServiceModel.class);
+
     }
 
     @Override
@@ -147,6 +150,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(UserEntity user) {
         this.userRepository.save(user);
+    }
+
+    @Override
+    public Long findCartByUsername(String username) {
+        UserEntity user = this.userRepository.findByUsername(username)
+                .orElse(null);
+        return user == null ? null : user.getCartEntity().getId();
     }
 
 

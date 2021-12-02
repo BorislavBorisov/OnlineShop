@@ -16,7 +16,7 @@ public class UserServiceModel extends BaseServiceModel{
     private String phoneNumber;
     private String country;
     private String city;
-    private CartEntity cartEntity;
+    private Long cartId;
 
     public UserServiceModel() {
     }
@@ -101,11 +101,11 @@ public class UserServiceModel extends BaseServiceModel{
         this.city = city;
     }
 
-    public CartEntity getCartEntity() {
-        return cartEntity;
+    public Long getCartId() {
+        return cartId;
     }
 
-    public void setCartEntity(CartEntity cartEntity) {
-        this.cartEntity = cartEntity;
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
     }
 }

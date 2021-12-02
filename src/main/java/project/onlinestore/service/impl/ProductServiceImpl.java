@@ -6,12 +6,10 @@ import project.onlinestore.domain.entities.ProductEntity;
 import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.repository.ProductRepository;
-import project.onlinestore.service.BaseService;
 import project.onlinestore.service.ProductService;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +43,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         if (byName == null && byCode == null) {
             ProductEntity product = this.modelMapper.map(productServiceModel, ProductEntity.class);
             product.setProductNameLatin(translate(productServiceModel.getProductName()));
-            product.setInStock(0);
+            product.setCount(0);
             return this.modelMapper.map(this.productRepository.save(product), ProductServiceModel.class);
         }
 

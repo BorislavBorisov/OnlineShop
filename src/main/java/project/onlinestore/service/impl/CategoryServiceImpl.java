@@ -7,7 +7,6 @@ import project.onlinestore.domain.service.CategoryServiceModel;
 import project.onlinestore.domain.view.CategoryViewModel;
 import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.repository.CategoryRepository;
-import project.onlinestore.service.BaseService;
 import project.onlinestore.service.CategoryService;
 
 import java.time.Instant;

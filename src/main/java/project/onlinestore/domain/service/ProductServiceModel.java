@@ -8,7 +8,7 @@ public class ProductServiceModel extends BaseServiceModel {
     private String productName;
     private String productNameLatin;
     private String imgUrl;
-    private Integer inStock;
+    private Integer count;
     private BigDecimal productPrice;
     private String description;
     private SupplierServiceModel supplier;
@@ -49,12 +49,12 @@ public class ProductServiceModel extends BaseServiceModel {
         this.imgUrl = imgUrl;
     }
 
-    public Integer getInStock() {
-        return inStock;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setInStock(Integer inStock) {
-        this.inStock = inStock;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public BigDecimal getProductPrice() {
