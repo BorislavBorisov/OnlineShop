@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <th:block th:include="~{fragments/header}"></th:block>
@@ -26,10 +26,12 @@
                     <h2 th:text="|${product.productPrice} лв.|"></h2>
                     <p class="lead font-weight-bold">Кратко описание</p>
                     <p th:text="${product.description}"></p>
-                    <a th:href="@{/buy/{id}(id=${product.id})}"
-                       class="btn btn-primary btn-md my-0 p" type="submit">Добави към количката
-                        <i class="fas fa-shopping-cart ml-1"></i>
-                    </a>
+                    <th:block sec:authorize="hasRole('ROLE_CLIENT')">
+                        <a th:href="@{/buy/{id}(id=${product.id})}"
+                           class="btn btn-primary btn-md my-0 p" type="submit">Добави към количката
+                            <i class="fas fa-shopping-cart ml-1"></i>
+                        </a>
+                    </th:block>
                 </div>
             </div>
         </div>
