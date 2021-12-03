@@ -34,6 +34,7 @@ public class OrderController {
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.valueOf(0));
         model.addAttribute("order", order.get().getOrderedProducts());
+        model.addAttribute("orderNumber", id);
         model.addAttribute("totalPrice", totalPrice);
         return "/shop/order";
     }

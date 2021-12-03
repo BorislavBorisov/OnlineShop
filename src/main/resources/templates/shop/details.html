@@ -27,7 +27,7 @@
                     <p class="lead font-weight-bold">Кратко описание</p>
                     <p th:text="${product.description}"></p>
                     <p th:text="|Преглеждания: ${stats}|"></p>
-                    <th:block sec:authorize="hasRole('ROLE_CLIENT')">
+                    <th:block sec:authorize="isAuthenticated">
                         <a th:href="@{/buy/{id}(id=${product.id})}"
                            class="btn btn-primary btn-md my-0 p" type="submit">Добави към количката
                             <i class="fas fa-shopping-cart ml-1"></i>
