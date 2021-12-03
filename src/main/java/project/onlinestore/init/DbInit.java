@@ -25,9 +25,9 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        this.roleService.seedRolesInDb();
-        this.categoryService.seedCategories();
-        this.supplierService.seedSuppliers();
-        this.productService.seedProducts();
+//        this.roleService.seedRolesInDb();
+//        this.categoryService.seedCategories();
+//        this.supplierService.seedSuppliers();
+//        this.productService.seedProducts();
     }
 }

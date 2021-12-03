@@ -5,11 +5,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.onlinestore.domain.binding.QuestionBindingModel;
+import project.onlinestore.service.QuestionService;
 
 import javax.validation.Valid;
 
 @Controller
 public class HomeController {
+
+    private final QuestionService questionService;
+
+    public HomeController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
 
     @GetMapping("/")
     public String index() {
@@ -18,7 +25,7 @@ public class HomeController {
 
     @PostMapping("/question")
     public String question(@Valid QuestionBindingModel question) {
-        System.out.println();
+        this.questionService.sendQuestion(question);
         return "redirect:/";
     }
 
