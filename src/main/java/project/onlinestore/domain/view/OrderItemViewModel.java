@@ -56,7 +56,7 @@ public class OrderItemViewModel {
     }
 
     public BigDecimal getTotalPrice() {
-        return totalPrice;
+        return totalPrice = this.productPrice.multiply(BigDecimal.valueOf(this.qty));
     }
 
     public void setTotalPrice(BigDecimal totalPrice) {

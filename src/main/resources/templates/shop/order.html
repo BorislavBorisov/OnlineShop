@@ -22,6 +22,7 @@
                 <table class="table table-bordered m-0">
                     <thead>
                     <tr>
+                        <th class="text-center py-3 px-4" style="min-width: 50px;">Изображение</th>
                         <th class="text-center py-3 px-4" style="min-width: 400px;">Продукт</th>
                         <th class="text-right py-3 px-4" style="width: 100px;">Ед. Цена</th>
                         <th class="text-center py-3 px-4" style="width: 120px;">Кол.</th>
@@ -33,19 +34,22 @@
                         <td>
                             <div class="media align-items-center">
                                 <img th:src="${p.getProductImg()}" class="d-block ui-w-40 ui-bordered mr-4"
-                                     width="100" height="100" alt="">
-                                <div class="media-body">
-                                    <a th:href="@{/shop/article/{nameLatin}(nameLatin=${p.getProductNameLatin()})}"
-                                       th:text="${p.getProductName()}" class="d-block text-dark">Product
-                                        1</a>
-                                </div>
+                                     width="150" height="150" alt="">
+
                             </div>
                             <div></div>
+                        </td>
+                        <td class="text-right font-weight-semibold align-middle p-4">
+                            <div class="media-body">
+                                <a th:href="@{/shop/article/{nameLatin}(nameLatin=${p.getProductNameLatin()})}"
+                                   th:text="${p.getProductName()}" class="d-block text-dark">Product
+                                    1</a>
+                            </div>
                         </td>
                         <td class="text-right font-weight-semibold align-middle p-4"
                             th:text="${p.getProductPrice()}"></td>
                         <td class="align-middle p-4" th:text="${p.getQty()}"></td>
-                        <td class="text-right font-weight-semibold align-middle p-4">$115.1</td>
+                        <td class="text-right font-weight-semibold align-middle p-4" th:text="${p.totalPrice}">$115.1</td>
                     </tr>
                     </tbody>
                 </table>
@@ -54,7 +58,7 @@
                 <div class="d-flex float-end">
                     <div class="text-right mt-4">
                         <label class="text-muted font-weight-normal m-0">Обща цена</label>
-                        <div class="text-large"><strong>$1164.65</strong></div>
+                        <div class="text-large"><strong th:text="${totalPrice}">$1164.65</strong></div>
                     </div>
                 </div>
             </div>

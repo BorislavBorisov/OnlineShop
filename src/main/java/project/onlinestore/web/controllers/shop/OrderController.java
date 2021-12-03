@@ -7,9 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import project.onlinestore.domain.view.CartViewModel;
+import project.onlinestore.domain.view.OrderItemViewModel;
 import project.onlinestore.domain.view.OrderViewModel;
 import project.onlinestore.service.OrderService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +28,13 @@ public class OrderController {
     @GetMapping("/order/{username}/{id}")
     public String orderDetails(@PathVariable Long id, @PathVariable String username, Model model) {
         Optional<OrderViewModel> order = orderService.findById(id);
+        BigDecimal totalPrice = order.get().getOrderedProducts()
+                .stream()
+                .map(OrderItemViewModel::getTotalPrice)
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.valueOf(0));
         model.addAttribute("order", order.get().getOrderedProducts());
+        model.addAttribute("totalPrice", totalPrice);
         return "/shop/order";
     }
 
