@@ -47,6 +47,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/question").permitAll()
                 .antMatchers("/moderator/**").hasAnyRole("MODERATOR", "ROOT")
                 .antMatchers("/admin/users").hasAnyRole( "ROOT")
+                .antMatchers("/stats").hasAnyRole( "ROOT")
                 .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
                 .anyRequest().authenticated()
                 .and()

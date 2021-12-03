@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{fragments/header}"></th:block>
+</head>
+
+<body>
+
+<header>
+    <th:block th:include="~{fragments/navbar}"></th:block>
+</header>
+
+<main class="align-content-center">
+
+    <!-- Main Content-->
+    <section class="container-fluid">
+
+        <!-- Page Content -->
+        <div id="content">
+
+            <h2 class="text-white text-center">Request Statistics</h2>
+            <hr class="hr-3 w-75 bg-white">
+            <br>
+
+            <div class="container">
+                <div class="table-responsive rounded">
+                    <table class="table table-dark table-bordered mx-auto text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col">Total Requests</th>
+                            <th scope="col">Authorized</th>
+                            <th scope="col">Unauthorized</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${stats.getTotalRequests()}">Total Requests</td>
+                            <td th:text="${stats.getAuthenticatedRequests()}">Authorized</td>
+                            <td th:text="${stats.getAnonymousRequests()}">Unauthorized</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+
+</body>
+
+</html>

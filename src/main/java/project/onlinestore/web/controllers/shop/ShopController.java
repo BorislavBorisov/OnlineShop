@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.service.CategoryService;
+import project.onlinestore.service.PagesViewCountService;
 import project.onlinestore.service.ProductService;
 
 @Controller
@@ -18,11 +19,13 @@ public class ShopController {
     private final CategoryService categoryService;
     private final ProductService productService;
     private final ModelMapper modelMapper;
+    private final PagesViewCountService pagesViewCountService;
 
-    public ShopController(CategoryService categoryService, ProductService productService, ModelMapper modelMapper) {
+    public ShopController(CategoryService categoryService, ProductService productService, ModelMapper modelMapper, PagesViewCountService pagesViewCountService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.modelMapper = modelMapper;
+        this.pagesViewCountService = pagesViewCountService;
     }
 
     @GetMapping("/categories")
@@ -41,6 +44,7 @@ public class ShopController {
     public String currentProduct(@PathVariable String nameLatin, Model model) {
         ProductServiceModel product = this.productService.findProductByNameLatin(nameLatin);
         model.addAttribute("product", this.modelMapper.map(product, ProductViewModel.class));
+        model.addAttribute("stats", pagesViewCountService.getPageViews("/shop/article/" + nameLatin));
         model.addAttribute("similarProducts", this.categoryService.getSimilarProducts(product.getCategory().getNameLatin(), nameLatin));
         return "/shop/details";
     }
