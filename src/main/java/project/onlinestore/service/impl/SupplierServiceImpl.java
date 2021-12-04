@@ -132,4 +132,9 @@ public class SupplierServiceImpl implements SupplierService {
             );
         }
     }
+
+    @Override
+    public SupplierServiceModel findSupplierByName(String name) {
+        return this.modelMapper.map(this.supplierRepository.findByName(name), SupplierServiceModel.class);
+    }
 }

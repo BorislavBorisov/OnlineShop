@@ -20,63 +20,71 @@ public class ProductServiceModel extends BaseServiceModel {
         return productCode;
     }
 
-    public void setProductCode(String productCode) {
+    public ProductServiceModel setProductCode(String productCode) {
         this.productCode = productCode;
+        return this;
     }
 
     public String getProductName() {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public ProductServiceModel setProductName(String productName) {
         this.productName = productName;
+        return this;
     }
 
     public String getProductNameLatin() {
         return productNameLatin;
     }
 
-    public void setProductNameLatin(String productNameLatin) {
+    public ProductServiceModel setProductNameLatin(String productNameLatin) {
         this.productNameLatin = productNameLatin;
+        return this;
     }
 
     public String getImgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
+    public ProductServiceModel setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+        return this;
     }
 
     public BigDecimal getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
+    public ProductServiceModel setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public ProductServiceModel setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public SupplierServiceModel getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(SupplierServiceModel supplier) {
+    public ProductServiceModel setSupplier(SupplierServiceModel supplier) {
         this.supplier = supplier;
+        return this;
     }
 
     public CategoryServiceModel getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryServiceModel category) {
+    public ProductServiceModel setCategory(CategoryServiceModel category) {
         this.category = category;
+        return this;
     }
 }

@@ -49,6 +49,7 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
 
         if (categoryEntity == null) {
             CategoryEntity category = this.modelMapper.map(categoryServiceModel, CategoryEntity.class);
+            category.setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1638364042/empty_kk164n.jpg");
             category.setNameLatin(translate(categoryServiceModel.getName()).toLowerCase());
             return this.modelMapper.map(this.categoryRepository.save(category), CategoryServiceModel.class);
         }
@@ -59,10 +60,8 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
 
     @Override
     public CategoryServiceModel findCategoryById(Long id) {
-        CategoryEntity category = this.categoryRepository
-                .findById(id).orElse(null);
-
-        return this.modelMapper.map(category, CategoryServiceModel.class);
+        return this.modelMapper.map(this.categoryRepository.findById(id)
+                .orElse(null), CategoryServiceModel.class);
     }
 
     @Override
@@ -185,5 +184,10 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
                     List.of(categoryEntity, categoryEntity1, categoryEntity2, categoryEntity3, categoryEntity4, categoryEntity5)
             );
         }
+    }
+
+    @Override
+    public CategoryEntity findCategoryByName(String name) {
+        return this.categoryRepository.findByName(name).get();
     }
 }

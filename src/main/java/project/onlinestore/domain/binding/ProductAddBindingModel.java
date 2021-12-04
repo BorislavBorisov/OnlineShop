@@ -1,7 +1,5 @@
 package project.onlinestore.domain.binding;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -12,7 +10,6 @@ public class ProductAddBindingModel {
 
     private String productCode;
     private String productName;
-    private MultipartFile image;
     private BigDecimal productPrice;
     private String description;
     private String supplier;
@@ -28,8 +25,9 @@ public class ProductAddBindingModel {
         return productCode;
     }
 
-    public void setProductCode(String productCode) {
+    public ProductAddBindingModel setProductCode(String productCode) {
         this.productCode = productCode;
+        return this;
     }
 
     @NotNull
@@ -39,16 +37,9 @@ public class ProductAddBindingModel {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public ProductAddBindingModel setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public MultipartFile getImage() {
-        return image;
-    }
-
-    public void setImage(MultipartFile image) {
-        this.image = image;
+        return this;
     }
 
     @Positive(message = "Цената на продукта не може да бъде отрицателно число")
@@ -56,8 +47,9 @@ public class ProductAddBindingModel {
         return productPrice;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
+    public ProductAddBindingModel setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
+        return this;
     }
 
     @Size(max = 1500)
@@ -65,23 +57,26 @@ public class ProductAddBindingModel {
         return description;
     }
 
-    public void setDescription(String description) {
+    public ProductAddBindingModel setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public String getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(String supplier) {
+    public ProductAddBindingModel setSupplier(String supplier) {
         this.supplier = supplier;
+        return this;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public ProductAddBindingModel setCategory(String category) {
         this.category = category;
+        return this;
     }
 }

@@ -83,6 +83,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 )
                 .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("registerConfirm"))
                 .andExpect(redirectedUrl("/users/login"));
 
         assertEquals(1, userRepository.count());

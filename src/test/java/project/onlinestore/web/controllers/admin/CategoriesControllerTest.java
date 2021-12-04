@@ -60,7 +60,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void getCategoryPageReturnsOk() throws Exception {
+    public void get_CategoryPage_ReturnsOk() throws Exception {
         mockMvc.perform(get("/admin/categories"))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("allCategories"))
@@ -69,7 +69,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void getAddCategoryPage() throws Exception {
+    public void get_AddCategoryPage() throws Exception {
         mockMvc.perform(get("/admin/categories/add"))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("addCategory"))
@@ -77,7 +77,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void addCategoryInvalidInput() throws Exception {
+    public void addCategory_InvalidInput() throws Exception {
         CategoryServiceModel categoryServiceModel = new CategoryServiceModel();
         categoryServiceModel.setName("B");
         categoryServiceModel.setPosition(1);
@@ -93,7 +93,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void addCategoryAddNewCategory() throws Exception {
+    public void addCategoryAdd_NewCategory() throws Exception {
         CategoryAddBindingModel categoryAddBindingModel = new CategoryAddBindingModel();
         categoryAddBindingModel.setName("TESTOVA");
         categoryAddBindingModel.setPosition(1);
@@ -111,7 +111,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void getEditCategoryPage() throws Exception {
+    public void get_EditCategoryPage() throws Exception {
         CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
 
         mockMvc.perform(get("/admin/categories/edit/" + testCategory.getId()))
@@ -121,7 +121,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void getCategoryEditCategoryInvalidInput() throws Exception {
+    public void get_CategoryEditCategory_InvalidInput() throws Exception {
         CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
 
         CategoryAddBindingModel categoryAddBindingModel = new CategoryAddBindingModel();
@@ -167,7 +167,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void getDeleteCategoryPage() throws Exception {
+    public void get_DeleteCategoryPage() throws Exception {
         CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
 
         mockMvc.perform(get("/admin/categories/delete/" + testCategory.getId()))
@@ -177,7 +177,7 @@ class CategoriesControllerTest {
     }
 
     @Test
-    public void getDeleteCategoryConfirm() throws Exception {
+    public void get_DeleteCategoryConfirm() throws Exception {
         CategoryEntity testCategory = categoryRepository.findByName("TestCategory").get();
 
         mockMvc.perform(post("/admin/categories/delete/" + testCategory.getId()))

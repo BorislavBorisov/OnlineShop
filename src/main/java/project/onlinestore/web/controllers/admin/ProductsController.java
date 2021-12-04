@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.onlinestore.domain.binding.ImageBindingModel;
 import project.onlinestore.domain.binding.ProductAddBindingModel;
 import project.onlinestore.domain.service.ProductServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
@@ -59,14 +60,16 @@ public class ProductsController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productAddBindingModel", bindingResult);
-
-            return "redirect:add";
+            return "redirect:/admin/products/add";
         }
 
         ProductServiceModel productServiceModel = this.modelMapper.map(productAddBindingModel, ProductServiceModel.class);
-        productServiceModel.setImgUrl(this.cloudinaryService.uploadImage(productAddBindingModel.getImage()));
-        productServiceModel.setCategory(this.categoryService.findCategoryById(Long.parseLong(productAddBindingModel.getCategory())));
-        productServiceModel.setSupplier(this.supplierService.findSupplierById(Long.parseLong(productAddBindingModel.getSupplier())));
+        productServiceModel.setCategory(
+                this.categoryService.findCategoryById(Long.parseLong(productAddBindingModel.getCategory()))
+        );
+        productServiceModel.setSupplier(
+                this.supplierService.findSupplierById(Long.parseLong(productAddBindingModel.getSupplier()))
+        );
 
         this.productService.addProduct(productServiceModel);
         return "redirect:/admin/products";
@@ -121,13 +124,15 @@ public class ProductsController {
 
     @PostMapping("/products/edit/image/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
-    public String editProductImageConfirm(@PathVariable Long id, ProductAddBindingModel productAddBindingModel) throws IOException {
+    public String editProductImageConfirm(@PathVariable Long id, ImageBindingModel imageBindingModel) throws IOException {
         ProductServiceModel product = this.productService.findProductById(id);
-        product.setImgUrl(this.cloudinaryService.uploadImage(productAddBindingModel.getImage()));
+        product.setImgUrl(this.cloudinaryService.uploadImage(imageBindingModel.getImage()));
         this.productService.editImageCategory(product);
         return "redirect:/admin/products";
     }
 
+    @ModelAttribute
+    public ImageBindingModel imageBindingModel(){ return new ImageBindingModel(); }
 
     @ModelAttribute
     public ProductAddBindingModel productAddBindingModel() {

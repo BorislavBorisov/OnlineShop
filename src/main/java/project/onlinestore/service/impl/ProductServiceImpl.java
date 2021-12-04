@@ -51,6 +51,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 
         if (byName == null && byCode == null) {
             ProductEntity product = this.modelMapper.map(productServiceModel, ProductEntity.class);
+            product.setImgUrl("https://res.cloudinary.com/foncho/image/upload/v1638364042/empty_kk164n.jpg");
             product.setProductNameLatin(translate(productServiceModel.getProductName()));
             return this.modelMapper.map(this.productRepository.save(product), ProductServiceModel.class);
         }

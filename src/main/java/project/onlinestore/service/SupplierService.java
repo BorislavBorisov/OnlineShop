@@ -18,4 +18,6 @@ public interface SupplierService {
     boolean deleteCategory(Long id);
 
     void seedSuppliers();
+
+    SupplierServiceModel findSupplierByName(String name);
 }

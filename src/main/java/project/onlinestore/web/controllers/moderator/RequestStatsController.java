@@ -1,4 +1,4 @@
-package project.onlinestore.web.controllers.admin;
+package project.onlinestore.web.controllers.moderator;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -40,10 +40,8 @@
             <tr th:each="p, iter : ${allProducts}" th:object="${p}">
                 <td th:text="${iter.index + 1}"></td>
                 <td th:text="*{productCode}"></td>
-                <td>
-                    <a th:href="@{/admin/products/edit/image/{id}(id=${p.id})}"><img th:src="*{imgUrl}"
-                                                                                     width="100"
-                                                                                     height="100"></a></td>
+                <td><a th:href="@{/admin/products/edit/image/{id}(id=${p.id})}">
+                    <img th:src="*{imgUrl}" width="100" height="100"></a></td>
                 <td th:text="*{productName}"></td>
                 <td th:text="*{productPrice}"></td>
                 <td th:text="*{category.name}"></td>
