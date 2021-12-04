@@ -8,7 +8,6 @@ public class ProductServiceModel extends BaseServiceModel {
     private String productName;
     private String productNameLatin;
     private String imgUrl;
-    private Integer count;
     private BigDecimal productPrice;
     private String description;
     private SupplierServiceModel supplier;
@@ -47,14 +46,6 @@ public class ProductServiceModel extends BaseServiceModel {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
     }
 
     public BigDecimal getProductPrice() {

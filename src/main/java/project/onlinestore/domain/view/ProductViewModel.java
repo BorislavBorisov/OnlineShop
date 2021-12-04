@@ -9,7 +9,6 @@ public class ProductViewModel {
     private String productName;
     private String productNameLatin;
     private String imgUrl;
-    private Integer inStock;
     private BigDecimal productPrice;
     private String description;
     private SupplierViewModel supplier;
@@ -56,14 +55,6 @@ public class ProductViewModel {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
-    }
-
-    public Integer getInStock() {
-        return inStock;
-    }
-
-    public void setInStock(Integer inStock) {
-        this.inStock = inStock;
     }
 
     public BigDecimal getProductPrice() {

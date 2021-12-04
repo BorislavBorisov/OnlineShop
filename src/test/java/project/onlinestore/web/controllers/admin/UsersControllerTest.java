@@ -46,7 +46,7 @@ class UsersControllerTest {
 
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
-    public void getUsersPageReturnsOk() throws Exception {
+    public void get_UsersPage_ReturnsOk() throws Exception {
         mockMvc.perform(get("/admin/users"))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("allUsers"))

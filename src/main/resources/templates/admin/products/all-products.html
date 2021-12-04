@@ -30,7 +30,6 @@
                 <th>Изображение</th>
                 <th>Наименование</th>
                 <th>Цена</th>
-                <th>Наличност</th>
                 <th>Категория</th>
                 <th>Доставчик</th>
                 <th>Редактирай</th>
@@ -47,7 +46,6 @@
                                                                                      height="100"></a></td>
                 <td th:text="*{productName}"></td>
                 <td th:text="*{productPrice}"></td>
-                <td th:text="*{inStock}"></td>
                 <td th:text="*{category.name}"></td>
                 <td th:text="*{supplier.name}"></td>
                 <td><a th:href="@{/admin/products/edit/{id}(id=${p.id})}"
@@ -63,7 +61,6 @@
                 <th>Изображение</th>
                 <th>Наименование</th>
                 <th>Цена</th>
-                <th>Наличност</th>
                 <th>Категория</th>
                 <th>Доставчик</th>
                 <th>Редактирай</th>

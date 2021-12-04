@@ -58,7 +58,7 @@ class SupplierControllerTest {
 
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
-    public void getSupplierPageReturnsOk() throws Exception {
+    public void get_SupplierPage_ReturnsOk() throws Exception {
         mockMvc.perform(get("/admin/suppliers"))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("allSuppliers"))
@@ -68,7 +68,7 @@ class SupplierControllerTest {
 
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
-    public void getSupplierAddPageReturnsOk() throws Exception {
+    public void get_SupplierAddPage_ReturnsOk() throws Exception {
         mockMvc.perform(get("/admin/suppliers/add"))
                 .andExpect(status().isOk())
                 .andExpect(handler().methodName("addSuppliers"))
@@ -77,7 +77,7 @@ class SupplierControllerTest {
 
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
-    public void addSupplierInvalidInput() throws Exception {
+    public void addSupplier_InvalidInput() throws Exception {
         SupplierServiceModel supplierServiceModel = modelMapper.map(initSupplier(), SupplierServiceModel.class);
 
         mockMvc.perform(post("/admin/suppliers/add")
@@ -114,7 +114,7 @@ class SupplierControllerTest {
 
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
-    public void getEditSupplierPageReturnsOk() throws Exception {
+    public void get_EditSupplierPage_ReturnsOk() throws Exception {
         SupplierEntity test = supplierRepository.findByName("test").get();
 
         mockMvc.perform(get("/admin/suppliers/edit/" + test.getId()))
@@ -125,7 +125,7 @@ class SupplierControllerTest {
     }
 
     @Test
-    public void getCategoryEditCategoryInvalidInput() throws Exception {
+    public void get_CategoryEditCategory_InvalidInput() throws Exception {
         SupplierEntity supplierEntity = supplierRepository.findByName("test").get();
 
         SupplierAddBindingModel supplierAddBindingModel = new SupplierAddBindingModel();
@@ -151,7 +151,7 @@ class SupplierControllerTest {
 
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
-    public void getEditSupplierConfirm() throws Exception {
+    public void get_EditSupplierConfirm() throws Exception {
         SupplierEntity test = supplierRepository.findByName("test").get();
 
         mockMvc.perform(post("/admin/suppliers/edit/" + test.getId())
@@ -170,7 +170,7 @@ class SupplierControllerTest {
 
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
-    public void getDeleteSupplierPage() throws Exception {
+    public void get_DeleteSupplierPage() throws Exception {
         SupplierEntity test = supplierRepository.findByName("test").get();
 
         mockMvc.perform(get("/admin/suppliers/delete/" + test.getId()))
@@ -182,7 +182,7 @@ class SupplierControllerTest {
 
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
-    public void getDeleteSupplierConfirm() throws Exception {
+    public void get_DeleteSupplierConfirm() throws Exception {
         SupplierEntity test = supplierRepository.findByName("test").get();
         mockMvc.perform(post("/admin/suppliers/delete/" + test.getId()))
                 .andExpect(handler().methodName("deleteSupplierConfirm"))

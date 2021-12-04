@@ -60,7 +60,6 @@ class CategoriesControllerTest {
     }
 
     @Test
-//    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void getCategoryPageReturnsOk() throws Exception {
         mockMvc.perform(get("/admin/categories"))
                 .andExpect(status().isOk())
