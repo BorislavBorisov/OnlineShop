@@ -86,13 +86,8 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
                 this.categoryRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("Invalid category ID!"));
 
-        try {
-            this.categoryRepository.delete(category);
-            return true;
-        } catch (Exception exception) {
-            return false;
-        }
-
+        this.categoryRepository.delete(category);
+        return true;
     }
 
     @Override
@@ -100,19 +95,14 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         CategoryEntity category = this.categoryRepository.findById(categoryServiceModel.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID!"));
 
-        try {
-            category.setImgUrl(categoryServiceModel.getImgUrl());
-            category.setModified(Instant.now());
-            this.categoryRepository.save(category);
-            return true;
-        } catch (Exception exception) {
-            throw new IllegalArgumentException("Invalid category ID!");
-        }
-
+        category.setImgUrl(categoryServiceModel.getImgUrl());
+        category.setModified(Instant.now());
+        this.categoryRepository.save(category);
+        return true;
     }
 
     @Override
-            public List<ProductViewModel> getAllProductsByCategoryName(String nameLatin) {
+    public List<ProductViewModel> getAllProductsByCategoryName(String nameLatin) {
         CategoryEntity category = this.categoryRepository.findByNameLatin(nameLatin)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category"));
 

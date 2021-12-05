@@ -2,10 +2,7 @@ package project.onlinestore.service.impl;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +14,16 @@ import project.onlinestore.domain.entities.CategoryEntity;
 import project.onlinestore.domain.service.CategoryServiceModel;
 import project.onlinestore.domain.view.CategoryViewModel;
 import project.onlinestore.repository.CategoryRepository;
+import project.onlinestore.repository.ProductRepository;
+import project.onlinestore.repository.SupplierRepository;
 import project.onlinestore.service.CategoryService;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class CategoryServiceImplTest {
-    @Rule
-    public ExpectedException exception;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -120,18 +116,33 @@ public class CategoryServiceImplTest {
         categoryRepository.save(categoryEntity);
         CategoryEntity category = categoryService.findCategoryByName(categoryEntity.getName());
         Assert.assertNotNull(category);
-        category.setName(categoryEntity1.getName());
-        category.setNameLatin(categoryEntity1.getNameLatin());
-        category.setPosition(categoryEntity1.getPosition());
-        categoryRepository.save(categoryEntity);
-        CategoryEntity editCategory = categoryService.findCategoryByName(categoryEntity.getName());
-        Assert.assertEquals(editCategory.getName(), categoryEntity.getName());
+        category.setName("test")
+                .setPosition(3);
+        categoryService.editCategory(category.getId(), modelMapper.map(category, CategoryServiceModel.class));
+
+        Assert.assertEquals("test", category.getName());
     }
 
-//    @Test
-//    public void test_getAllProductsByCategoryName(){
-//
-//    }
+    @Test
+    public void test_DeleteCategory() {
+        categoryRepository.save(categoryEntity);
+        Assert.assertEquals(1, categoryRepository.count());
+        CategoryEntity category = categoryService.findCategoryByName(categoryEntity.getName());
+        Assert.assertNotNull(category);
 
+        category.setImgUrl("nova snimka");
 
+        categoryService.deleteCategory(category.getId());
+        Assert.assertEquals(0, categoryRepository.count());
+    }
+
+    @Test
+    public void test_EditCategoryImage() {
+        categoryRepository.save(categoryEntity);
+        Assert.assertEquals(1, categoryRepository.count());
+        CategoryEntity category = categoryService.findCategoryByName(categoryEntity.getName());
+        Assert.assertNotNull(category);
+
+        categoryService.editImageCategory(modelMapper.map(category, CategoryServiceModel.class));
+    }
 }

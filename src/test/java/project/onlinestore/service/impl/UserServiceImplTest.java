@@ -1,100 +1,199 @@
 package project.onlinestore.service.impl;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.context.junit4.SpringRunner;
 import project.onlinestore.domain.entities.RoleEntity;
 import project.onlinestore.domain.entities.UserEntity;
+import project.onlinestore.domain.service.RoleServiceModel;
 import project.onlinestore.domain.service.UserServiceModel;
+import project.onlinestore.domain.view.UserViewModel;
+import project.onlinestore.repository.RoleRepository;
 import project.onlinestore.repository.UserRepository;
+import project.onlinestore.service.UserService;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+public class UserServiceImplTest {
 
-@ExtendWith(MockitoExtension.class)
-class UserServiceImplTest {
-
-    private UserServiceImpl testService;
-    private UserEntity testUser;
-
-    @Mock
-    private UserRepository testRepository;
-    @Mock
-    private RoleServiceImpl testRoleService;
-    @Mock
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private RoleRepository roleRepository;
 
-    @BeforeEach
-    void init() {
-        testService = new UserServiceImpl(testRepository, testRoleService, modelMapper);
+    UserEntity rootUser;
+    UserEntity clientUser;
+    RoleEntity rootRole;
+    RoleEntity clientRole;
+    RoleEntity modRole;
+    RoleEntity adminRole;
 
 
-        testUser = new UserEntity();
-        testUser.setEmail("test@test.bg")
-                .setUsername("test")
-                .setFullName("test test")
-                .setPassword("test")
-                .setAuthorities(Set.of(new RoleEntity("ROLE_ROOT")));
+    @Before
+    public void setup() {
+        userRepository.deleteAll();
+        roleRepository.deleteAll();
+
+        rootRole = new RoleEntity("ROLE_ROOT");
+        modRole = new RoleEntity("ROLE_MODERATOR");
+        adminRole = new RoleEntity("ROLE_ADMIN");
+        clientRole = new RoleEntity("ROLE_CLIENT");
+        roleRepository.saveAll(List.of(rootRole, clientRole, modRole, adminRole));
+
+        rootUser = new UserEntity();
+        rootUser.setUsername("Bobi")
+                .setEmail("bobi@bobi.bg")
+                .setFullName("Borislav")
+                .setPassword("1234")
+                .setAuthorities(Set.of(rootRole));
+
+        clientUser = new UserEntity();
+        clientUser.setUsername("Gosho")
+                .setEmail("gosho@gosho.bg")
+                .setFullName("Gosho")
+                .setPassword("12345")
+                .setAuthorities(Set.of(clientRole));
     }
 
     @Test
-    void testUserNotFound() {
-        Assertions.assertThrows(
-                UsernameNotFoundException.class, () -> {
-                    testService.loadUserByUsername("Invalid username");
-                });
+    public void test_RegisterUser() {
+        UserServiceModel root = modelMapper.map(rootUser, UserServiceModel.class);
+
+        userService.registerUser(root);
+        Assert.assertEquals(1, this.userRepository.count());
+
+        UserServiceModel client = modelMapper.map(clientUser, UserServiceModel.class);
+        userService.registerUser(client);
+        Assert.assertEquals(2, this.userRepository.count());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_RegisterUser_ThrowsEx_UsernameTaken() {
+        userRepository.save(rootUser);
+        Assert.assertEquals(1, this.userRepository.count());
+
+        UserServiceModel root = modelMapper.map(rootUser, UserServiceModel.class);
+        userService.registerUser(root);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_RegisterUser_ThrowsEx_EmailTaken() {
+        rootUser.setUsername("newUsername");
+        userRepository.save(rootUser);
+        Assert.assertEquals(1, this.userRepository.count());
+
+        UserServiceModel root = modelMapper.map(rootUser, UserServiceModel.class);
+        userService.registerUser(root);
     }
 
     @Test
-    void testUserFound() {
+    public void test_loadUserByUsername() {
+        userRepository.save(rootUser);
+        Assert.assertEquals(1, this.userRepository.count());
 
-        //Arrange
-        Mockito.when(testRepository.findByUsername(testUser.getUsername()))
-                .thenReturn(Optional.of(testUser));
+        UserDetails userDetails = userService.loadUserByUsername(rootUser.getUsername());
+        Assert.assertEquals(userDetails.getUsername(), rootUser.getUsername());
+    }
 
-        //Act
-        var actual = this.testService.loadUserByUsername(testUser.getUsername());
+    @Test(expected = UsernameNotFoundException.class)
+    public void test_loadUserByUsername_ThrowsEx() {
+        userRepository.save(rootUser);
+        Assert.assertEquals(1, this.userRepository.count());
 
-        //Assert
-        assertEquals(actual.getUsername(), testUser.getUsername());
-
-        String actualRoles = actual.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(", "));
-
-        assertEquals("ROLE_ROOT", actualRoles);
+        userService.loadUserByUsername("TestovUser");
     }
 
     @Test
-    void findByUserNameNotWork() {
-        Assertions.assertThrows(
-                UsernameNotFoundException.class, () -> {
-                    testService.findUserByUsername("Invalid username");
-                });
+    public void test_findUserByUsername() {
+        userRepository.save(rootUser);
+        Assert.assertEquals(1, this.userRepository.count());
+
+        UserServiceModel user = userService.findUserByUsername(rootUser.getUsername());
+        Assert.assertEquals(rootUser.getUsername(), user.getUsername());
+        Assert.assertEquals(rootUser.getEmail(), user.getEmail());
     }
 
-//    @Test
-//    void findByUsernameWork() {
-//        UserServiceModel userServiceModel = new UserServiceModel();
-//        userServiceModel.setEmail("test@test.bg");
-//        userServiceModel.setUsername("test");
-//        userServiceModel.setFullName("test test");
-//        userServiceModel.setPassword("test");
-//
-//        Mockito.when(testRepository.findByUsername(userServiceModel.getUsername()))
-//                .thenReturn(Optional.of(testUser));
-//
-//
-//    }
+    @Test
+    public void test_editUserProfile() {
+        userRepository.save(rootUser);
+        Assert.assertEquals(1, this.userRepository.count());
+
+        UserServiceModel user = userService.findUserByUsername(rootUser.getUsername());
+        user.setCity("Sofia");
+        user.setCountry("Bulgaria");
+        user.setPhoneNumber("123456789");
+        user.setFirstAddress("Somewhere");
+
+        UserServiceModel userServiceModel = userService.editUserProfile(modelMapper.map(user, UserServiceModel.class));
+        Assert.assertEquals(user.getPhoneNumber(), userServiceModel.getPhoneNumber());
+        Assert.assertEquals(user.getCity(), userServiceModel.getCity());
+        Assert.assertEquals(user.getCountry(), userServiceModel.getCountry());
+        Assert.assertEquals(user.getFirstAddress(), userServiceModel.getFirstAddress());
+    }
+
+    @Test
+    public void test_changeProfilePicture() {
+        userRepository.save(rootUser);
+        Assert.assertEquals(1, this.userRepository.count());
+
+        UserServiceModel user = userService.findUserByUsername(rootUser.getUsername());
+        user.setImgUrl("neshto novo");
+
+        userService.changeProfilePicture(modelMapper.map(user, UserServiceModel.class));
+
+        Assert.assertEquals("neshto novo", user.getImgUrl());
+    }
+
+    @Test
+    public void test_GetAllUsers() {
+        userRepository.saveAll(List.of(rootUser, clientUser));
+        Assert.assertEquals(2, this.userRepository.count());
+
+        List<UserViewModel> allUsers = userService.getAllUsers();
+        Assert.assertEquals(2, allUsers.size());
+    }
+
+    @Test
+    public void test_saveUser() {
+        userService.saveUser(rootUser);
+    }
+
+    @Test
+    public void test_SetUserRole() {
+        userRepository.saveAll(List.of(rootUser, clientUser));
+        Assert.assertEquals(2, this.userRepository.count());
+
+        UserServiceModel client = userService.findUserByUsername(clientUser.getUsername());
+
+        userService.setUserRole(client.getId(), "admin");
+        Assert.assertEquals(1, client.getAuthorities().size());
+        Assert.assertEquals("ROLE_ADMIN", adminRole.getAuthority());
+
+        userService.setUserRole(client.getId(), "moderator");
+        Assert.assertEquals(1, client.getAuthorities().size());
+        Assert.assertEquals("ROLE_MODERATOR", modRole.getAuthority());
+
+        userService.setUserRole(client.getId(), "client");
+        Assert.assertEquals(1, client.getAuthorities().size());
+        Assert.assertEquals("ROLE_CLIENT", clientRole.getAuthority());
+
+    }
+
 }

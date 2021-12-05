@@ -38,19 +38,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel registerUser(UserServiceModel userServiceModel) {
-//        UserEntity username = this.userRepository.findByUsername(userServiceModel.getUsername())
-//                .orElse(null);
-//
-//        if (username != null) {
-//            throw new IllegalArgumentException("Потребителско име е заето!");
-//        }
-//
-//        UserEntity userEmail = this.userRepository.findByEmail(userServiceModel.getEmail())
-//                .orElse(null);
-//
-//        if (userEmail != null) {
-//            throw new IllegalArgumentException("Вече съществува протебител със същият имейл адрес!");
-//        }
+        UserEntity username = this.userRepository.findByUsername(userServiceModel.getUsername())
+                .orElse(null);
+
+        if (username != null) {
+            throw new IllegalArgumentException("Потребителско име е заето!");
+        }
+
+        UserEntity userEmail = this.userRepository.findByEmail(userServiceModel.getEmail())
+                .orElse(null);
+
+        if (userEmail != null) {
+            throw new IllegalArgumentException("Вече съществува протебител със същият имейл адрес!");
+        }
 
         if (userRepository.count() == 0) {
             userServiceModel.setAuthorities(new LinkedHashSet<>());
@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
         return this.modelMapper.map(userEntity, UserServiceModel.class);
-
     }
 
     @Override
@@ -116,8 +115,8 @@ public class UserServiceImpl implements UserService {
                             .stream()
                             .map(RoleServiceModel::getAuthority)
                             .collect(Collectors.toSet()));
-                    return user;
-                })
+                    return user;})
+
                 .collect(Collectors.toList());
     }
 
@@ -134,9 +133,11 @@ public class UserServiceImpl implements UserService {
             case "client":
                 userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_CLIENT"));
                 break;
+
             case "moderator":
                 userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_MODERATOR"));
                 break;
+
             case "admin":
                 userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
                 break;
@@ -149,7 +150,4 @@ public class UserServiceImpl implements UserService {
     public void saveUser(UserEntity user) {
         this.userRepository.save(user);
     }
-
-
-
 }
