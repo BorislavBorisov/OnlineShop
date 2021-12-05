@@ -112,7 +112,7 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
     }
 
     @Override
-    public List<ProductViewModel> getAllProductsByCategoryName(String nameLatin) {
+            public List<ProductViewModel> getAllProductsByCategoryName(String nameLatin) {
         CategoryEntity category = this.categoryRepository.findByNameLatin(nameLatin)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category"));
 
