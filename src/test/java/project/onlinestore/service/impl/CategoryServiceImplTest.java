@@ -41,15 +41,13 @@ public class CategoryServiceImplTest {
         categoryEntity.setName("TestCategory")
                 .setImgUrl("some address")
                 .setNameLatin("TestCategory")
-                .setPosition(1)
-                .setId(1L);
+                .setPosition(1);
 
         categoryEntity1 = new CategoryEntity();
         categoryEntity1.setName("TestCategory-2")
                 .setImgUrl("some address")
                 .setNameLatin("TestCategory-2")
-                .setPosition(2)
-                .setId(2L);
+                .setPosition(2);
 
     }
 
@@ -73,8 +71,11 @@ public class CategoryServiceImplTest {
     public void test_GetCategoryById() {
         categoryRepository.saveAll(List.of(categoryEntity1, categoryEntity));
         Assert.assertEquals(2, categoryRepository.count());
+
         CategoryServiceModel category1 = categoryService.findCategoryById(categoryEntity.getId());
+        Assert.assertNotNull(category1);
         CategoryServiceModel category2 = categoryService.findCategoryById(categoryEntity1.getId());
+        Assert.assertNotNull(category2);
 
         Assert.assertEquals(category1.getName(), categoryEntity.getName());
         Assert.assertEquals(category2.getName(), categoryEntity1.getName());

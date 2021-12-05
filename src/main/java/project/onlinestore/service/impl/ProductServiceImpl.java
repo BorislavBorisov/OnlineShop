@@ -88,27 +88,20 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         ProductEntity product = this.productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product ID!"));
 
-        try {
             this.productRepository.delete(product);
             return true;
-        } catch (Exception exception) {
-            return false;
-        }
+
     }
 
     @Override
-    public boolean editImageCategory(ProductServiceModel productServiceModel) {
+    public boolean editProductImage(ProductServiceModel productServiceModel) {
         ProductEntity product = this.productRepository.findById(productServiceModel.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID!"));
 
-        try {
             product.setImgUrl(productServiceModel.getImgUrl());
             product.setModified(Instant.now());
             this.productRepository.save(product);
             return true;
-        } catch (Exception exception) {
-            throw new IllegalArgumentException("Invalid product ID!");
-        }
     }
 
     @Override
@@ -120,16 +113,13 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     }
 
     @Override
-    public ProductEntity findProductByName(String key) {
-        return this.productRepository.findByProductName(key).orElse(null);
+    public ProductEntity findProductByName(String name) {
+        return this.productRepository.findByProductName(name)
+                .orElse(null);
     }
 
     @Override
     public void seedProducts() {
-        seedProducts15();
-    }
-
-    private void seedProducts15() {
         if (this.productRepository.count() == 0) {
             CategoryEntity computerCategory = this.modelMapper.map(
                     this.categoryService.findCategoryById(1L), CategoryEntity.class
@@ -201,7 +191,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             );
 
             SupplierEntity laptopSupplier = this.modelMapper.map(
-                    this.supplierService.findSupplierById(3L), SupplierEntity.class
+                    this.supplierService.findSupplierById(2L), SupplierEntity.class
             );
 
             ProductEntity product5 = new ProductEntity();
@@ -265,7 +255,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             );
 
             SupplierEntity smartphoneSupplier = this.modelMapper.map(
-                    this.supplierService.findSupplierById(4L), SupplierEntity.class
+                    this.supplierService.findSupplierById(3L), SupplierEntity.class
             );
 
             ProductEntity product10 = new ProductEntity();
@@ -308,6 +298,5 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             this.productRepository.saveAll(List.of(product10, product12, product11));
 
         }
-
     }
 }

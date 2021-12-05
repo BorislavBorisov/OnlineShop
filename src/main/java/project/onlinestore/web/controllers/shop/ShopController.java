@@ -49,4 +49,6 @@ public class ShopController {
         return "/shop/details";
     }
 
+
+
 }

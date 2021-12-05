@@ -131,7 +131,7 @@ public class ProductsController {
     public String editProductImageConfirm(@PathVariable Long id, ImageBindingModel imageBindingModel) throws IOException {
         ProductServiceModel product = this.productService.findProductById(id);
         product.setImgUrl(this.cloudinaryService.uploadImage(imageBindingModel.getImage()));
-        this.productService.editImageCategory(product);
+        this.productService.editProductImage(product);
         return "redirect:/admin/products";
     }
 

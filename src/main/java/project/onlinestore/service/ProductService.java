@@ -18,7 +18,7 @@ public interface ProductService {
 
     boolean deleteProduct(Long id);
 
-    boolean editImageCategory(ProductServiceModel productServiceModel);
+    boolean editProductImage(ProductServiceModel productServiceModel);
 
     ProductServiceModel findProductByNameLatin(String nameLatin);
 

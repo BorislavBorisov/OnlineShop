@@ -29,6 +29,11 @@ public class HomeController {
         return "redirect:/";
     }
 
+    @PostMapping("/search")
+    public String search() {
+        return "/shop/search-products";
+    }
+
     @ModelAttribute
     public QuestionBindingModel questionBindingModel() {
         return new QuestionBindingModel();
