@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 import project.onlinestore.domain.entities.RoleEntity;
 import project.onlinestore.domain.entities.UserEntity;
-import project.onlinestore.domain.service.RoleServiceModel;
 import project.onlinestore.domain.service.UserServiceModel;
 import project.onlinestore.domain.view.UserViewModel;
 import project.onlinestore.repository.RoleRepository;

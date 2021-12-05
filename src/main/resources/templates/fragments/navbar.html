@@ -95,6 +95,14 @@
                         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Moderator</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/users}">Всички поръчки</a>
+                                    <a class="dropdown-item" th:href="@{/questions}">Запитвания</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                                    aria-haspopup="true" aria-expanded="false">Admin</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" th:href="@{/admin/categories}">Категории</a>
@@ -105,6 +113,14 @@
                         </th:block>
 
                         <th:block sec:authorize="hasRole('ROLE_ROOT')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Moderator</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/moderator/users}">Всички поръчки</a>
+                                    <a class="dropdown-item" th:href="@{/questions}">Запитвания</a>
+                                </div>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                                    aria-haspopup="true" aria-expanded="false">Admin</a>
@@ -125,7 +141,6 @@
                         <input class="form-control me-sm-2" type="text" placeholder="Search">
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                     </form>
-
 
                 </div>
             </div>

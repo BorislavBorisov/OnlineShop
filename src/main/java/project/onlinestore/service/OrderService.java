@@ -1,7 +1,6 @@
 package project.onlinestore.service;
 
 import javassist.tools.rmi.ObjectNotFoundException;
-import project.onlinestore.domain.entities.OrderEntity;
 import project.onlinestore.domain.view.OrderViewModel;
 
 import java.util.List;

@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import project.onlinestore.domain.entities.RoleEntity;
 import project.onlinestore.domain.service.RoleServiceModel;
-import project.onlinestore.domain.service.UserServiceModel;
 import project.onlinestore.repository.RoleRepository;
 import project.onlinestore.service.RoleService;
 
@@ -32,18 +31,6 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
-    @Override
-    public void assignUserRoles(UserServiceModel userServiceModel, long numberOfUsers) {
-        if (numberOfUsers == 0) {
-            userServiceModel
-                    .setAuthorities(
-                            this.roleRepository
-                                    .findAll()
-                                    .stream()
-                                    .map(r -> this.modelMapper.map(r, RoleServiceModel.class))
-                                    .collect(Collectors.toSet()));
-        }
-    }
 
     @Override
     public Set<RoleServiceModel> findAllRoles() {
@@ -56,6 +43,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleServiceModel findByAuthority(String authority) {
-        return this.modelMapper.map(this.roleRepository.findByAuthority(authority), RoleServiceModel.class);
+        return this.modelMapper.map(this.roleRepository.findByAuthority(authority),
+                RoleServiceModel.class);
     }
 }

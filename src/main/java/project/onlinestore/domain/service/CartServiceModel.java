@@ -3,23 +3,11 @@ package project.onlinestore.domain.service;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class CartServiceModel {
+public class CartServiceModel extends BaseServiceModel{
 
-    private Long id;
     private List<ProductServiceModel> products;
     private UserServiceModel user;
     private BigDecimal totalSum;
-
-    public CartServiceModel() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public List<ProductServiceModel> getProducts() {
         return products;

@@ -1,5 +1,6 @@
 package project.onlinestore.service;
 
+import project.onlinestore.domain.entities.SupplierEntity;
 import project.onlinestore.domain.service.SupplierServiceModel;
 import project.onlinestore.domain.view.SupplierViewModel;
 
@@ -11,13 +12,13 @@ public interface SupplierService {
 
     SupplierServiceModel addSupplier(SupplierServiceModel supplierServiceModel);
 
-    SupplierServiceModel findSupplierById(Long id);
+    SupplierEntity findSupplierById(Long id);
 
     SupplierServiceModel editSupplier(Long id, SupplierServiceModel supplierServiceModel);
 
-    boolean deleteCategory(Long id);
+    boolean deleteSupplier(Long id);
 
     void seedSuppliers();
 
-    SupplierServiceModel findSupplierByName(String name);
+    SupplierEntity findSupplierByName(String name);
 }

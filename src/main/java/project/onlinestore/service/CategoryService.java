@@ -1,11 +1,9 @@
 package project.onlinestore.service;
 
-
 import project.onlinestore.domain.entities.CategoryEntity;
 import project.onlinestore.domain.service.CategoryServiceModel;
 import project.onlinestore.domain.view.CategoryViewModel;
 import project.onlinestore.domain.view.ProductViewModel;
-import project.onlinestore.service.impl.CategoryServiceImpl;
 
 import java.util.List;
 

@@ -3,6 +3,41 @@
 
 <head>
     <th:block th:include="~{fragments/header}"></th:block>
+    <script>
+
+        fetch('/api/questions')
+            .then((response) => response.json())
+            .then((json) => {
+                json.forEach(ele => {
+                    createTd(ele)
+                })
+            })
+            .catch((err) => console.log(err));
+
+        function createTd(question) {
+            let body = document.getElementById('body');
+            let tr = document.createElement('tr');
+
+            let line1 = document.createElement('td');
+            line1.innerHTML = `${question.id}`;
+            tr.appendChild(line1);
+
+            let line2 = document.createElement('td')
+            line2.innerHTML = `${question.email}`;
+            tr.appendChild(line2);
+
+            let line3 = document.createElement('td')
+            line3.innerHTML = `${question.phoneNumber}`;
+            tr.appendChild(line3);
+
+            let line4 = document.createElement('td')
+            line4.innerHTML = `${question.question}`;
+            tr.appendChild(line4);
+
+            body.appendChild(tr);
+            return tr;
+        }
+    </script>
 </head>
 
 <body>
@@ -49,41 +84,6 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 
-<script>
-
-    fetch('/api/questions')
-        .then((response) => response.json())
-        .then((json) => {
-            json.forEach(ele => {
-                createTd(ele)
-            })
-        })
-        .catch((err) => console.log(err));
-
-    function createTd(question) {
-        let body = document.getElementById('body');
-        let tr = document.createElement('tr');
-
-        let line1 = document.createElement('td');
-        line1.innerHTML = `${question.id}`;
-        tr.appendChild(line1);
-
-        let line2 = document.createElement('td')
-        line2.innerHTML = `${question.email}`;
-        tr.appendChild(line2);
-
-        let line3 = document.createElement('td')
-        line3.innerHTML = `${question.phoneNumber}`;
-        tr.appendChild(line3);
-
-        let line4 = document.createElement('td')
-        line4.innerHTML = `${question.question}`;
-        tr.appendChild(line4);
-
-        body.appendChild(tr);
-        return tr;
-    }
-</script>
 </body>
 
 </html>

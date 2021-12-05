@@ -1,7 +1,6 @@
 package project.onlinestore.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import project.onlinestore.domain.entities.CartItemEntity;
 import project.onlinestore.domain.entities.ProductEntity;

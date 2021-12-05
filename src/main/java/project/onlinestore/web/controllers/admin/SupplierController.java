@@ -86,7 +86,7 @@ public class SupplierController {
     @PostMapping("suppliers/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String deleteSupplierConfirm(@PathVariable Long id) {
-        this.supplierService.deleteCategory(id);
+        this.supplierService.deleteSupplier(id);
         return "redirect:/admin/suppliers";
     }
 

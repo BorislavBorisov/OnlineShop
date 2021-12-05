@@ -47,11 +47,9 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierServiceModel findSupplierById(Long id) {
-        SupplierEntity supplier = this.supplierRepository
+    public SupplierEntity findSupplierById(Long id) {
+        return this.supplierRepository
                 .findById(id).orElse(null);
-
-        return this.modelMapper.map(supplier, SupplierServiceModel.class);
     }
 
     @Override
@@ -71,17 +69,13 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public boolean deleteCategory(Long id) {
+    public boolean deleteSupplier(Long id) {
         SupplierEntity supplier =
                 this.supplierRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("Invalid supplier ID!"));
 
-        try {
             this.supplierRepository.delete(supplier);
             return true;
-        } catch (Exception exception) {
-            return false;
-        }
     }
 
     @Override
@@ -134,7 +128,8 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierServiceModel findSupplierByName(String name) {
-        return this.modelMapper.map(this.supplierRepository.findByName(name), SupplierServiceModel.class);
+    public SupplierEntity findSupplierByName(String name) {
+        return this.supplierRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid input"));
     }
 }

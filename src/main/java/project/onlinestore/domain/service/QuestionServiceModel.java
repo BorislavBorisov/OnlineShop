@@ -1,22 +1,13 @@
 package project.onlinestore.domain.service;
 
-public class QuestionServiceModel {
+public class QuestionServiceModel extends BaseServiceModel {
 
-    private Long id;
     private String email;
     private String phoneNumber;
     private String question;
     private boolean status;
 
     public QuestionServiceModel() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getEmail() {

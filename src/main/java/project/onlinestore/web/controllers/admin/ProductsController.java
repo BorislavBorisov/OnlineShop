@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.onlinestore.domain.binding.ImageBindingModel;
 import project.onlinestore.domain.binding.ProductAddBindingModel;
 import project.onlinestore.domain.service.ProductServiceModel;
+import project.onlinestore.domain.service.SupplierServiceModel;
 import project.onlinestore.domain.view.ProductViewModel;
 import project.onlinestore.service.CategoryService;
 import project.onlinestore.service.CloudinaryService;
@@ -68,7 +69,10 @@ public class ProductsController {
                 this.categoryService.findCategoryById(Long.parseLong(productAddBindingModel.getCategory()))
         );
         productServiceModel.setSupplier(
-                this.supplierService.findSupplierById(Long.parseLong(productAddBindingModel.getSupplier()))
+                this.modelMapper.map(
+                        this.supplierService.findSupplierById(
+                                Long.parseLong(productAddBindingModel.getSupplier())
+                        ), SupplierServiceModel.class)
         );
 
         this.productService.addProduct(productServiceModel);
@@ -132,7 +136,9 @@ public class ProductsController {
     }
 
     @ModelAttribute
-    public ImageBindingModel imageBindingModel(){ return new ImageBindingModel(); }
+    public ImageBindingModel imageBindingModel() {
+        return new ImageBindingModel();
+    }
 
     @ModelAttribute
     public ProductAddBindingModel productAddBindingModel() {

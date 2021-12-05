@@ -14,8 +14,6 @@ import project.onlinestore.domain.entities.CategoryEntity;
 import project.onlinestore.domain.service.CategoryServiceModel;
 import project.onlinestore.domain.view.CategoryViewModel;
 import project.onlinestore.repository.CategoryRepository;
-import project.onlinestore.repository.ProductRepository;
-import project.onlinestore.repository.SupplierRepository;
 import project.onlinestore.service.CategoryService;
 
 import java.util.List;
@@ -130,8 +128,6 @@ public class CategoryServiceImplTest {
         CategoryEntity category = categoryService.findCategoryByName(categoryEntity.getName());
         Assert.assertNotNull(category);
 
-        category.setImgUrl("nova snimka");
-
         categoryService.deleteCategory(category.getId());
         Assert.assertEquals(0, categoryRepository.count());
     }
@@ -143,6 +139,7 @@ public class CategoryServiceImplTest {
         CategoryEntity category = categoryService.findCategoryByName(categoryEntity.getName());
         Assert.assertNotNull(category);
 
+        category.setImgUrl("nova snimka");
         categoryService.editImageCategory(modelMapper.map(category, CategoryServiceModel.class));
     }
 }
