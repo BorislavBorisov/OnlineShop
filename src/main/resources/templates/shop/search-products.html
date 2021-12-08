@@ -7,16 +7,28 @@
 
 <body>
 <header>
-
     <th:block th:include="~{fragments/navbar}"></th:block>
 </header>
 
-<h1>KUR</h1>
+<div class="row d-flex justify-content-center">
+    <div class="col-md-6 col-sm-12 my-4 text-center bg-light rounded">
+        <div class="col mx-auto text-center my-4">
+            <h1 class="mt-4 mb-5">Търси продукти</h1>
+            <input class="searchbar" type="text" placeholder="Търси"/>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3"><span>Всички продукти</span></div>
+    <div class="row" id="search-results">
+
+    </div>
+</div>
 
 <footer class="mt-5" style="background-color: #616161; color: white; padding: 100px">
     <th:block th:include="~{fragments/footer}"></th:block>
 </footer>
-
+<script src="/js/search.js"></script>
 </body>
-
 </html>

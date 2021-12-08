@@ -31,12 +31,7 @@
                             </div>
                         </li>
                     </ul>
-
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="text" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-
+                    <a th:href="@{/search}" class="btn btn-lg btn-secondary" type="button">Search</a>
                 </div>
             </div>
         </nav>
@@ -134,15 +129,8 @@
                                 </div>
                             </li>
                         </th:block>
-
                     </ul>
-
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="text"
-                               id="searchInput" placeholder="Search">
-                        <a th:href="@{/search}" class="btn btn-secondary my-2 my-sm-0" type="submit">Search</a>
-                    </form>
-
+                    <a th:href="@{/search}" class="btn btn-lg btn-secondary" type="button">Search</a>
                 </div>
             </div>
         </nav>
