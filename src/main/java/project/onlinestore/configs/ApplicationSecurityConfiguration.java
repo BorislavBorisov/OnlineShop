@@ -41,8 +41,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/js/**", "/css/**").permitAll()
+                .antMatchers("/fragments").permitAll()
                 .antMatchers("/", "/users/register", "/users/login").permitAll()
                 .antMatchers("/shop/**").permitAll()
                 .antMatchers("/question").permitAll()
