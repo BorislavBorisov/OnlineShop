@@ -23,4 +23,9 @@ public interface UserService extends UserDetailsService {
 
     void saveUser(UserEntity user);
 
+    boolean usernameCheck(String username);
+
+    boolean emailCheck(String email);
+
+    void authenticate(UserServiceModel userServiceModel);
 }

@@ -24,6 +24,12 @@
                                 <p th:if="${passwordsDontMatch}" class="errors alert alert-danger text-center">
                                     Паролите не съвпадат!
                                 </p>
+                                <p th:if="${usernameExists}" class="errors alert alert-danger text-center">
+                                   Потребителското име е заето!
+                                </p>
+                                <p th:if="${emailExists}" class="errors alert alert-danger text-center">
+                                    Имейлът е зает!
+                                </p>
 
                                 <form class="mx-1 mx-md-4" th:action="@{/users/register}" th:method="post"
                                       th:object="${userRegisterBindingModel}">

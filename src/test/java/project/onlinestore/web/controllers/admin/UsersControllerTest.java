@@ -1,11 +1,17 @@
 package project.onlinestore.web.controllers.admin;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import project.onlinestore.domain.entities.RoleEntity;
 import project.onlinestore.domain.entities.UserEntity;
@@ -13,6 +19,8 @@ import project.onlinestore.repository.RoleRepository;
 import project.onlinestore.repository.UserRepository;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -20,9 +28,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class UsersControllerTest {
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+public class UsersControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,16 +41,55 @@ class UsersControllerTest {
     @Autowired
     private RoleRepository roleRepository;
 
-//    @BeforeEach
-//    public void setup() {
-//        UserEntity userEntity = initUser();
-//
-//    }
+    UserEntity rootUser;
+    UserEntity clientUser;
+    UserEntity adminUser;
 
-    @AfterEach
-    public void tearDown() {
-        userRepository.deleteAll();
-        roleRepository.deleteAll();
+    RoleEntity roleRoot;
+    RoleEntity roleClient;
+    RoleEntity roleAdmin;
+    RoleEntity roleModerator;
+
+    @Before
+    public void setup() {
+
+        this.userRepository.deleteAll();
+        this.roleRepository.deleteAll();
+
+        roleRoot = new RoleEntity();
+        roleRoot.setAuthority("ROLE_ROOT");
+
+        roleClient = new RoleEntity();
+        roleClient.setAuthority("ROLE_CLIENT");
+
+        roleAdmin = new RoleEntity();
+        roleAdmin.setAuthority("ROLE_ADMIN");
+
+        roleModerator = new RoleEntity();
+        roleModerator.setAuthority("ROLE_MODERATOR");
+
+        roleRepository.saveAll(List.of(roleRoot, roleClient, roleAdmin, roleModerator));
+
+        rootUser = new UserEntity();
+        rootUser.setUsername("root")
+                .setFullName("Root Root")
+                .setEmail("root@root.bg")
+                .setPassword("1234")
+                .setAuthorities(Set.of(roleRoot));
+
+        adminUser = new UserEntity();
+        adminUser.setUsername("admin")
+                .setFullName("admin admin")
+                .setEmail("admin@admin.bg")
+                .setPassword("1234")
+                .setAuthorities(Set.of(roleAdmin));
+
+        clientUser = new UserEntity();
+        clientUser.setUsername("test")
+                .setFullName("test testov")
+                .setEmail("test@test.bg")
+                .setPassword("1234")
+                .setAuthorities(Set.of(roleClient));
     }
 
 
@@ -56,68 +105,58 @@ class UsersControllerTest {
 
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ROOT"})
     public void changeRoleToMod() throws Exception {
-        long count = roleRepository.count();
-        long count1 = userRepository.count();
-        RoleEntity role_root = roleRepository.findByAuthority("ROLE_ROOT");
-        RoleEntity role_client = roleRepository.findByAuthority("ROLE_CLIENT");
+        userRepository.save(clientUser);
+        Assert.assertEquals(1, userRepository.count());
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setEmail("gerasim@gerasim.bg")
-                .setFullName("gerasim")
-                .setPassword("1234")
-                .setUsername("gerasim")
-                .setAuthorities(Set.of(role_root))
-                .setRegistered(Instant.now());
+        Optional<UserEntity> byUsername = userRepository.findByUsername(clientUser.getUsername());
+        Assert.assertNotNull(byUsername);
 
-        userRepository.save(userEntity);
-
-        UserEntity userEntity1 = new UserEntity();
-        userEntity1.setEmail("pepa@pepa.bg")
-                .setFullName("pepa")
-                .setPassword("1234")
-                .setUsername("pepa")
-                .setAuthorities(Set.of(role_client))
-                .setRegistered(Instant.now());
-
-        userRepository.save(userEntity1);
-
-       UserEntity pepa = userRepository.findByUsername("pepa").
-               orElse(null);
-
-        mockMvc.perform(post("/admin/users/set-moderator/" + pepa.getId())
-                        .param("id", ""+ pepa.getId())
+        mockMvc.perform(post("/admin/users/set-moderator/" + byUsername.get().getId())
+                        .param("id", String.valueOf(byUsername.get().getId()))
+                        .param("role", "moderator")
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(handler().methodName("setModerator"))
                 .andExpect(redirectedUrl("/admin/users"));
     }
 
-//    public UserEntity initUser() {
-//        RoleEntity roleAdmin = new RoleEntity();
-//        roleAdmin.setAuthority("ROLE_ADMIN");
-//
-//        RoleEntity roleMod = new RoleEntity();
-//        roleMod.setAuthority("ROLE_MODERATOR");
-//
-//        RoleEntity roleRoot = new RoleEntity();
-//        roleRoot.setAuthority("ROLE_ROOT");
-//
-//        RoleEntity roleClient = new RoleEntity();
-//        roleClient.setAuthority("ROLE_CLIENT");
-//
-//        roleRepository.saveAll(List.of(roleAdmin, roleClient, roleMod, roleRoot));
-//
-//        UserEntity userEntity = new UserEntity();
-//        userEntity.setEmail("test@test.bg")
-//                .setFullName("test")
-//                .setPassword("1234")
-//                .setUsername("test")
-//                .setAuthorities(Set.of(roleAdmin, roleClient, roleMod, roleRoot))
-//                .setRegistered(Instant.now());
-//        userRepository.save(userEntity);
-//        return userEntity;
-//    }
+    @Test
+    @WithMockUser(authorities = {"ROLE_ROOT"})
+    public void changeRoleToAdmin() throws Exception {
+        userRepository.save(clientUser);
+        Assert.assertEquals(1, userRepository.count());
+
+        Optional<UserEntity> byUsername = userRepository.findByUsername(clientUser.getUsername());
+        Assert.assertNotNull(byUsername);
+
+        mockMvc.perform(post("/admin/users/set-admin/" + byUsername.get().getId())
+                        .param("id", String.valueOf(byUsername.get().getId()))
+                        .param("role", "admin")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("setAdmin"))
+                .andExpect(redirectedUrl("/admin/users"));
+    }
+
+    @Test
+    @WithMockUser(authorities = {"ROLE_ROOT"})
+    public void changeRoleToClient() throws Exception {
+        userRepository.save(adminUser);
+        Assert.assertEquals(1, userRepository.count());
+
+        Optional<UserEntity> byUsername = userRepository.findByUsername(adminUser.getUsername());
+        Assert.assertNotNull(byUsername);
+
+        mockMvc.perform(post("/admin/users/set-client/" + byUsername.get().getId())
+                        .param("id", String.valueOf(byUsername.get().getId()))
+                        .param("role", "client")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("setClient"))
+                .andExpect(redirectedUrl("/admin/users"));
+    }
 
 
 }

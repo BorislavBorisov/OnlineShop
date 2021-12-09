@@ -50,6 +50,16 @@ public class UserController {
             return "redirect:/users/register";
         }
 
+        if (this.userService.usernameCheck(userRegisterBindingModel.getUsername())) {
+            redirectAttributes.addFlashAttribute("usernameExists", true);
+            return "redirect:/users/register";
+        }
+
+        if (this.userService.emailCheck(userRegisterBindingModel.getEmail())) {
+            redirectAttributes.addFlashAttribute("emailExists", true);
+            return "redirect:/users/register";
+        }
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
@@ -97,7 +107,6 @@ public class UserController {
         }
 
         this.userService.editUserProfile(userServiceModel);
-
         return "redirect:/shop/categories";
     }
 

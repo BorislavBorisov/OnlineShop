@@ -1,7 +1,5 @@
 package project.onlinestore.domain.binding;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,11 +9,10 @@ public class UserEditBindingModel {
     private String username;
     private String fullName;
     private String email;
-    private String firstAddress;
+    private String address;
     private String phoneNumber;
     private String country;
     private String city;
-    private MultipartFile image;
 
     public UserEditBindingModel() {
     }
@@ -52,12 +49,12 @@ public class UserEditBindingModel {
     }
 
     @Size(max = 60, message = "Само 60 символа са позволени!")
-    public String getFirstAddress() {
-        return firstAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setFirstAddress(String firstAddress) {
-        this.firstAddress = firstAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Size(max = 10, message = "Само 10 символа са позволени!")
@@ -85,13 +82,5 @@ public class UserEditBindingModel {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public MultipartFile getImage() {
-        return image;
-    }
-
-    public void setImage(MultipartFile image) {
-        this.image = image;
     }
 }

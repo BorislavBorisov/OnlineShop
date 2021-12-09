@@ -1,14 +1,19 @@
 package project.onlinestore.web.controllers.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import project.onlinestore.domain.binding.CategoryAddBindingModel;
 import project.onlinestore.domain.entities.CategoryEntity;
@@ -27,10 +32,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @WithMockUser(username = "test", roles = {"ADMIN", "ROOT"})
-class CategoriesControllerTest {
+public class CategoriesControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,7 +51,7 @@ class CategoriesControllerTest {
     private ObjectMapper objectMapper;
 
 
-    @BeforeEach
+    @Before
     public void setup() {
         UserEntity userEntity = initUser();
         userRepository.save(userEntity);
@@ -53,7 +60,7 @@ class CategoriesControllerTest {
         categoryRepository.save(category);
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         categoryRepository.deleteAll();
         userRepository.deleteAll();
@@ -107,7 +114,7 @@ class CategoriesControllerTest {
                 .andExpect(handler().methodName("addCategoryConfirm"))
                 .andExpect(redirectedUrl("/admin/categories"));
 
-        Assertions.assertEquals(2, categoryRepository.count());
+        Assert.assertEquals(2, categoryRepository.count());
     }
 
     @Test

@@ -1,6 +1,9 @@
 package project.onlinestore.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +19,7 @@ import project.onlinestore.service.UserService;
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,7 +83,7 @@ public class UserServiceImpl implements UserService {
         UserEntity user = this.userRepository.findByUsername(userServiceModel.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
 
-        user.setFirstAddress(userServiceModel.getFirstAddress())
+        user.setFirstAddress(userServiceModel.getAddress())
                 .setPhoneNumber(userServiceModel.getPhoneNumber())
                 .setCountry(userServiceModel.getCountry())
                 .setCity(userServiceModel.getCity())
@@ -149,5 +153,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(UserEntity user) {
         this.userRepository.save(user);
+    }
+
+    @Override
+    public boolean usernameCheck(String username) {
+        Optional<UserEntity> byUsername = this.userRepository.findByUsername(username);
+        return byUsername.isPresent();
+    }
+
+    @Override
+    public boolean emailCheck(String email) {
+        Optional<UserEntity> byEmail = this.userRepository.findByEmail(email);
+        return byEmail.isPresent();
+    }
+
+    @Override
+    public void authenticate(UserServiceModel userServiceModel) {
+        UserDetails principal = loadUserByUsername(userServiceModel.getUsername());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                principal, userServiceModel.getPassword(), principal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

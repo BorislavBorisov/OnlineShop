@@ -138,13 +138,13 @@ public class UserServiceImplTest {
         user.setCity("Sofia");
         user.setCountry("Bulgaria");
         user.setPhoneNumber("123456789");
-        user.setFirstAddress("Somewhere");
+        user.setAddress("Somewhere");
 
         UserServiceModel userServiceModel = userService.editUserProfile(modelMapper.map(user, UserServiceModel.class));
         Assert.assertEquals(user.getPhoneNumber(), userServiceModel.getPhoneNumber());
         Assert.assertEquals(user.getCity(), userServiceModel.getCity());
         Assert.assertEquals(user.getCountry(), userServiceModel.getCountry());
-        Assert.assertEquals(user.getFirstAddress(), userServiceModel.getFirstAddress());
+        Assert.assertEquals(user.getAddress(), userServiceModel.getAddress());
     }
 
     @Test

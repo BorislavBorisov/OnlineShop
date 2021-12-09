@@ -10,7 +10,7 @@ public class UserServiceModel extends BaseServiceModel{
     private String email;
     private Set<RoleServiceModel> authorities;
     private String imgUrl;
-    private String firstAddress;
+    private String address;
     private String phoneNumber;
     private String country;
     private String city;
@@ -67,12 +67,12 @@ public class UserServiceModel extends BaseServiceModel{
         this.imgUrl = imgUrl;
     }
 
-    public String getFirstAddress() {
-        return firstAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setFirstAddress(String firstAddress) {
-        this.firstAddress = firstAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPhoneNumber() {
