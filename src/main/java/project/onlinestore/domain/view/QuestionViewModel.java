@@ -1,11 +1,14 @@
 package project.onlinestore.domain.view;
 
+import java.time.Instant;
+
 public class QuestionViewModel {
 
     private Long id;
     private String email;
     private String phoneNumber;
     private String question;
+    private Instant registered;
     private boolean status;
 
     public QuestionViewModel() {
@@ -41,6 +44,14 @@ public class QuestionViewModel {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public Instant getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(Instant registered) {
+        this.registered = registered;
     }
 
     public boolean isStatus() {

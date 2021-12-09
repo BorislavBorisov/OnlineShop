@@ -1,10 +1,13 @@
 package project.onlinestore.domain.service;
 
+import java.time.Instant;
+
 public class QuestionServiceModel extends BaseServiceModel {
 
     private String email;
     private String phoneNumber;
     private String question;
+    private Instant registered;
     private boolean status;
 
     public QuestionServiceModel() {
@@ -32,6 +35,14 @@ public class QuestionServiceModel extends BaseServiceModel {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public Instant getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(Instant registered) {
+        this.registered = registered;
     }
 
     public boolean isStatus() {

@@ -26,6 +26,7 @@
             <tr>
                 <th>#</th>
                 <th>No.</th>
+                <th>Регистрирана</th>
                 <th>Потребител</th>
                 <th>Цена</th>
                 <th>Детайли</th>
@@ -35,6 +36,7 @@
             <tr th:each="o, iter : ${orders}" th:object="${o}">
                 <td th:text="${iter.index + 1}"></td>
                 <td th:text="*{id}"></td>
+                <td th:text="*{registered}"></td>
                 <td th:text="*{username}"></td>
                 <td th:text="*{price}"></td>
                 <td><a th:href="@{/order/{username}(username=*{username}/{id}(id=*{id})}" class="btn btn-danger">Детайли</a>
@@ -45,6 +47,7 @@
             <tr>
                 <th>#</th>
                 <th>No.</th>
+                <th>Регистрирана</th>
                 <th>Потребител</th>
                 <th>Цена</th>
                 <th>Детайли</th>

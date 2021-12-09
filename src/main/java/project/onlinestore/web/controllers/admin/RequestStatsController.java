@@ -1,4 +1,4 @@
-package project.onlinestore.web.controllers.moderator;
+package project.onlinestore.web.controllers.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +9,6 @@ import project.onlinestore.service.RequestsStatsService;
 public class RequestStatsController {
 
     private final RequestsStatsService requestsStatsService;
-
 
     public RequestStatsController(RequestsStatsService requestsStatsService) {
         this.requestsStatsService = requestsStatsService;

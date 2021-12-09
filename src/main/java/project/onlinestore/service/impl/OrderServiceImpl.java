@@ -18,6 +18,7 @@ import project.onlinestore.service.UserService;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setPrice(totalPrice);
         orderEntity.setCustomer(getUserEntity(username));
+        orderEntity.setRegistered(Instant.now());
 
         OrderEntity newOrder = orderRepository.save(orderEntity);
 

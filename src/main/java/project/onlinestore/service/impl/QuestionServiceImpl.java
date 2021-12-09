@@ -8,6 +8,7 @@ import project.onlinestore.domain.view.QuestionViewModel;
 import project.onlinestore.repository.QuestionRepository;
 import project.onlinestore.service.QuestionService;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void sendQuestion(QuestionBindingModel question) {
         QuestionEntity map = this.modelMapper.map(question, QuestionEntity.class);
+        map.setRegistered(Instant.now());
         this.questionRepository.save(map);
     }
 

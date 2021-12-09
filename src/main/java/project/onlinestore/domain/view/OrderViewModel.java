@@ -1,6 +1,7 @@
 package project.onlinestore.domain.view;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 public class OrderViewModel {
@@ -8,6 +9,7 @@ public class OrderViewModel {
     private Long id;
     private BigDecimal price;
     private String fullName;
+    private Instant registered;
     private List<OrderItemViewModel> orderedProducts;
 
     public OrderViewModel() {
@@ -35,6 +37,18 @@ public class OrderViewModel {
 
     public void setOrderedProducts(List<OrderItemViewModel> orderedProducts) {
         this.orderedProducts = orderedProducts;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public Instant getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(Instant registered) {
+        this.registered = registered;
     }
 
     public String username() {

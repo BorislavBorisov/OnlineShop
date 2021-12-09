@@ -19,7 +19,7 @@ public class QuestionRestController {
     }
 
     @GetMapping("/api/questions")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
+    @PreAuthorize("hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public ResponseEntity<List<QuestionViewModel>> getAllQuestions() {
 
         List<QuestionViewModel> allQuestions = this.questionService.getAllQuestions();
