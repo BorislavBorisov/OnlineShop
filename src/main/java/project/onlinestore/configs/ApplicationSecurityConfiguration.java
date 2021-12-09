@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,6 +32,11 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         return tokenRepository;
     }
 
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/js/**", "/css/**");
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -41,16 +47,12 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/js/**", "/css/**").permitAll()
-                .antMatchers("/fragments").permitAll()
-                .antMatchers("/", "/users/register", "/users/login").permitAll()
-                .antMatchers("/shop/**").permitAll()
-                .antMatchers("/question").permitAll()
-                .antMatchers("/search").permitAll()
-                .antMatchers("/moderator/**").hasAnyRole("MODERATOR", "ROOT")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .antMatchers("/", "/users/register", "/users/login", "/search", "/question", "/shop/**").permitAll()
+                .antMatchers("/moderator/**").hasAnyRole("MODERATOR", "ADMIN", "ROOT")
                 .antMatchers("/api").hasAnyRole("MODERATOR", "ROOT", "ADMIN")
-                .antMatchers("/admin/users").hasAnyRole( "ROOT")
-                .antMatchers("/stats").hasAnyRole( "ROOT")
+                .antMatchers("/admin/users").hasAnyRole("ROOT")
+                .antMatchers("/stats").hasAnyRole("ROOT")
                 .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
                 .anyRequest().authenticated()
                 .and()

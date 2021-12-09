@@ -63,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setPrice(totalPrice);
+        orderEntity.setFullName(getUserEntity(username).getFullName());
         orderEntity.setCustomer(getUserEntity(username));
         orderEntity.setRegistered(Instant.now());
 
@@ -93,6 +94,16 @@ public class OrderServiceImpl implements OrderService {
                 .stream()
                 .map(this::getOrderViewModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderViewModel> findAllOrders() {
+        return orderRepository
+                .findAllByOrderByRegisteredDesc()
+                .stream()
+                .map(this::getOrderViewModel)
+                .collect(Collectors.toList());
+
     }
 
     private UserEntity getUserEntity(String username) {

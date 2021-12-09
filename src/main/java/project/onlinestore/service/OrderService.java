@@ -13,4 +13,6 @@ public interface OrderService {
     Optional<OrderViewModel> findById(Long id);
 
     List<OrderViewModel> findAllOrdersByUser(String username);
+
+    List<OrderViewModel> findAllOrders();
 }

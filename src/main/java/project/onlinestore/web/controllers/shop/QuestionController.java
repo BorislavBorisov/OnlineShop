@@ -1,4 +1,4 @@
-package project.onlinestore.web.controllers.moderator;
+package project.onlinestore.web.controllers.shop;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

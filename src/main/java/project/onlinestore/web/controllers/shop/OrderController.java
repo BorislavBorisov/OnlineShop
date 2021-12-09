@@ -55,4 +55,10 @@ public class OrderController {
                 .append(order);
         return stringBuilder.toString();
     }
+
+    @GetMapping("/moderator/all-orders")
+    public String allOrders(Model model) {
+        model.addAttribute("allOrders", this.orderService.findAllOrders());
+        return "/admin/all-orders";
+    }
 }
