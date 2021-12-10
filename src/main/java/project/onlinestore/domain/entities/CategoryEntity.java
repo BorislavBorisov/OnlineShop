@@ -59,7 +59,7 @@ public class CategoryEntity extends BaseEntity {
         return this;
     }
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     public List<ProductEntity> getProducts() {
         return products;
     }

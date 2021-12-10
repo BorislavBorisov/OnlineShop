@@ -74,7 +74,7 @@ public class SupplierEntity extends BaseEntity {
         return this;
     }
 
-    @OneToMany(mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.REMOVE)
     public List<ProductEntity> getProducts() {
         return products;
     }

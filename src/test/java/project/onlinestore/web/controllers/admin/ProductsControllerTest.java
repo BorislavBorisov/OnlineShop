@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import project.onlinestore.domain.binding.ProductAddBindingModel;
 import project.onlinestore.domain.entities.CategoryEntity;
+import project.onlinestore.domain.entities.ProductEntity;
 import project.onlinestore.domain.entities.SupplierEntity;
 import project.onlinestore.domain.entities.UserEntity;
 import project.onlinestore.domain.service.CategoryServiceModel;
@@ -26,6 +27,7 @@ import project.onlinestore.repository.ProductRepository;
 import project.onlinestore.repository.SupplierRepository;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,6 +56,7 @@ public class ProductsControllerTest {
 
     CategoryEntity category;
     SupplierEntity supplier;
+    ProductEntity product;
 
     @Before
     public void setup() {
@@ -75,6 +78,16 @@ public class ProductsControllerTest {
                 .setPhoneNumber("0101010101")
                 .setName("random name");
         supplierRepository.save(supplier);
+
+        product = new ProductEntity();
+        product.setProductName("TestProduct")
+                .setProductNameLatin("TestProduct")
+                .setProductCode("test-1")
+                .setProductPrice(BigDecimal.valueOf(500))
+                .setImgUrl("random image")
+                .setCategory(category)
+                .setSupplier(supplier);
+        productRepository.save(product);
     }
 
     @Test
@@ -155,6 +168,99 @@ public class ProductsControllerTest {
                 .andExpect(handler().methodName("addProductConfirm"))
                 .andExpect(flash().attributeExists("productAddBindingModel"))
                 .andExpect(redirectedUrl("/admin/products/add"));
+    }
+
+    @Test
+    public void get_EditProductPage_ReturnsOk() throws Exception {
+        Assert.assertEquals(1, productRepository.count());
+
+        Optional<ProductEntity> byProductCode = productRepository.findByProductCode(product.getProductCode());
+        Assert.assertNotNull(byProductCode);
+
+        mockMvc.perform(get("/admin/products/edit/" + byProductCode.get().getId()))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("editProduct"))
+                .andExpect(view().name("/admin/products/edit-product"));
+    }
+
+    @Test
+    public void test_EditProduct() throws Exception {
+        Assert.assertEquals(1, productRepository.count());
+
+        Optional<ProductEntity> byProductCode = productRepository.findByProductCode(product.getProductCode());
+        Assert.assertNotNull(byProductCode);
+
+        ProductAddBindingModel productAddBindingModel = modelMapper.map(byProductCode.get(), ProductAddBindingModel.class);
+        productAddBindingModel.setProductCode("new code")
+                        .setProductName("new Name")
+                                .setProductPrice(BigDecimal.valueOf(89898));
+
+        mockMvc.perform(post("/admin/products/edit/" + byProductCode.get().getId())
+                .sessionAttr("product", productAddBindingModel)
+                .param("productCode", productAddBindingModel.getProductCode())
+                .param("productName", productAddBindingModel.getProductName())
+                .param("productPrice", String.valueOf(productAddBindingModel.getProductPrice()))
+                .param("description", byProductCode.get().getDescription())
+                .param("category", String.valueOf(byProductCode.get().getId()))
+                .param("supplier", String.valueOf(byProductCode.get().getId()))
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("editProductConfirm"))
+                .andExpect(redirectedUrl("/admin/products"));
+
+    }
+
+    @Test
+    public void test_EditProduct_InvalidInput() throws Exception {
+        Assert.assertEquals(1, productRepository.count());
+
+        Optional<ProductEntity> byProductCode = productRepository.findByProductCode(product.getProductCode());
+        Assert.assertNotNull(byProductCode);
+
+        ProductAddBindingModel productAddBindingModel = modelMapper.map(byProductCode.get(), ProductAddBindingModel.class);
+        productAddBindingModel.setProductCode("n")
+                .setProductName("")
+                .setProductPrice(BigDecimal.valueOf(-89898));
+
+        mockMvc.perform(post("/admin/products/edit/" + byProductCode.get().getId())
+                        .sessionAttr("product", productAddBindingModel)
+                        .param("productCode", productAddBindingModel.getProductCode())
+                        .param("productName", productAddBindingModel.getProductName())
+                        .param("productPrice", String.valueOf(productAddBindingModel.getProductPrice()))
+                        .param("description", byProductCode.get().getDescription())
+                        .param("category", String.valueOf(byProductCode.get().getId()))
+                        .param("supplier", String.valueOf(byProductCode.get().getId()))
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("editProductConfirm"))
+                .andExpect(flash().attributeExists("productAddBindingModel"))
+                .andExpect(redirectedUrl("/admin/products/edit/" + byProductCode.get().getId()));
+
+    }
+
+    @Test
+    public void get_DeleteProductPage() throws Exception {
+        Assert.assertEquals(1, productRepository.count());
+
+        Optional<ProductEntity> byProductCode = productRepository.findByProductCode(product.getProductCode());
+        Assert.assertNotNull(byProductCode);
+
+        mockMvc.perform(get("/admin/products/delete/" + byProductCode.get().getId()))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("deleteProduct"))
+                .andExpect(view().name("/admin/products/delete-product"));
+    }
+
+    @Test
+    public void get_DeleteProductsConfirm() throws Exception {
+        Assert.assertEquals(1, productRepository.count());
+
+        Optional<ProductEntity> byProductCode = productRepository.findByProductCode(product.getProductCode());
+        Assert.assertNotNull(byProductCode);
+
+        mockMvc.perform(post("/admin/products/delete/" + byProductCode.get().getId()))
+                .andExpect(handler().methodName("deleteProductConfirm"))
+                .andExpect(redirectedUrl("/admin/products"));
     }
 
 }

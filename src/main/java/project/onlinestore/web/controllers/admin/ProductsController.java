@@ -97,7 +97,7 @@ public class ProductsController {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productAddBindingModel", bindingResult);
 
-            return "redirect:" + id;
+            return "redirect:/admin/products/edit/" + id;
         }
         ProductServiceModel map = this.modelMapper.map(productAddBindingModel, ProductServiceModel.class);
         this.productService.editProduct(id, map);

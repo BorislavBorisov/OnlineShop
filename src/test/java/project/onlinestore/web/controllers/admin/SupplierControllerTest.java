@@ -43,16 +43,20 @@ public class SupplierControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    SupplierEntity supplierEntity;
+
     @Before
     public void setup() {
-        SupplierEntity supplierEntity = initSupplier();
-        supplierRepository.save(supplierEntity);
-    }
-
-    @After
-    public void tearDown() {
         supplierRepository.deleteAll();
         userRepository.deleteAll();
+
+        supplierEntity = new SupplierEntity();
+        supplierEntity.setName("test")
+                .setEmail("test@test.bg")
+                .setPhoneNumber("0889559966")
+                .setPerson("Testpv")
+                .setAddress("Testova 69");
+        supplierRepository.save(supplierEntity);
     }
 
     @Test
@@ -77,7 +81,7 @@ public class SupplierControllerTest {
     @Test
     @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void addSupplier_InvalidInput() throws Exception {
-        SupplierServiceModel supplierServiceModel = modelMapper.map(initSupplier(), SupplierServiceModel.class);
+        SupplierServiceModel supplierServiceModel = modelMapper.map(supplierEntity, SupplierServiceModel.class);
 
         mockMvc.perform(post("/admin/suppliers/add")
                         .content(objectMapper.writeValueAsString(supplierServiceModel))
@@ -187,14 +191,5 @@ public class SupplierControllerTest {
                 .andExpect(handler().methodName("deleteSupplierConfirm"))
                 .andExpect(redirectedUrl("/admin/suppliers"));
 
-    }
-
-    private SupplierEntity initSupplier() {
-        SupplierEntity supplierEntity = new SupplierEntity();
-        return supplierEntity.setName("test")
-                .setEmail("test@test.bg")
-                .setPhoneNumber("0889559966")
-                .setPerson("Testpv")
-                .setAddress("Testova 69");
     }
 }
