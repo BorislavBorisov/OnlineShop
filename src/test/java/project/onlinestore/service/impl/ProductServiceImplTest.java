@@ -118,6 +118,13 @@ public class ProductServiceImplTest {
 
     }
 
+    @After
+    public void clearAll() {
+        productRepository.deleteAll();
+        categoryRepository.deleteAll();
+        supplierRepository.deleteAll();
+    }
+
 //    @Test
 //    public void test_SeedInDb() {
 //        Assert.assertEquals(0, productRepository.count());

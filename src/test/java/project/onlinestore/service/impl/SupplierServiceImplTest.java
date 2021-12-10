@@ -1,5 +1,6 @@
 package project.onlinestore.service.impl;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +53,11 @@ public class SupplierServiceImplTest {
                 .setAddress("Somewhere")
                 .setPerson("Gosho")
                 .setId(2L);
+    }
 
+    @After
+    public void clearAll() {
+        supplierRepository.deleteAll();
     }
 
     @Test

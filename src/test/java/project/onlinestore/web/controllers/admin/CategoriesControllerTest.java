@@ -53,6 +53,9 @@ public class CategoriesControllerTest {
 
     @Before
     public void setup() {
+        categoryRepository.deleteAll();
+        userRepository.deleteAll();
+
         UserEntity userEntity = initUser();
         userRepository.save(userEntity);
 

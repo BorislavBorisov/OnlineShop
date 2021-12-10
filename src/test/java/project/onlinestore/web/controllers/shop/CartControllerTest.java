@@ -1,5 +1,6 @@
 package project.onlinestore.web.controllers.shop;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +53,6 @@ public class CartControllerTest {
 
     @Before
     public void setup() {
-
         this.userRepository.deleteAll();
         this.roleRepository.deleteAll();
 
@@ -76,6 +76,12 @@ public class CartControllerTest {
                 .setEmail("test@test.bg")
                 .setPassword("1234")
                 .setAuthorities(Set.of(roleClient));
+    }
+
+    @After
+    public void clearAll() {
+        userRepository.deleteAll();
+        roleRepository.deleteAll();
     }
 
     @Test

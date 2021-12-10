@@ -1,5 +1,6 @@
 package project.onlinestore.service.impl;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +50,11 @@ public class CategoryServiceImplTest {
                 .setNameLatin("TestCategory-2")
                 .setPosition(2);
 
+    }
+
+    @After
+    public void clearAll() {
+        categoryRepository.deleteAll();
     }
 
     @Test
