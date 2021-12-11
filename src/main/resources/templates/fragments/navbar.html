@@ -66,7 +66,7 @@
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                               aria-haspopup="true" aria-expanded="false">Профил</a>
+                               aria-haspopup="true" aria-expanded="false"><th:block sec:authentication="name"></th:block></a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" th:href="@{/users/profile}">Информация</a>
                                 <a class="dropdown-item" th:href="@{/my-orders}">Моите поръчки</a>
