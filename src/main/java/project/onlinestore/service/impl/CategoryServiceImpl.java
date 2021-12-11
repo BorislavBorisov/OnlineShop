@@ -11,6 +11,7 @@ import project.onlinestore.service.CategoryService;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,7 +56,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         }
 
         throw new IllegalArgumentException("Категория със същото име вече съществува!");
-
     }
 
     @Override
@@ -179,5 +179,11 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
     @Override
     public CategoryEntity findCategoryByName(String name) {
         return this.categoryRepository.findByName(name).get();
+    }
+
+    @Override
+    public boolean categoryNameCheck(String name) {
+        Optional<CategoryEntity> byName = this.categoryRepository.findByName(name);
+        return byName.isPresent();
     }
 }

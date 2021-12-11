@@ -25,10 +25,11 @@ public interface CategoryService {
 
     List<ProductViewModel> getAllProductsByCategoryName(String nameLatin);
 
-
     List<ProductViewModel> getSimilarProducts(String categoryNameLatin, String nameLatin);
 
     void seedCategories();
 
     CategoryEntity findCategoryByName(String name);
+
+    boolean categoryNameCheck(String name);
 }

@@ -16,6 +16,9 @@
         <form class="card" th:action="@{/admin/categories/edit/{id}(id=${category.id})}" th:method="post" th:object="${categoryAddBindingModel}">
             <input type="hidden" name="_csrf" th:field="${category.id}">
             <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Редактирай категория</h5>
+            <p th:if="${categoryNameExists}" class="errors alert alert-danger text-center mt-3">
+                Името на категорията е заето!
+            </p>
             <div class="card-body">
                 <div class="form-group">
                     <div class="mt-2"><span class="text-sm">Име на категорията</span></div>

@@ -99,7 +99,25 @@ public class CategoriesControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(handler().methodName("addCategoryConfirm"))
                 .andExpect(flash().attributeExists("categoryAddBindingModel"))
-                .andExpect(redirectedUrl("/category/add"));
+                .andExpect(redirectedUrl("/admin/categories/add"));
+    }
+
+    @Test
+    public void addCategory_CategoryNameExists() throws Exception {
+        Assert.assertEquals(1,categoryRepository.count());
+        CategoryAddBindingModel categoryAddBindingModel = new CategoryAddBindingModel();
+        categoryAddBindingModel.setName("TestCategory");
+        categoryAddBindingModel.setPosition(1);
+
+        mockMvc.perform(post("/admin/categories/add")
+                        .sessionAttr("category", categoryAddBindingModel)
+                        .param("name", categoryAddBindingModel.getName())
+                        .param("position", "1")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("addCategoryConfirm"))
+                .andExpect(flash().attributeExists("categoryNameExists"))
+                .andExpect(redirectedUrl("/admin/categories/add"));
     }
 
     @Test

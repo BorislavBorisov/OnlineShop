@@ -13,9 +13,13 @@
 
 <div class="d-flex justify-content-center mt-5">
     <div class="col-md-5 col-lg-5 col-sm-5">
+
         <form class="card" th:action="@{/admin/categories/add}" th:method="post"
               th:object="${categoryAddBindingModel}">
             <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Добави категория</h5>
+            <p th:if="${categoryNameExists}" class="errors alert alert-danger text-center mt-3">
+                Името на категорията е заето!
+            </p>
             <div class="card-body">
                 <div class="form-group">
                     <div class="mt-2"><span class="text-sm">Име на категорията</span></div>

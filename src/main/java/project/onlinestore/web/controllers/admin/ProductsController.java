@@ -44,8 +44,7 @@ public class ProductsController {
     @GetMapping("/products")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String allProducts(Model model) {
-        List<ProductViewModel> allProducts = this.productService.findAllProducts();
-        model.addAttribute("allProducts", allProducts);
+        model.addAttribute("allProducts", this.productService.findAllProducts());
         return "/admin/products/all-products";
     }
 
@@ -57,10 +56,30 @@ public class ProductsController {
 
     @PostMapping("/products/add")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
-    public String addProductConfirm(@Valid ProductAddBindingModel productAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+    public String addProductConfirm(@Valid ProductAddBindingModel productAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productAddBindingModel", bindingResult);
+            return "redirect:/admin/products/add";
+        }
+
+        if (this.productService.productNameCheck(productAddBindingModel.getProductName())) {
+            redirectAttributes.addFlashAttribute("productNameExists", true);
+            return "redirect:/admin/products/add";
+        }
+
+        if (this.productService.productCodeCheck(productAddBindingModel.getProductCode())) {
+            redirectAttributes.addFlashAttribute("productCodeExists", true);
+            return "redirect:/admin/products/add";
+        }
+
+        if (productAddBindingModel.getCategory().equals("--- Избери Категория ---")) {
+            redirectAttributes.addFlashAttribute("invalidCategory", true);
+            return "redirect:/admin/products/add";
+        }
+
+        if (productAddBindingModel.getSupplier().equals("--- Избери Доставчик ---")) {
+            redirectAttributes.addFlashAttribute("invalidSupplier", true);
             return "redirect:/admin/products/add";
         }
 
@@ -99,8 +118,7 @@ public class ProductsController {
 
             return "redirect:/admin/products/edit/" + id;
         }
-        ProductServiceModel map = this.modelMapper.map(productAddBindingModel, ProductServiceModel.class);
-        this.productService.editProduct(id, map);
+        this.productService.editProduct(id, this.modelMapper.map(productAddBindingModel, ProductServiceModel.class));
         return "redirect:/admin/products";
     }
 

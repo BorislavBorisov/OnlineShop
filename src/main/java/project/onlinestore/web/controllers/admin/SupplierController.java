@@ -43,11 +43,15 @@ public class SupplierController {
     @PostMapping("/suppliers/add")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String addSuppliersConfirm(@Valid SupplierAddBindingModel supplierAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (this.supplierService.supplierNameCheck(supplierAddBindingModel.getName())){
+            redirectAttributes.addFlashAttribute("supplierNameExists", true);
+            return "redirect:/admin/suppliers/add";
+        }
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("supplierAddBindingModel", supplierAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.supplierAddBindingModel", bindingResult);
-
-            return "redirect:/suppliers/add";
+            return "redirect:/admin/suppliers/add";
         }
 
         this.supplierService
@@ -91,7 +95,7 @@ public class SupplierController {
     }
 
     @GetMapping("/suppliers/fetch")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     @ResponseBody
     public List<SupplierViewModel> fetchCategories() {
         return this.supplierService.getAllSuppliers();

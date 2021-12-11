@@ -25,4 +25,8 @@ public interface ProductService {
     ProductEntity findProductByName(String key);
 
     void seedProducts();
+
+    boolean productNameCheck(String productName);
+
+    boolean productCodeCheck(String productCode);
 }

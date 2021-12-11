@@ -15,6 +15,7 @@ import project.onlinestore.service.SupplierService;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,10 +88,8 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     public boolean deleteProduct(Long id) {
         ProductEntity product = this.productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product ID!"));
-
             this.productRepository.delete(product);
             return true;
-
     }
 
     @Override
@@ -298,5 +297,17 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             this.productRepository.saveAll(List.of(product10, product12, product11));
 
         }
+    }
+
+    @Override
+    public boolean productNameCheck(String productName) {
+        Optional<ProductEntity> byProductName = this.productRepository.findByProductName(productName);
+        return byProductName.isPresent();
+    }
+
+    @Override
+    public boolean productCodeCheck(String productCode) {
+        Optional<ProductEntity> byProductCode = this.productRepository.findByProductCode(productCode);
+        return byProductCode.isPresent();
     }
 }

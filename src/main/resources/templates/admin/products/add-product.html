@@ -16,6 +16,18 @@
         <form class="card" th:action="@{/admin/products/add}" th:method="post"
               th:object="${productAddBindingModel}">
             <h5 class="card-title fw-400 mt-4 m-lg-3 text-center">Добави категория</h5>
+            <p th:if="${productNameExists}" class="errors alert alert-danger text-center mt-3">
+                Името на продукта е заето!
+            </p>
+            <p th:if="${productCodeExists}" class="errors alert alert-danger text-center mt-3">
+                Кода на продукта е заето!
+            </p>
+            <p th:if="${invalidCategory}" class="errors alert alert-danger text-center mt-3">
+                Моля изберете категория!
+            </p>
+            <p th:if="${invalidSupplier}" class="errors alert alert-danger text-center mt-3">
+                Моля изберете доставчик!
+            </p>
             <div class="card-body">
                 <div class="form-group">
                     <div class="mt-2"><span class="text-sm">Код</span></div>
@@ -39,8 +51,6 @@
                 <div class="form-group">
                     <div class="mt-3"><span class="text-sm">Описание</span></div>
                     <textarea th:field="*{description}" class="form-control" type="text" placeholder=""></textarea>
-                    <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-                           class="mb-5 text-danger alert-danger"></small>
                 </div>
                 <div class="form-group">
                     <div class="mt-3">
@@ -55,6 +65,8 @@
                         <label class="font-weight-bold">Доставчик</label>
                         <select class="form-select form-select-sm mb-3" id="add-product-suppliers" name="supplier">
                             <option selected="">--- Избери Доставчик ---</option>
+                            <small th:if="${invalidSupplier}" class="mb-5 text-danger alert-danger">Моля изберете
+                                доставчик!</small>
                         </select>
                     </div>
                 </div>

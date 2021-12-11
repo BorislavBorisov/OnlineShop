@@ -21,4 +21,6 @@ public interface SupplierService {
     void seedSuppliers();
 
     SupplierEntity findSupplierByName(String name);
+
+    boolean supplierNameCheck(String name);
 }

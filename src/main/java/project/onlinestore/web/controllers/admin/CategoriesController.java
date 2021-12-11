@@ -48,14 +48,18 @@ public class CategoriesController {
     @PostMapping("/categories/add")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String addCategoryConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        CategoryServiceModel categoryServiceModel = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
+        if (this.categoryService.categoryNameCheck(categoryAddBindingModel.getName())){
+            redirectAttributes.addFlashAttribute("categoryNameExists", true);
+            return "redirect:/admin/categories/add";
+        }
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoryAddBindingModel", bindingResult);
-            return "redirect:/category/add";
+            return "redirect:/admin/categories/add";
         }
 
-        this.categoryService.addCategory(categoryServiceModel);
+        this.categoryService.addCategory(this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class));
         return "redirect:/admin/categories";
     }
 
@@ -70,10 +74,14 @@ public class CategoriesController {
     @PostMapping("/categories/edit/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_ROOT')")
     public String editCategoryConfirm(@PathVariable Long id, @Valid CategoryAddBindingModel categoryAddBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (this.categoryService.categoryNameCheck(categoryAddBindingModel.getName())){
+            redirectAttributes.addFlashAttribute("categoryNameExists", true);
+            return "redirect:/admin/categories/edit/" + id;
+        }
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("categoryAddBindingModel", categoryAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.categoryAddBindingModel", bindingResult);
-
             return "redirect:/admin/categories/edit/" + id;
         }
         CategoryServiceModel map = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);

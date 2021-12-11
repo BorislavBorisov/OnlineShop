@@ -60,7 +60,6 @@ public class SupplierControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void get_SupplierPage_ReturnsOk() throws Exception {
         mockMvc.perform(get("/admin/suppliers"))
                 .andExpect(status().isOk())
@@ -70,7 +69,6 @@ public class SupplierControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void get_SupplierAddPage_ReturnsOk() throws Exception {
         mockMvc.perform(get("/admin/suppliers/add"))
                 .andExpect(status().isOk())
@@ -79,7 +77,6 @@ public class SupplierControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void addSupplier_InvalidInput() throws Exception {
         SupplierServiceModel supplierServiceModel = modelMapper.map(supplierEntity, SupplierServiceModel.class);
 
@@ -89,11 +86,33 @@ public class SupplierControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(handler().methodName("addSuppliersConfirm"))
                 .andExpect(flash().attributeExists("supplierAddBindingModel"))
-                .andExpect(redirectedUrl("/suppliers/add"));
+                .andExpect(redirectedUrl("/admin/suppliers/add"));
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
+    public void addSupplier_SupplierNameExists() throws Exception {
+        SupplierAddBindingModel supplierAddBindingModel = new SupplierAddBindingModel();
+        supplierAddBindingModel.setName("test");
+        supplierAddBindingModel.setEmail("testov@testov.bg");
+        supplierAddBindingModel.setPhoneNumber("0889559966");
+        supplierAddBindingModel.setPerson("testov");
+        supplierAddBindingModel.setAddress("testov 69");
+
+        mockMvc.perform(post("/admin/suppliers/add")
+                        .sessionAttr("supplier", supplierAddBindingModel)
+                        .param("name", supplierAddBindingModel.getName())
+                        .param("email", supplierAddBindingModel.getEmail())
+                        .param("phoneNumber", supplierAddBindingModel.getPhoneNumber())
+                        .param("person", supplierAddBindingModel.getPerson())
+                        .param("address", supplierAddBindingModel.getAddress())
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("addSuppliersConfirm"))
+                .andExpect(flash().attributeExists("supplierNameExists"))
+                .andExpect(redirectedUrl("/admin/suppliers/add"));
+    }
+
+    @Test
     public void addNewSupplier() throws Exception {
         SupplierAddBindingModel supplierAddBindingModel = new SupplierAddBindingModel();
         supplierAddBindingModel.setName("testov");
@@ -116,7 +135,6 @@ public class SupplierControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void get_EditSupplierPage_ReturnsOk() throws Exception {
         SupplierEntity test = supplierRepository.findByName("test").get();
 
@@ -153,7 +171,6 @@ public class SupplierControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void get_EditSupplierConfirm() throws Exception {
         SupplierEntity test = supplierRepository.findByName("test").get();
 
@@ -172,7 +189,6 @@ public class SupplierControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void get_DeleteSupplierPage() throws Exception {
         SupplierEntity test = supplierRepository.findByName("test").get();
 
@@ -184,7 +200,6 @@ public class SupplierControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ROOT", "ROLE_ADMIN"})
     public void get_DeleteSupplierConfirm() throws Exception {
         SupplierEntity test = supplierRepository.findByName("test").get();
         mockMvc.perform(post("/admin/suppliers/delete/" + test.getId()))

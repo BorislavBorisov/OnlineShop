@@ -139,6 +139,70 @@ public class ProductsControllerTest {
     }
 
     @Test
+    public void get_ProductAdd_ProductCodeExist() throws Exception {
+        ProductAddBindingModel productAddBindingModel = new ProductAddBindingModel();
+        productAddBindingModel.setProductCode("test-1")
+                .setProductName("test")
+                .setProductPrice(BigDecimal.valueOf(500))
+                .setDescription("description")
+                .setCategory("test")
+                .setSupplier("random name");
+
+        CategoryServiceModel map1 = modelMapper.map(category, CategoryServiceModel.class);
+        SupplierServiceModel map2 = modelMapper.map(supplier, SupplierServiceModel.class);
+        ProductServiceModel map = modelMapper.map(productAddBindingModel, ProductServiceModel.class);
+        map.setImgUrl("random")
+                .setCategory(map1)
+                .setSupplier(map2);
+
+        mockMvc.perform(post("/admin/products/add")
+                        .sessionAttr("product", map)
+                        .param("productCode", map.getProductCode())
+                        .param("productName", map.getProductName())
+                        .param("productPrice", String.valueOf(map.getProductPrice()))
+                        .param("description", map.getDescription())
+                        .param("category", String.valueOf(map1.getId()))
+                        .param("supplier", String.valueOf(map2.getId()))
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("addProductConfirm"))
+                .andExpect(flash().attributeExists("productCodeExists"))
+                .andExpect(redirectedUrl("/admin/products/add"));
+    }
+
+    @Test
+    public void get_ProductAdd_ProductNameExist() throws Exception {
+        ProductAddBindingModel productAddBindingModel = new ProductAddBindingModel();
+        productAddBindingModel.setProductCode("test")
+                .setProductName("TestProduct")
+                .setProductPrice(BigDecimal.valueOf(500))
+                .setDescription("description")
+                .setCategory("test")
+                .setSupplier("random name");
+
+        CategoryServiceModel map1 = modelMapper.map(category, CategoryServiceModel.class);
+        SupplierServiceModel map2 = modelMapper.map(supplier, SupplierServiceModel.class);
+        ProductServiceModel map = modelMapper.map(productAddBindingModel, ProductServiceModel.class);
+        map.setImgUrl("random")
+                .setCategory(map1)
+                .setSupplier(map2);
+
+        mockMvc.perform(post("/admin/products/add")
+                        .sessionAttr("product", map)
+                        .param("productCode", map.getProductCode())
+                        .param("productName", map.getProductName())
+                        .param("productPrice", String.valueOf(map.getProductPrice()))
+                        .param("description", map.getDescription())
+                        .param("category", String.valueOf(map1.getId()))
+                        .param("supplier", String.valueOf(map2.getId()))
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("addProductConfirm"))
+                .andExpect(flash().attributeExists("productNameExists"))
+                .andExpect(redirectedUrl("/admin/products/add"));
+    }
+
+    @Test
     public void get_ProductAdd_InvalidInput() throws Exception {
         ProductAddBindingModel productAddBindingModel = new ProductAddBindingModel();
         productAddBindingModel.setProductCode("")
@@ -167,6 +231,70 @@ public class ProductsControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(handler().methodName("addProductConfirm"))
                 .andExpect(flash().attributeExists("productAddBindingModel"))
+                .andExpect(redirectedUrl("/admin/products/add"));
+    }
+
+    @Test
+    public void get_ProductAdd_InvalidCategory() throws Exception {
+        ProductAddBindingModel productAddBindingModel = new ProductAddBindingModel();
+        productAddBindingModel.setProductCode("1232131")
+                .setProductName("1")
+                .setProductPrice(BigDecimal.valueOf(99))
+                .setDescription("description")
+                .setCategory("test")
+                .setSupplier("random name");
+
+        CategoryServiceModel map1 = modelMapper.map(category, CategoryServiceModel.class);
+        SupplierServiceModel map2 = modelMapper.map(supplier, SupplierServiceModel.class);
+        ProductServiceModel map = modelMapper.map(productAddBindingModel, ProductServiceModel.class);
+        map.setImgUrl("random")
+                .setCategory(map1)
+                .setSupplier(map2);
+
+        mockMvc.perform(post("/admin/products/add")
+                        .sessionAttr("product", map)
+                        .param("productCode", map.getProductCode())
+                        .param("productName", map.getProductName())
+                        .param("productPrice", String.valueOf(map.getProductPrice()))
+                        .param("description", map.getDescription())
+                        .param("category", "--- Избери Категория ---")
+                        .param("supplier", String.valueOf(map2.getId()))
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("addProductConfirm"))
+                .andExpect(flash().attributeExists("invalidCategory"))
+                .andExpect(redirectedUrl("/admin/products/add"));
+    }
+
+    @Test
+    public void get_ProductAdd_InvalidSupplier() throws Exception {
+        ProductAddBindingModel productAddBindingModel = new ProductAddBindingModel();
+        productAddBindingModel.setProductCode("1232131")
+                .setProductName("1")
+                .setProductPrice(BigDecimal.valueOf(99))
+                .setDescription("description")
+                .setCategory("test")
+                .setSupplier("random name");
+
+        CategoryServiceModel map1 = modelMapper.map(category, CategoryServiceModel.class);
+        SupplierServiceModel map2 = modelMapper.map(supplier, SupplierServiceModel.class);
+        ProductServiceModel map = modelMapper.map(productAddBindingModel, ProductServiceModel.class);
+        map.setImgUrl("random")
+                .setCategory(map1)
+                .setSupplier(map2);
+
+        mockMvc.perform(post("/admin/products/add")
+                        .sessionAttr("product", map)
+                        .param("productCode", map.getProductCode())
+                        .param("productName", map.getProductName())
+                        .param("productPrice", String.valueOf(map.getProductPrice()))
+                        .param("description", map.getDescription())
+                        .param("category", String.valueOf(map1.getId()))
+                        .param("supplier", "--- Избери Доставчик ---")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().methodName("addProductConfirm"))
+                .andExpect(flash().attributeExists("invalidSupplier"))
                 .andExpect(redirectedUrl("/admin/products/add"));
     }
 

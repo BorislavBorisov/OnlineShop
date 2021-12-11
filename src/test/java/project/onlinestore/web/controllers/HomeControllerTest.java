@@ -44,6 +44,14 @@ public class HomeControllerTest {
     }
 
     @Test
+    public void get_AboutPage_ReturnsOk() throws Exception {
+        mockMvc.perform(get("/about"))
+                .andExpect(status().isOk())
+                .andExpect(handler().methodName("about"))
+                .andExpect(view().name("about"));
+    }
+
+    @Test
     public void sendQuestion() throws Exception {
         QuestionBindingModel questionBindingModel = new QuestionBindingModel();
         questionBindingModel.setQuestion("Ima li testove");
