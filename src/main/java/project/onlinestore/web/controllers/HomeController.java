@@ -23,6 +23,11 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
+
     @PostMapping("/question")
     public String question(@Valid QuestionBindingModel question) {
         this.questionService.sendQuestion(question);

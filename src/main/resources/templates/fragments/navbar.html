@@ -20,7 +20,7 @@
                             <a class="nav-link" th:href="@{/shop/categories}">Магазин</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/#}">За нас</a>
+                            <a class="nav-link" th:href="@{/about}">За нас</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
@@ -57,7 +57,7 @@
                             <a class="nav-link" th:href="@{/shop/categories}">Магазин</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/}">За нас</a>
+                            <a class="nav-link" th:href="@{/about}">За нас</a>
                         </li>
 
                         <li class="nav-item">
@@ -66,7 +66,9 @@
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                               aria-haspopup="true" aria-expanded="false"><th:block sec:authentication="name"></th:block></a>
+                               aria-haspopup="true" aria-expanded="false">
+                                <th:block sec:authentication="name"></th:block>
+                            </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" th:href="@{/users/profile}">Информация</a>
                                 <a class="dropdown-item" th:href="@{/my-orders}">Моите поръчки</a>
